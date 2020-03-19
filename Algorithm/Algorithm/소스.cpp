@@ -58,16 +58,16 @@ vector<int> BruteForceChange(int M, vector<int> c, int d)
 			int valuesOfCoins = 0;
 
 			cout << "[" << i << "], M/c[" << i << "] : " << k[i] << ", " << M / c[i] << endl;
-			//for (int j = 0; j < 5; j++)
-			//{
-			//	//cout << c[j] << " ";
-			//}
+			for (int j = 0; j < 5; j++)
+			{
+				cout << c[j] << " ";
+			}
 
-			//cout << endl;
+			cout << endl;
 
 			for (int j = 0; j < 5; j++)
 			{
-				cout << k[i] << " ";
+				cout << k[j] << " ";
 			}
 			cout << endl;
 
@@ -77,7 +77,7 @@ vector<int> BruteForceChange(int M, vector<int> c, int d)
 				valuesOfCoins += c[j] * k[j];
 
 			}
-			//	cout <<  valuesOfCoins << endl;
+				cout <<  valuesOfCoins << endl;
 
 
 			if (valuesOfCoins == M)
