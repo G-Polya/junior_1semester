@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
-
+#include <iomanip>
 using namespace std;
 
 
@@ -72,19 +72,41 @@ vector<int> BruteForceChange(int M, vector<int> c, int d)
 
 int main()
 {
-	vector<int> M(99, 0);
-	vector<int> c = { 25,20,10,5,1 };
+	vector<int> M(100, 0);
+	vector<int> c;
+
+	cout << "코인 종류를 입력하시오(입력을 종료하려면 Ctrl+Z): ";
+	copy(istream_iterator<int>(cin), istream_iterator<int>(), back_inserter(c));
 	int d = c.size();
+
+	for (int i = 0; i < 100; i++)
+	{
+		M[i] = i + 1;
+		vector<int> gbc = GreedBetterChange(M[i], c, d);
+		vector<int> bfc = BruteForceChange(M[i], c, d);
+		cout.width(5);
+		cout.fill(' ');
+		cout << endl<<setw(5)<<"M : "<<M[i]<<" | Greed Better Change: ";
+		copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
+		cout << "| Brute Force Change:";
+		copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
+
+
+
+	}
+	//copy(M.begin(), M.end(), ostream_iterator<int>(cout, " "));
+
+
 
 
 	// GreedyBetterChange
-	vector<int> gbc = GreedBetterChange(M, c, d);
-	copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
+	//vector<int> gbc = GreedBetterChange(M, c, d);
+	//copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
 	cout << endl;
 
 	// BruteForceChange
-	vector<int> bfc = BruteForceChange(M, c, d);
-	copy(bfc.begin(), bfc.end(), ostream_iterator<int>(cout, " "));
+	//vector<int> bfc = BruteForceChange(M, c, d);
+	//copy(bfc.begin(), bfc.end(), ostream_iterator<int>(cout, " "));
 
 	cout << endl;
 
