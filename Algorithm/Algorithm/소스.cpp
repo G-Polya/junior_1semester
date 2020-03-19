@@ -59,8 +59,8 @@ vector<int> BruteForceChange(int M, vector<int> c, int d)
 
 				if (numberOfCoins < smallestNumberOfCoins)
 				{
+					smallestNumberOfCoins = numberOfCoins;
 					bestchange[i] = m;
-
 				}
 			}
 
@@ -72,7 +72,7 @@ vector<int> BruteForceChange(int M, vector<int> c, int d)
 
 int main()
 {
-	int M = 45;
+	vector<int> M(99, 0);
 	vector<int> c = { 25,20,10,5,1 };
 	int d = c.size();
 
