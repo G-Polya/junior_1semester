@@ -24,6 +24,8 @@ vector<int> GreedBetterChange(int M, vector<int> c, int d)
 	return k;
 }
 
+
+// define BruteForceChange
 vector<int> BruteForceChange(int M, vector<int> c, int d)
 {
 	vector<int> k(d, 0);
@@ -94,21 +96,12 @@ int main()
 
 
 	}
-	//copy(M.begin(), M.end(), ostream_iterator<int>(cout, " "));
+	
 
 
 
-
-	// GreedyBetterChange
-	//vector<int> gbc = GreedBetterChange(M, c, d);
-	//copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
+	
 	cout << endl;
 
-	// BruteForceChange
-	//vector<int> bfc = BruteForceChange(M, c, d);
-	//copy(bfc.begin(), bfc.end(), ostream_iterator<int>(cout, " "));
-
-	cout << endl;
-
-
+	return 0;
 }
