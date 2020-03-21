@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+<<<<<<< HEAD:Algorithm/Practice1/Practice1/문제2.cpp
 #include <iterator>
 #include <iomanip>
 using namespace std;
@@ -101,3 +102,6 @@ int main()
 
 	return 0;
 }
+=======
+#include 
+>>>>>>> Generalization_of_M:Algorithm/Algorithm/소스.cpp
