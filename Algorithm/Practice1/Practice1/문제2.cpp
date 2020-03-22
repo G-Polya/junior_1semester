@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iterator>
 #include <iomanip>
+#include <map>
+#include <tuple>
 using namespace std;
 
 
@@ -24,52 +26,53 @@ vector<int> GreedBetterChange(int M, vector<int> c, int d)
 	return k;
 }
 
+void build_Dict(vector<int> coinValueList, map<int, int> coinDict)
+{
+	for (auto& coin : coinValueList)
+		coinDict[coin] = 0;
+}
+
 
 // define BruteForceChange
-vector<int> BruteForceChange(int M, vector<int> c, int d)
+tuple<int, map<int, int>> BruteForceChange(vector<int> coinValueList, int total, int numCoins, map<int, int> coinDict, bool build)
 {
-	vector<int> k(d, 0);
+	if (build == true)
+		build_Dict(coinValueList, coinDict);
 
-	int smallestNumberOfCoins = INT32_MAX;
+	if (total == 0)
+		return tuple<int, map<int, int>>(numCoins, coinDict);
 
-	vector<int> bestchange(d, 0);
+	int bestCoins = -1;
+	map<int, int> bestDict;
 
-	for (int i = 0; i < d; i++)
+	for (size_t i = 0; i < coinValueList.size(); i++)
 	{
+		map<int, int> dictCopy;
 
-		for (int m = k[i]; m <= M / c[i]; m++)
+		for (auto& coin : coinValueList)
+			dictCopy[coin] = coinDict[coin];
+
+		int coin = coinValueList[i];
+
+		if (coin <= total)
 		{
-			int valuesOfCoins = 0;
+			dictCopy[coin] += 1;
+			tuple<int, map<int, int>> temp_tuple = BruteForceChange(coinValueList, total - coin, numCoins + 1, dictCopy, false);
+			int subCoins = get<0>(temp_tuple);
+			map<int, int> subDict = get<1>(temp_tuple);
 
-			valuesOfCoins += c[i] * m;
-
-
-
-
-			if (valuesOfCoins == M)
+			if (bestCoins == -1 || subCoins < bestCoins)
 			{
-
-
-				int numberOfCoins = 0;
-				for (int n = 0; n <= m; n++)
-				{
-
-					numberOfCoins += n;
-
-				}
-
-
-				if (numberOfCoins < smallestNumberOfCoins)
-				{
-					smallestNumberOfCoins = numberOfCoins;
-					bestchange[i] = m;
-				}
+				bestCoins = subCoins;
+				bestDict = subDict;
 			}
-
 		}
-
 	}
-	return bestchange;
+
+	tuple<int, map<int, int>> result_tuple = make_tuple(bestCoins, bestDict);
+
+	return result_tuple;
+
 }
 
 int main()
