@@ -14,9 +14,9 @@ void accmulate_average(vector<T> vec)	//vector(동적배열)를 원소로 받는다
 	
 	for (size_t i = 0; i < vec.size(); i++)
 	{
-		sum += vec[i];
+		sum += vec[i];			// 배열원소들의 누적 합.
 
-		cout << " Avr["<<i<<"]: "<<sum/(i+1) << endl;
+		cout << " Avr["<<i<<"]: "<<sum/(i+1) << endl;	// i+1로 나누어서 평균을 구한다
 	
 	}
 	
