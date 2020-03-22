@@ -9,7 +9,7 @@ using namespace std;
 
 
 // define GreedyBetterChange
-vector<int> GreedBetterChange(int M, vector<int> c, int d)
+void GreedBetterChange(int M, vector<int> c, int d)
 {
 	vector<int> k(d, 0);
 
@@ -23,7 +23,12 @@ vector<int> GreedBetterChange(int M, vector<int> c, int d)
 
 	reverse(begin(k), end(k));
 
-	return k;
+
+	for (int i = 0; i < d; i++)
+	{
+		cout << c[i] << ": " << k[i] << endl;
+	}
+
 }
 
 void build_Dict(vector<int> coinValueList, map<int, int> coinDict)
@@ -77,18 +82,39 @@ tuple<int, map<int, int>> BruteForceChange(vector<int> coinValueList, int total,
 
 int main()
 {
-	vector<int> coinValueList = { 25,20,10,5,1 };
-	int total = 40;
+	int total;
+	cout << "총 금액을 입력하시오: ";
+	cin >> total;
+	getchar();
+
+
+	vector<int> coinValueList;
+	cout << "코인의 종류를 입력하시오(입력을 종료하려면 Ctrl+Z): ";
+	copy(istream_iterator<int>(cin), istream_iterator<int>(), back_inserter(coinValueList));
+
+
 	int d = coinValueList.size();
 	map<int, int> coinDict;
 
-	vector<int> gbc = GreedBetterChange(total, coinValueList, d);
 
-	cout << "Greed Better Change: ";
-	copy(gbc.begin(), gbc.end(), )
+	cout << "Greed Better Change: " << endl;
+	GreedBetterChange(total, coinValueList, d);
 
+	cout << "=========================" << endl;
+
+	tuple<int, map<int, int>> bfc = BruteForceChange(coinValueList, total, 0, coinDict, true);
+	int result_coins = get<0>(bfc);
+	map<int, int> result_dict = get<1>(bfc);
+
+	cout << "Brute Force Change: " << endl;
+
+	for (auto iter = result_dict.begin(); iter != result_dict.end(); iter++)
+	{
+		cout << iter->first << " : " << iter->second << endl;
+	}
 
 	cout << endl;
+
 
 	return 0;
 }
