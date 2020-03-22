@@ -77,28 +77,15 @@ tuple<int, map<int, int>> BruteForceChange(vector<int> coinValueList, int total,
 
 int main()
 {
-	vector<int> M(100, 0);
-	vector<int> c;
+	vector<int> coinValueList = { 25,20,10,5,1 };
+	int total = 40;
+	int numCoins = coinValueList.size();
+	map<int, int> coinDict;
 
-	cout << "코인 종류를 입력하시오(입력을 종료하려면 Ctrl+Z): ";
-	copy(istream_iterator<int>(cin), istream_iterator<int>(), back_inserter(c));
-	int d = c.size();
+	vector<int> 
 
-	for (int i = 0; i < 100; i++)
-	{
-		M[i] = i + 1;
-		vector<int> gbc = GreedBetterChange(M[i], c, d);
-		vector<int> bfc = BruteForceChange(M[i], c, d);
-		cout.width(5);
-		cout.fill(' ');
-		cout << endl << setw(5) << "M : " << M[i] << " | Greed Better Change: ";
-		copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
-		cout << "| Brute Force Change:";
-		copy(gbc.begin(), gbc.end(), ostream_iterator<int>(cout, " "));
+	cout<<"Greed Better Change: "
 
-
-
-	}
 
 	cout << endl;
 
