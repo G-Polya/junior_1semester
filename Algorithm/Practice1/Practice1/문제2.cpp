@@ -79,12 +79,13 @@ int main()
 {
 	vector<int> coinValueList = { 25,20,10,5,1 };
 	int total = 40;
-	int numCoins = coinValueList.size();
+	int d = coinValueList.size();
 	map<int, int> coinDict;
 
-	vector<int> 
+	vector<int> gbc = GreedBetterChange(total, coinValueList, d);
 
-	cout<<"Greed Better Change: "
+	cout << "Greed Better Change: ";
+	copy(gbc.begin(), gbc.end(), )
 
 
 	cout << endl;
