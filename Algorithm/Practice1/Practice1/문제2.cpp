@@ -13,16 +13,16 @@ void GreedBetterChange(int M, vector<int> c, int d)
 {
 	vector<int> k(d, 0);
 
-	reverse(begin(c), end(c));
+	sort(c.begin(), c.end());
+
 	for (int i = d - 1; i >= 0; i--)
 	{
-		k[i] += M / c[i];
+		k[i] = M / c[i];
 		M = M - c[i] * k[i];
 
 	}
 
-	reverse(begin(k), end(k));
-
+	
 
 	for (int i = 0; i < d; i++)
 	{
@@ -41,6 +41,8 @@ void build_Dict(vector<int> coinValueList, map<int, int> coinDict)
 // define BruteForceChange
 tuple<int, map<int, int>> BruteForceChange(vector<int> coinValueList, int total, int numCoins, map<int, int> coinDict, bool build)
 {
+	sort(coinValueList.begin(), coinValueList.end());
+
 	if (build == true)
 		build_Dict(coinValueList, coinDict);
 
