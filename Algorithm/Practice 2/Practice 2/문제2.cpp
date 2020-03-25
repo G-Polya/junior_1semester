@@ -5,17 +5,17 @@
 #include <iterator>
 using namespace std;
 
-int no_recursive_gcd(vector<int> numbers)
+int no_recursive_gcd(int a, int b)
 {
 	int t;
-	while (numbers[1])
+	while (b)
 	{
-		t = numbers[0] % numbers[1];
-		numbers[0] = numbers[1];
-		numbers[1] = t;
+		t = a % b;
+		a = b;
+		b = t;
 	}
 
-	return numbers[0];
+	return a;
 }
 
 int recursive_gcd(int a,int b)
@@ -51,7 +51,7 @@ int recursive_gcd(vector<int> numbers)
 int main()
 {
 	vector<int> test = { 36,12,24,50 };
-	cout << no_recursive_gcd(test) << endl;
+	cout << no_recursive_gcd(36,12) << endl;
 
 	cout << recursive_gcd(12,16) << endl;
 	
