@@ -30,34 +30,38 @@ int recursive_gcd(int a,int b)
 
 }
 
-int recursive_gcd(vector<int> numbers)
+int recursive_gcd(queue<int> q)
 {
-	vector<int> sub_numbers = { begin(numbers), --end(numbers)};
-	
-	if (sub_numbers.size() <= 1)
-		return -1;
-	
-	
-	if (sub_numbers.size() == 2)
+	if (q.size() == 1)
 	{
-		return recursive_gcd(sub_numbers[0], sub_numbers[1]);
-	} 
+		int result = q.front();
+		q.pop();
 
+		return result;
+	}
 
+	int num1 = q.front();
+	q.pop();
 
-	return recursive_gcd(sub_numbers);
+	int num2 = q.front();
+	q.pop();
+	q.push(recursive_gcd(num1, num2));
+	return recursive_gcd(q);
 
 }
 
 
 int main()
 {
-	deque<int> test = { 16,12,24,60,90 };
+	cout << "N개의 숫자를 입력하시오(입력을 종료하려면 Ctrl+Z):";
+	deque<int> test;
+	copy(istream_iterator<int>(cin), istream_iterator<int>(), back_inserter(test));
+
 	queue<int> q(test);
 	
-	cout << no_recursive_gcd(36,12) << endl;
+	cout << no_recursive_gcd(test[0], test[1]) << endl;
 
-	cout << recursive_gcd(12,16) << endl;
+	cout << recursive_gcd(test[0], test[1]) << endl;
 	
 	cout << recursive_gcd(q) << endl;
 	cout << endl;
