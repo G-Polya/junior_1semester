@@ -30,24 +30,15 @@ int recursive_gcd(int a,int b)
 
 int recursive_gcd(vector<int> numbers)
 {
-	vector<int> sub_numbers = { begin(numbers), --end(numbers)};
-	
-	
-	
-	if (sub_numbers.size() == 2)
-	{
-		return recursive_gcd(sub_numbers[0], sub_numbers[1]);
-	} 
-
-
-	return recursive_gcd(sub_numbers);
-
+	auto iter = begin(numbers);
+	int result = recursive_gcd(*iter, *iter++);
+	return result;
 }
 
 
 int main()
 {
-	vector<int> test = { 16,12,24,40 };
+	vector<int> test = { 16,12,24,50 };
 	cout << no_recursive_gcd(test) << endl;
 
 	cout << recursive_gcd(12,16) << endl;
