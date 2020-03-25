@@ -15,6 +15,5 @@ INDEX VERSION 1.131+C:\Users\wlska\Documents\junior_1semester\JAVA\.metadata\.pl
 899518542.index
 1897928139.index
 3705452257.index
-2928395862.index
 972666350.index
 3698278747.index
