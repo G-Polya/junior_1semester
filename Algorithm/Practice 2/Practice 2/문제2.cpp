@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <deque>
+#include <queue>
 using namespace std;
 
 int no_recursive_gcd(int a, int b)
@@ -50,12 +52,14 @@ int recursive_gcd(vector<int> numbers)
 
 int main()
 {
-	vector<int> test = { 36,12,24,50 };
+	deque<int> test = { 16,12,24,60,90 };
+	queue<int> q(test);
+	
 	cout << no_recursive_gcd(36,12) << endl;
 
 	cout << recursive_gcd(12,16) << endl;
 	
-	cout << recursive_gcd(test) << endl;
+	cout << recursive_gcd(q) << endl;
 	cout << endl;
 
 }
