@@ -3,19 +3,23 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <deque>
+#include <queue>
 using namespace std;
 
-int no_recursive_gcd(vector<int> numbers)
+
+// not recursive GCD
+int no_recursive_gcd(int a, int b)
 {
 	int t;
-	while (numbers[1])
+	while (b)
 	{
-		t = numbers[0] % numbers[1];
-		numbers[0] = numbers[1];
-		numbers[1] = t;
+		t = a % b;
+		a = b;
+		b = t;
 	}
 
-	return numbers[0];
+	return a;
 }
 
 int recursive_gcd(int a,int b)
@@ -28,21 +32,31 @@ int recursive_gcd(int a,int b)
 
 }
 
-int recursive_gcd(vector<int> numbers)
+int recursive_gcd(queue<int> q)
 {
-	auto iter = begin(numbers);
-	int result = recursive_gcd(*iter, *iter++);
-	return result;
+	if (q.size() == 1)
+	{
+		int result = q.front();
+		q.pop();
+
+		return result;
+	}
+	
+	int num1 = q.front();
+	q.pop();
+
+	int num2 = q.front();
+	q.pop();
+	q.push(recursive_gcd(num1, num2));
+	return recursive_gcd(q);
+	
 }
 
 
 int main()
 {
-	vector<int> test = { 16,12,24,50 };
-	cout << no_recursive_gcd(test) << endl;
-
-	cout << recursive_gcd(12,16) << endl;
-	cout << recursive_gcd(test) << endl;
-	cout << endl;
+	deque<int> test = { 16,12,24,60,90 };
+	queue<int> q(test);
+	cout<<recursive_gcd(q)<<endl;
 
 }
