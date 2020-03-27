@@ -36,20 +36,28 @@ void bubbleSort(int arr[], int size)
 // partition for quick sort
 int partition(int arr[], int low, int high)
 {
+	int pivotIndex = low + (high - low) / 2;
+	int pivotValue = arr[pivotIndex];
 
-	int pivot = arr[high];
-	int i = (low - 1);
+	int i = low, j = high;
 
-	for (int j = low; j <= high - 1; j++)
+	while (i <= j)
 	{
-		if (arr[j] > pivot)
-		{
+		while (arr[i] < pivotValue)
 			i++;
+		while (arr[j] > pivotValue)
+			j--;
+
+		if (i <= j)
+		{
 			swap(arr[i], arr[j]);
+			i++;
+			j--;
 		}
 	}
-	swap(arr[i + 1], arr[high]);
-	return (i + 1);
+	return i;
+
+
 }
 
 // quick sort
