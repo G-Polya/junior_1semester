@@ -1,11 +1,10 @@
-// 2016112158 �����
+﻿// 2016112158 김희수
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <stack>
-#include <array>
-#include <iterator>
+#include <chrono>
+#include <algorithm>
 
 
 using namespace std;
@@ -49,60 +48,98 @@ int partition(int arr[], int low, int high)
 
 void quickSort(int arr[], int low, int high)
 {
-	stack<int> stack;
-	
-	
-	stack.push(low);
-	stack.push(high);
+	int* stack = new int[high - low + 1];
+	int top = -1;
 
-	while (stack.empty())
+	stack[++top] = low;
+	stack[++top] = high;
+
+	while (top >= 0)
 	{
-		high = stack.top();
-		stack.pop();
-		low = stack.top();
-		stack.pop();
+		high = stack[top--];
+		low = stack[top--];
 
 		int pivot = partition(arr, low, high);
 
 		if (pivot - 1 > low)
 		{
-			stack.push(low);
-			stack.push(pivot - 1) ;
+			stack[++top] = low;
+			stack[++top] = pivot - 1;
 		}
 
 		if (pivot + 1 < high)
 		{
-			stack.push(pivot + 1);
-			stack.push(high);
+			stack[++top] = pivot + 1;
+			stack[++top] = high;
 		}
 	}
+
+	delete[] stack;
 }
+
+void printArray(int arr[], int size)
+{
+	for (int i = 0; i < size; i++)
+		cout << arr[i] << " ";
+	cout << endl;
+}
+
+
 int main()
 {
 	srand((unsigned int)time(NULL));
 	
 	int* N = new int[10];
-	for (int i = 0; i < _msize(N)/sizeof(int); i++)
+	int N_size = _msize(N) / sizeof(int);
+	for (int i = 0; i < N_size; i++)
 		N[i] = rand() % 10000 + 1;
 
-	for (int i = 0; i < 10; i++)
-		cout << N[i] << " ";
-	cout << endl;
+	// 3-1
+	//cout << "Original array N: ";
+	//printArray(N, N_size);
+	//cout << endl;
 
-	int* K = new int[1000];
-	for (int i = 0; i < _msize(K) / sizeof(int); i++)
+	int* K = new int[1000];						// 버블소트용 배열
+	int K_size = _msize(K) / sizeof(int);
+	int* copy_K = new int[K_size];				// 퀵소트용 배열
+	copy(K, K + K_size, copy_K);
+	for (int i = 0; i < K_size; i++)
 		K[i] = rand() % 10000 + 1;
 
-	quickSort(N, 0, 9);
-	for (int i = 0; i < 10; i++)
-		cout << N[i] << " ";
-	cout << endl;
+	// 3-2
+	//cout << "Bubble Sort: ";
+	//bubbleSort(N, N_size);
+	//printArray(N, N_size);
+	//cout << endl;
+
+
+	// 3-3
+	//cout << "Quick Sort: ";
+	//quickSort(N, 0, 9);
+	//printArray(N, N_size);
+	//cout << endl;
+
+	//3-4
+	
+	
+	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
+	bubbleSort(K, K_size);
+	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();
+	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
+
+	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
+	quickSort(K, 0, K_size - 1);
+	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
+	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
+
 
 	
+	cout << "Elapsed time of Bubble sort: " << bubble_elapsed_time<<" [us]"<< endl;
+	cout << "Elapsed time of Quick sort: " << quick_elapsed_time <<" [us]" <<endl;
 
 
-	
-	cout << endl;
-
+	delete[] N;
+	delete[] K;
+	delete[] copy_K;
 
 }
