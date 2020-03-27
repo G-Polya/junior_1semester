@@ -11,12 +11,12 @@
 
 using namespace std;
 
-void swap(int &a, int &b)
+void swap(int *a, int *b)
 {
 	int temp;
-	temp = a;
-	a = b;
-	b = temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
 void bubbleSort(vector<int> arr, int size)
@@ -26,7 +26,7 @@ void bubbleSort(vector<int> arr, int size)
 
 	for (int i = 0; i < size - 1; i++)
 		if (arr[i] > arr[i + 1])
-			swap(arr[i], arr[i+1]);
+			swap(&arr[i], &arr[i+1]);
 
 	bubbleSort(arr, size - 1);
 }
@@ -48,32 +48,36 @@ int partition(vector<int> arr, int low, int high)
 	return (i + 1);
 }
 
-void quickSort(vector<int> arr, int size)
+void quickSort(vector<int> arr, int low, int high)
 {
-	stack<pair<int, int>> stk;
+	int* stack = new int[high - low + 1];
+	int top = -1;
 
-	int low = 0;
-	int high = size - 1;
+	stack[++top] = low;
+	stack[++top] = high;
 
-	stk.push(make_pair(low, high));
-
-	while (!stk.empty())
+	while (top >= 0)
 	{
-		low = stk.top().first, high = stk.top().second;
-		stk.pop();
+		high = stack[top--];
+		low = stack[top--];
 
 		int pivot = partition(arr, low, high);
 
 		if (pivot - 1 > low)
-			stk.push(make_pair(low, pivot - 1));
-		
-		if (pivot + 1, high)
-			stk.push(make_pair(pivot + 1, high));
+		{
+			stack[++top] = low;
+			stack[++top] = pivot - 1;
+		}
 
-
+		if (pivot + 1 < high)
+		{
+			stack[++top] = pivot + 1;
+			stack[++top] = high;
+		}
 	}
-}
 
+	delete[] stack;
+}
 void printArray(vector<int> arr)
 {
 	for (auto iter = begin(arr); iter != end(arr); iter++)
@@ -87,11 +91,17 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 	
-	int* N = new int[10];						// 3-2번 버블소트용 배열
-	int N_size = _msize(N) / sizeof(int);
-	int* copy_N = new int[N_size];				// 3-3번 퀵소트용 배열
-	for (int i = 0; i < N_size; i++)
-		N[i] = rand() % 10000 + 1;
+	vector<int> N;
+	N.reserve(10);
+
+	vector<int> copy_N;
+	copy_N.reserve(N.capacity());
+	
+	for (int i = 0; i < N.capacity(); i++)
+		N.push_back(rand() % 10000 + 1);
+	
+
+
 
 	// 3-1
 	cout << "Original array N: ";
@@ -106,8 +116,8 @@ int main()
 
 	// 3-2
 	cout << "Bubble Sort: ";
-//	bubbleSort(N, N_size);
-//	printArray(Nze);
+	bubbleSort(N, N.size());
+	printArray(N);
 	
 
 	// 3-3
@@ -133,9 +143,9 @@ int main()
 	cout << "Elapsed time of Quick sort: " << quick_elapsed_time <<" us" <<endl;
 
 
-	delete[] N;
+	//delete[] N;
 	delete[] K;
 	delete[] copy_K;
-	delete[] copy_N;
+	//delete[] copy_N;
 
 }
