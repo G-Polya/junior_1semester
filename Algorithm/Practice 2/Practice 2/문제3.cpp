@@ -109,14 +109,12 @@ int main()
 
 
 	
-	
-	
-	int* K = new int[1000];						// 버블소트용 배열
-	int K_size = _msize(K) / sizeof(int);
-	int* copy_K = new int[K_size];				// 퀵소트용 배열
-	copy(K, K + K_size, copy_K);
-	for (int i = 0; i < K_size; i++)
-		K[i] = rand() % 10000 + 1;
+	vector<int> K;								// 버블정렬룡 배열
+	K.reserve(1000);
+	for (int i = 0; i < K.capacity(); i++)
+		K.push_back(rand() % 10000 + 1);
+	vector<int> copy_K;							// 퀵정렬용 배열
+	copy_K = K;
 
 	// 3-1
 	cout << "Original array N: ";
@@ -140,12 +138,12 @@ int main()
 
 	//3-4	
 	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
-//	bubbleSort(K, K_size);
+	bubbleSort(K, K.size());
 	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();
 	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
 	
 	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
-//	quickSort(copy_K, K_size);
+	quickSort(copy_K);
 	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
 	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
 
@@ -154,9 +152,6 @@ int main()
 	cout << "Elapsed time of Quick sort: " << quick_elapsed_time <<" us" <<endl;
 
 
-	//delete[] N;
-	delete[] K;
-	delete[] copy_K;
-	//delete[] copy_N;
+	return 0;
 
 }
