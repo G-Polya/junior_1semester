@@ -68,11 +68,13 @@ void quickSort(vector<int> a)
 
 		int pivot = Partition(a, start, end);
 
-		if (pivot - 1 > start) {
+		if (pivot - 1 > start)
+		{
 			stk.push(make_pair(start, pivot - 1));
 		}
 
-		if (pivot + 1 < end) {
+		if (pivot + 1 < end)
+		{
 			stk.push(make_pair(pivot + 1, end));
 		}
 	}
