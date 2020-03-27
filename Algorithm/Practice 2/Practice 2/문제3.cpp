@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include <stack>
 #include <algorithm>
 
 
@@ -46,35 +47,30 @@ int partition(int arr[], int low, int high)
 	return (i + 1);
 }
 
-void quickSort(int arr[], int low, int high)
+void quickSort(int arr[], int size)
 {
-	int* stack = new int[high - low + 1];
-	int top = -1;
+	stack<pair<int, int>> stk;
 
-	stack[++top] = low;
-	stack[++top] = high;
+	int low = 0;
+	int high = size - 1;
 
-	while (top >= 0)
+	stk.push(make_pair(low, high));
+
+	while (!stk.empty())
 	{
-		high = stack[top--];
-		low = stack[top--];
+		low = stk.top().first, high = stk.top().second;
+		stk.pop();
 
 		int pivot = partition(arr, low, high);
 
 		if (pivot - 1 > low)
-		{
-			stack[++top] = low;
-			stack[++top] = pivot - 1;
-		}
+			stk.push(make_pair(low, pivot - 1));
+		
+		if (pivot + 1, high)
+			stk.push(make_pair(pivot + 1, high));
 
-		if (pivot + 1 < high)
-		{
-			stack[++top] = pivot + 1;
-			stack[++top] = high;
-		}
+
 	}
-
-	delete[] stack;
 }
 
 void printArray(int arr[], int size)
@@ -114,8 +110,8 @@ int main()
 
 	// 3-3
 	cout << "Quick Sort: ";
-	quickSort(copy_N, 0, N_size-1);
-	printArray(N, N_size);
+	quickSort(copy_N, N_size);
+	printArray(copy_N, N_size);
 	cout << endl;
 	cout << endl;
 
@@ -126,7 +122,7 @@ int main()
 	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
 	
 	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
-	quickSort(copy_K, 0, K_size - 1);
+	quickSort(copy_K, K_size);
 	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
 	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
 
