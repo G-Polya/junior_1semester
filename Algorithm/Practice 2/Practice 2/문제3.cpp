@@ -89,16 +89,16 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 	
-	int* N = new int[10];
+	int* N = new int[10];						// 3-2번 버블소트용 배열
 	int N_size = _msize(N) / sizeof(int);
+	int* copy_N = new int[N_size];				// 3-3번 퀵소트용 배열
 	for (int i = 0; i < N_size; i++)
 		N[i] = rand() % 10000 + 1;
 
 	// 3-1
-	//cout << "Original array N: ";
-	//printArray(N, N_size);
-	//cout << endl;
-
+	cout << "Original array N: ";
+	printArray(N, N_size);
+	
 	int* K = new int[1000];						// 버블소트용 배열
 	int K_size = _msize(K) / sizeof(int);
 	int* copy_K = new int[K_size];				// 퀵소트용 배열
@@ -107,17 +107,17 @@ int main()
 		K[i] = rand() % 10000 + 1;
 
 	// 3-2
-	//cout << "Bubble Sort: ";
-	//bubbleSort(N, N_size);
-	//printArray(N, N_size);
-	//cout << endl;
-
+	cout << "Bubble Sort: ";
+	bubbleSort(N, N_size);
+	printArray(N, N_size);
+	
 
 	// 3-3
-	//cout << "Quick Sort: ";
-	//quickSort(N, 0, 9);
-	//printArray(N, N_size);
-	//cout << endl;
+	cout << "Quick Sort: ";
+	quickSort(copy_N, 0, N_size-1);
+	printArray(N, N_size);
+	cout << endl;
+	cout << endl;
 
 	//3-4	
 	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
@@ -138,5 +138,6 @@ int main()
 	delete[] N;
 	delete[] K;
 	delete[] copy_K;
+	delete[] copy_N;
 
 }
