@@ -38,7 +38,7 @@ bool recursive_check(string input)
 	if (input.size() <= 1)								// 문장이 길이가 1이라면, 즉 문자하나 자체는 회문이다
 		return true;
 	
-	if (input.substr(0, 1) != input.substr(input.size() - 1))		//처음 단어와 끝단어가 같지 않으면 false
+	if (input.substr(0, 1) != input.substr(input.size() - 1, input.size()))		//처음 단어와 끝단어가 같지 않으면 false
 		return false;
 
 	return recursive_check(input.substr(1, input.size() - 2));		// 재귀적으로 반복
