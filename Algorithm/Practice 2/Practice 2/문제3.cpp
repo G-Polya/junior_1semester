@@ -26,9 +26,9 @@ void bubbleSort(int arr[], int size)
 	if (size == 1)
 		return;
 
-	for (int i = 0; i < size - 1; i++)
-		if (arr[i] < arr[i + 1])
-			swap(arr[i], arr[i+1]);
+	for (int i = 0; i < size - 1; i++)		// 0부터 arr의 길이-1까지
+		if (arr[i] < arr[i + 1])			// 앞에 있는 원소가 더 크면
+			swap(arr[i], arr[i+1]);			// 스왑한다
 
 	bubbleSort(arr, size - 1);
 }
