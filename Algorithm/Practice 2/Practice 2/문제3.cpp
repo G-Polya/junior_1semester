@@ -65,35 +65,37 @@ void quickSort(int arr[], int size)
 {
 	int high = size - 1;
 	int low = 0;
-	int* stack = new int[high - low + 1];
-	int top = -1;
+	int* stk = new int[high - low + 1];		    // 스택 생성				
+	int top = -1;								// top of stack 초기화
 
-	stack[++top] = low;
-	stack[++top] = high;
+	// low와 high의 초기값을 스택에 푸시
+	stk[++top] = low;
+	stk[++top] = high;
 
 	while (top >= 0)
 	{
-		high = stack[top--];
-		low = stack[top--];
+		high = stk[top--];
+		low = stk[top--];
 
-		int pivot = partition(arr, low, high);
+		int pivot = partition(arr, low, high);		// 파티션
 
-		if (pivot - 1 > low)
+		if (pivot - 1 > low)						// 인덱스 비교: 피봇왼쪽의 원소들에 대해서
 		{
-			stack[++top] = low;
-			stack[++top] = pivot - 1;
+			stk[++top] = low;						// 스택에 푸시
+			stk[++top] = pivot - 1;
 		}
 
-		if (pivot + 1 < high)
+		if (pivot + 1 < high)						// 인덱스 비교: 피봇 오른쪽의 원소들에 대해서
 		{
-			stack[++top] = pivot + 1;
-			stack[++top] = high;
+			stk[++top] = pivot + 1;
+			stk[++top] = high;						// 스택에 푸시
 		}
 	}
 
-	delete[] stack;
+	delete[] stk;
 }
 
+// 프린트를 위한 함수
 void printArray(int arr[], int size)
 {
 	for (int i = 0; i < size; i++)
