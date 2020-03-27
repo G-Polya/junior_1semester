@@ -31,57 +31,51 @@ void bubbleSort(vector<int>& arr, int size)
 	bubbleSort(arr, size - 1);
 }
 
-int partition(vector<int>& arr, int low, int high)
+int Partition(int a[], int start, int end)
 {
-	int pivot = arr[high];
-	int i = low - 1;
+	int pivot = a[end];
 
-	for (int j = low; j <= high - 1; j++)
+	int pIndex = start;
+
+	for (int i = start; i < end; i++)
 	{
-		if (arr[j] > pivot)
+		if (a[i] <= pivot)
 		{
-			i++;
-			swap(arr[i], arr[j]);
+			swap(a[i], a[pIndex]);
+			pIndex++;
 		}
 	}
-	swap(arr[i + 1], arr[high]);
 
-	return i+1;
+	swap(a[pIndex], a[end]);
+
+	return pIndex;
 }
 
-void quickSort(vector<int>& arr)
+
+void quickSort(int a[], int n)
 {
-	int low = 0;
-	int high = arr.size() - 1;
-	
-	int* stack = new int[high - low + 1];
-	int top = -1;
+	stack<pair<int, int>> stk;
 
-	stack[++top] = low;
-	stack[++top] = high;
+	int start = 0;
+	int end = n - 1;
 
-	while (top >= 0)
+	stk.push(make_pair(start, end));
+
+	while (!stk.empty())
 	{
-		high = stack[top--];
-		low = stack[top--];
+		start = stk.top().first, end = stk.top().second;
+		stk.pop();
 
-		int pivot = partition(arr, low, high);
+		int pivot = Partition(a, start, end);
 
-		if (pivot - 1 > low)
-		{
-			stack[++top] = low;
-			stack[++top] = pivot - 1;
+		if (pivot - 1 > start) {
+			stk.push(make_pair(start, pivot - 1));
 		}
 
-		if (pivot + 1 < high)
-		{
-			stack[++top] = pivot + 1;
-			stack[++top] = high;
+		if (pivot + 1 < end) {
+			stk.push(make_pair(pivot + 1, end));
 		}
 	}
-
-	delete[] stack;
-	
 }
 void printArray(vector<int> arr)
 {
@@ -91,6 +85,13 @@ void printArray(vector<int> arr)
 	cout << endl;
 }
 
+void printArray(int arr[], int size)
+{
+	for (int i = 0; i < size; i++)
+		cout << arr[i] << " ";
+
+	cout << endl;
+}
 
 int main()
 {
@@ -99,13 +100,15 @@ int main()
 	vector<int> N;
 	N.reserve(10);
 
-	vector<int> copy_N;
-	copy_N.reserve(N.capacity());
-	
+	int* copy_N = new int[N.capacity()];
+
 	for (int i = 0; i < N.capacity(); i++)
-		N.push_back(rand() % 10000 + 1);
+	{
+		int rand_number = rand() % 10000 + 1;
+		N.push_back(rand_number);
+		copy_N[i] = rand_number;
+	}
 	
-	copy_N = N;
 
 
 	
@@ -129,10 +132,10 @@ int main()
 	
 	// 3-3
 	cout << "Copied array N: ";
-	printArray(copy_N);
+	printArray(copy_N, N.size());
 	cout << "Quick Sort: ";
-	quickSort(copy_N);
-	printArray(copy_N);
+	quickSort(copy_N, N.size());
+	printArray(copy_N,N.size());
 	cout << endl;
 	
 
