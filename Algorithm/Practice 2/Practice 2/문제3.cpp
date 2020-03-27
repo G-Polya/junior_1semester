@@ -49,21 +49,23 @@ int partition(vector<int>& arr, int low, int high)
 	return i+1;
 }
 
-void quickSort(vector<int>& arr, int low, int high)
+void quickSort(vector<int>& arr)
 {
-	int temp_high = high - 1;
-	int* stack = new int[temp_high - low + 1];
+	int low = 0;
+	int high = arr.size() - 1;
+	
+	int* stack = new int[high - low + 1];
 	int top = -1;
 
 	stack[++top] = low;
-	stack[++top] = temp_high;
+	stack[++top] = high;
 
 	while (top >= 0)
 	{
-		temp_high = stack[top--];
+		high = stack[top--];
 		low = stack[top--];
 
-		int pivot = partition(arr, low, temp_high);
+		int pivot = partition(arr, low, high);
 
 		if (pivot - 1 > low)
 		{
@@ -71,14 +73,15 @@ void quickSort(vector<int>& arr, int low, int high)
 			stack[++top] = pivot - 1;
 		}
 
-		if (pivot + 1 < temp_high)
+		if (pivot + 1 < high)
 		{
 			stack[++top] = pivot + 1;
-			stack[++top] = temp_high;
+			stack[++top] = high;
 		}
 	}
 
 	delete[] stack;
+	
 }
 void printArray(vector<int> arr)
 {
@@ -128,7 +131,7 @@ int main()
 	cout << "Copied array N: ";
 	printArray(copy_N);
 	cout << "Quick Sort: ";
-	quickSort(copy_N, 0, N.size());
+	quickSort(copy_N);
 	printArray(copy_N);
 	cout << endl;
 	
