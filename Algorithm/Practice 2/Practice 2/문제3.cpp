@@ -84,6 +84,19 @@ void printArray(int arr[], int size)
 	cout << endl;
 }
 
+template<typename T>
+void elapsed_time(T& func(int arr[], int size))
+{
+	clock_t t;
+	t = clock();
+	func();
+
+	t = clock() - t;
+	cout << "time: " << t << " miliseconds" << endl;
+	cout << CLOCKS_PER_SEC << " clocks per second" << endl;
+	cout << "time: " << t * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+}
+
 
 int main()
 {
@@ -121,22 +134,14 @@ int main()
 
 	//3-4
 	
+	elapsed_time(bubbleSort(K, K_size));
 	
-	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
-	bubbleSort(K, K_size);
-	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();
-	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
-
-	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
+	
 	quickSort(K, 0, K_size - 1);
-	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
-	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
-
+	
 
 	
-	cout << "Elapsed time of Bubble sort: " << bubble_elapsed_time<<" [us]"<< endl;
-	cout << "Elapsed time of Quick sort: " << quick_elapsed_time <<" [us]" <<endl;
-
+	
 
 	delete[] N;
 	delete[] K;
