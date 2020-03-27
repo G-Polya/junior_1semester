@@ -31,7 +31,6 @@ bool check_palindrome(string input)
 // 순환 회문 판별 알고리즘
 bool recursive_check(string input)
 {
-	bool check = true;
 	
 	char* arr = new char[input.size() + 1];
 	
