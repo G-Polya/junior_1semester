@@ -51,7 +51,7 @@ int main()
 
 	while (getline(in, input))					// 읽어온 파일의 문자열을 input에 저장
 	{
-		cout << input << "의 비순환회문판별: " << check_palindrome(input) << endl;
+		cout << input << "의 비순환회문판별: " <<  check_palindrome(input) << endl;
 		cout << input << "의 순환회문판별: " << recursive_check(input) << endl;
 		cout << endl;
 	}

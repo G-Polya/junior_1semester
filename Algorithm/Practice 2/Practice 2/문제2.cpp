@@ -10,12 +10,12 @@ using namespace std;
 // not recursive GCD
 int no_recursive_gcd(int a, int b)
 {
-	int t;
+	int temp;
 	while (b)
 	{
-		t = a % b;
+		temp = a % b;
 		a = b;
-		b = t;
+		b = temp;
 	}
 
 	return a;
@@ -35,9 +35,10 @@ int recursive_gcd(int a,int b)
 // N개의 수에 대한 최대공약수
 // 큐를 사용하여 앞에 있는 두 수에 대한 최대공약수를 구한 후, 그 최대공약수를 다시 큐에 삽입 >> 반복
 // 삽입된 수들에 대해 최대공약수를 구한 값이 구하고자 하는 값이다.
+// 예시 {16, 24, 40, 36}
 int recursive_gcd(queue<int> q)
 {
-	if (q.size() == 1)
+	if (q.size() == 1)						//큐의 크기가 1이라면, 즉 원소가 1개뿐
 	{
 		int result = q.front();
 		q.pop();
@@ -50,8 +51,8 @@ int recursive_gcd(queue<int> q)
 
 	int num2 = q.front();
 	q.pop();
-	q.push(recursive_gcd(num1, num2));
-	return recursive_gcd(q);
+	q.push(recursive_gcd(num1, num2));		// 첫번째, 두번째 원소의 최대공약수를 큐에 저장. 16,24의 최대공약수 >> 8을 저장 >> 큐: {40, 36, 8}
+	return recursive_gcd(q);				// 이를 반복하면...40, 36에 대해서 한번더 계산이 이루어진 후 큐: {8, 4} >> 4
 
 }
 
