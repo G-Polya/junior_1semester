@@ -31,7 +31,7 @@ void bubbleSort(vector<int>& arr, int size)
 	bubbleSort(arr, size - 1);
 }
 
-int Partition(int a[], int start, int end)
+int Partition(vector<int> a, int start, int end)
 {
 	int pivot = a[end];
 
@@ -52,12 +52,12 @@ int Partition(int a[], int start, int end)
 }
 
 
-void quickSort(int a[], int n)
+void quickSort(vector<int> a)
 {
 	stack<pair<int, int>> stk;
 
 	int start = 0;
-	int end = n - 1;
+	int end = a.size() - 1;
 
 	stk.push(make_pair(start, end));
 
@@ -100,15 +100,15 @@ int main()
 	vector<int> N;
 	N.reserve(10);
 
-	int* copy_N = new int[N.capacity()];
-
+	
 	for (int i = 0; i < N.capacity(); i++)
 	{
 		int rand_number = rand() % 10000 + 1;
 		N.push_back(rand_number);
-		copy_N[i] = rand_number;
 	}
 	
+	vector<int> copy_N;
+	copy_N = N;
 
 
 	
@@ -132,10 +132,10 @@ int main()
 	
 	// 3-3
 	cout << "Copied array N: ";
-	printArray(copy_N, N.size());
+	printArray(copy_N);
 	cout << "Quick Sort: ";
-	quickSort(copy_N, N.size());
-	printArray(copy_N,N.size());
+	quickSort(copy_N);
+	printArray(copy_N);
 	cout << endl;
 	
 
