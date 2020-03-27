@@ -6,6 +6,7 @@
 #include <chrono>
 #include <stack>
 #include <algorithm>
+#include <vector>
 
 
 using namespace std;
@@ -18,7 +19,7 @@ void swap(int &a, int &b)
 	b = temp;
 }
 
-void bubbleSort(int arr[], int size)
+void bubbleSort(vector<int> arr, int size)
 {
 	if (size == 1)
 		return;
@@ -30,7 +31,7 @@ void bubbleSort(int arr[], int size)
 	bubbleSort(arr, size - 1);
 }
 
-int partition(int arr[], int low, int high)
+int partition(vector<int> arr, int low, int high)
 {
 	int pivot = arr[high];
 	int i = (low - 1);
@@ -47,7 +48,7 @@ int partition(int arr[], int low, int high)
 	return (i + 1);
 }
 
-void quickSort(int arr[], int size)
+void quickSort(vector<int> arr, int size)
 {
 	stack<pair<int, int>> stk;
 
@@ -73,10 +74,11 @@ void quickSort(int arr[], int size)
 	}
 }
 
-void printArray(int arr[], int size)
+void printArray(vector<int> arr)
 {
-	for (int i = 0; i < size; i++)
-		cout << arr[i] << " ";
+	for (auto iter = begin(arr); iter != end(arr); iter++)
+		cout << *iter << " ";
+
 	cout << endl;
 }
 
@@ -93,7 +95,7 @@ int main()
 
 	// 3-1
 	cout << "Original array N: ";
-	printArray(N, N_size);
+	printArray(N);
 	
 	int* K = new int[1000];						// 버블소트용 배열
 	int K_size = _msize(K) / sizeof(int);
@@ -104,25 +106,25 @@ int main()
 
 	// 3-2
 	cout << "Bubble Sort: ";
-	bubbleSort(N, N_size);
-	printArray(N, N_size);
+//	bubbleSort(N, N_size);
+//	printArray(Nze);
 	
 
 	// 3-3
 	cout << "Quick Sort: ";
-	quickSort(copy_N, N_size);
-	printArray(copy_N, N_size);
+//	quickSort(copy_N, N_size);
+	//printArray(copy_N, N_size);
 	cout << endl;
 	cout << endl;
 
 	//3-4	
 	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
-	bubbleSort(K, K_size);
+//	bubbleSort(K, K_size);
 	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();
 	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
 	
 	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
-	quickSort(copy_K, K_size);
+//	quickSort(copy_K, K_size);
 	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
 	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
 
