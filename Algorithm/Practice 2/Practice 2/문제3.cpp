@@ -11,57 +11,59 @@
 
 using namespace std;
 
-void swap(int *a, int *b)
+void swap(int &a, int &b)
 {
 	int temp;
-	temp = *a;
-	*a = *b;
-	*b = temp;
+	temp = a;
+	a = b;
+	b = temp;
 }
 
-void bubbleSort(vector<int> arr, int size)
+void bubbleSort(vector<int>& arr, int size)
 {
 	if (size == 1)
 		return;
 
 	for (int i = 0; i < size - 1; i++)
-		if (arr[i] > arr[i + 1])
-			swap(&arr[i], &arr[i+1]);
+		if (arr[i] < arr[i + 1])
+			swap(arr[i], arr[i+1]);
 
 	bubbleSort(arr, size - 1);
 }
 
-int partition(vector<int> arr, int low, int high)
+int partition(vector<int>& arr, int low, int high)
 {
 	int pivot = arr[high];
-	int i = (low - 1);
+	int i = low - 1;
 
 	for (int j = low; j <= high - 1; j++)
 	{
-		if (arr[j] < pivot)
+		if (arr[j] > pivot)
 		{
 			i++;
 			swap(arr[i], arr[j]);
 		}
 	}
 	swap(arr[i + 1], arr[high]);
-	return (i + 1);
+
+	return i+1;
 }
 
-void quickSort(vector<int> arr, int low, int high)
+void quickSort(vector<int>& arr, int low, int high)
 {
-	int* stack = new int[high - low + 1];
+	int temp_high = high - 1;
+	int* stack = new int[temp_high - low + 1];
 	int top = -1;
 
 	stack[++top] = low;
-	stack[++top] = high;
+	stack[++top] = temp_high;
 
 	while (top >= 0)
 	{
-		high = stack[top--];
+		temp_high = stack[top--];
 		low = stack[top--];
 
-		int pivot = partition(arr, low, high);
+		int pivot = partition(arr, low, temp_high);
 
 		if (pivot - 1 > low)
 		{
@@ -69,10 +71,10 @@ void quickSort(vector<int> arr, int low, int high)
 			stack[++top] = pivot - 1;
 		}
 
-		if (pivot + 1 < high)
+		if (pivot + 1 < temp_high)
 		{
 			stack[++top] = pivot + 1;
-			stack[++top] = high;
+			stack[++top] = temp_high;
 		}
 	}
 
@@ -100,12 +102,11 @@ int main()
 	for (int i = 0; i < N.capacity(); i++)
 		N.push_back(rand() % 10000 + 1);
 	
+	copy_N = N;
 
 
-
-	// 3-1
-	cout << "Original array N: ";
-	printArray(N);
+	
+	
 	
 	int* K = new int[1000];						// 버블소트용 배열
 	int K_size = _msize(K) / sizeof(int);
@@ -114,18 +115,25 @@ int main()
 	for (int i = 0; i < K_size; i++)
 		K[i] = rand() % 10000 + 1;
 
+	// 3-1
+	cout << "Original array N: ";
+	printArray(N);
+
 	// 3-2
 	cout << "Bubble Sort: ";
 	bubbleSort(N, N.size());
 	printArray(N);
 	
-
 	// 3-3
+	cout << "Copied array N: ";
+	printArray(copy_N);
 	cout << "Quick Sort: ";
-//	quickSort(copy_N, N_size);
-	//printArray(copy_N, N_size);
+	quickSort(copy_N, 0, N.size());
+	printArray(copy_N);
 	cout << endl;
-	cout << endl;
+	
+
+	cout << "================================\n" << endl;
 
 	//3-4	
 	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
