@@ -31,24 +31,29 @@ void bubbleSort(vector<int>& arr, int size)
 	bubbleSort(arr, size - 1);
 }
 
-int Partition(vector<int>& a, int start, int end)
+int partition(vector<int>& arr, int low, int high)
 {
-	int pivot = a[end];
+	int pivotIndex = low + (high - low) / 2;
+	int pivotValue = arr[pivotIndex];
 
-	int pIndex = start;
+	int i = low, j = high;
 
-	for (int i = start; i < end; i++)
+	while (i <= j)
 	{
-		if (a[i] >= pivot)
+		while (arr[i] < pivotValue)
+			i++;
+		while (arr[j] > pivotValue)
+			j--;
+
+		if (i <= j)
 		{
-			swap(a[i], a[pIndex]);
-			pIndex++;
+			swap(arr[i], arr[j]);
+			i++;
+			j--;
 		}
 	}
+	return i;
 
-	swap(a[pIndex], a[end]);
-
-	return pIndex;
 }
 
 
@@ -66,7 +71,7 @@ void quickSort(vector<int>& a)
 		start = stk.top().first, end = stk.top().second;
 		stk.pop();
 
-		int pivot = Partition(a, start, end);
+		int pivot = partition(a, start, end);
 
 		if (pivot - 1 > start)
 		{
