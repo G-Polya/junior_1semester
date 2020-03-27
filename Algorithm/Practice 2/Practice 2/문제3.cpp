@@ -33,20 +33,27 @@ void bubbleSort(vector<int>& arr, int size)
 
 int partition(vector<int>& arr, int low, int high)
 {
-	int pivot = arr[high];
-	int i = low - 1;
+	int pivotIndex = low + (high - low) / 2;
+	int pivotValue = arr[pivotIndex];
 
-	for (int j = low; j <= high - 1; j++)
+	int i = low, j = high;
+
+	while (i <= j)
 	{
-		if (arr[j] > pivot)
-		{
+		while (arr[i] < pivotValue)
 			i++;
+		while (arr[j] > pivotValue)
+			j--;
+
+		if (i <= j)
+		{
 			swap(arr[i], arr[j]);
+			i++;
+			j--;
 		}
 	}
-	swap(arr[i + 1], arr[high]);
+	return i;
 
-	return i+1;
 }
 
 void quickSort(vector<int>& arr)
