@@ -104,7 +104,7 @@ void printArray(int arr[], int size)
 
 int main()
 {
-	//srand((unsigned int)time(NULL));			// random시드 설정
+	srand((unsigned int)time(NULL));			// random시드 설정
 	
 	int* N = new int[10];						// 3-2번 버블정렬용 배열
 	int N_size = _msize(N) / sizeof(int);
