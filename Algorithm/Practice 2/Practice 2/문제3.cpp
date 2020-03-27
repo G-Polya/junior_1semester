@@ -36,19 +36,19 @@ void bubbleSort(int arr[], int size)
 // partition for quick sort
 int partition(int arr[], int low, int high)
 {
-	int pivotIndex = low + (high - low) / 2;
+	int pivotIndex = low + (high - low) / 2;		// pivot을 가운데로 설정
 	int pivotValue = arr[pivotIndex];
 
-	int i = low, j = high;
+	int i = low, j = high;							// i: 왼쪽부터, j: 오른쪽부터
 
 	while (i <= j)
 	{
-		while (arr[i] < pivotValue)
+		while (arr[i] < pivotValue)					// 왼쪽에 있는 값이 pivotValue보다 작으면 계속 증가
 			i++;
-		while (arr[j] > pivotValue)
+		while (arr[j] > pivotValue)					// 오른쪽에 있는 값이 pivotValue보다 크면 계속 감소
 			j--;
 
-		if (i <= j)
+		if (i <= j)									
 		{
 			swap(arr[i], arr[j]);
 			i++;
@@ -140,14 +140,12 @@ int main()
 	printArray(N, N_size);
 	
 
-	// 3-2
-	
+	// 3-2	
 	cout << "Bubble Sort: ";
 	bubbleSort(N, N_size);
 	printArray(N, N_size);
-	
-
 	cout << endl;
+
 	// 3-3
 	cout << "Copied array copy_N: ";
 	printArray(copy_N, N_size);
@@ -163,17 +161,17 @@ int main()
 	//3-4	
 
 	// 버블 정렬
-	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();
-	bubbleSort(K, K_size);
-	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();
-	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
+	chrono::steady_clock::time_point bubble_begin = chrono::steady_clock::now();								// 정렬 전 시간
+	bubbleSort(K, K_size);																						// 정렬 
+	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();									// 정렬 후 시간
+	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();	// 정렬에 걸린 시간
 	
 
 	// 퀵 정렬
-	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
-	quickSort(copy_K, K_size);
-	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
-	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
+	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();									// 정렬 전 시간
+	quickSort(copy_K, K_size);																					// 정렬
+	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();									// 정렬 후 시간
+	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();		// 정렬에 걸린 시간
 
 	
 	cout << "Elapsed time of Bubble sort: " << bubble_elapsed_time<<" us"<< endl;
