@@ -36,6 +36,7 @@ void bubbleSort(int arr[], int size)
 // partition for quick sort
 int partition(int arr[], int low, int high)
 {
+
 	int pivot = arr[high];
 	int i = (low - 1);
 
@@ -52,8 +53,10 @@ int partition(int arr[], int low, int high)
 }
 
 // quick sort
-void quickSort(int arr[], int low, int high)
+void quickSort(int arr[], int size)
 {
+	int high = size - 1;
+	int low = 0;
 	int* stack = new int[high - low + 1];
 	int top = -1;
 
@@ -128,8 +131,6 @@ int main()
 	cout << "Original array N: ";
 	printArray(N, N_size);
 	
-	
-	
 
 	// 3-2
 	
@@ -143,7 +144,7 @@ int main()
 	cout << "Copied array copy_N: ";
 	printArray(copy_N, N_size);
 	cout << "Quick Sort: ";
-	quickSort(copy_N, 0, N_size-1);
+	quickSort(copy_N, N_size);
 	printArray(N, N_size);
 	cout << endl;
 	
@@ -162,7 +163,7 @@ int main()
 
 	// 퀵 정렬
 	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
-	quickSort(copy_K, 0, K_size - 1);
+	quickSort(copy_K, K_size);
 	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
 	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
 
