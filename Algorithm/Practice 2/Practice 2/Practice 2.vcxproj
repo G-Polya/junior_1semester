@@ -128,7 +128,11 @@
 <<<<<<< HEAD
 =======
   <ItemGroup>
+<<<<<<< HEAD
     <ClCompile Include="문제3_vector.cpp" />
+=======
+    <ClCompile Include="문제3_stack.cpp" />
+>>>>>>> using_stack
   </ItemGroup>
 >>>>>>> use_vector_insteadOf_array
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
