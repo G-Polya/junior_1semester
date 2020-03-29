@@ -125,6 +125,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+<<<<<<< HEAD
+=======
+  <ItemGroup>
+    <ClCompile Include="문제3_vector.cpp" />
+  </ItemGroup>
+>>>>>>> use_vector_insteadOf_array
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

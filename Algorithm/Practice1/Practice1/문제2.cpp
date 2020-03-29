@@ -53,7 +53,7 @@ tuple<int, map<int, int>> BruteForceChange(vector<int> coinValueList, int total,
 	sort(coinValueList.begin(), coinValueList.end());		// 혹시 coinValueList가 정렬되지 않았다면 먼저 정렬
 
 	if (build == true)						
-		build_Dict(coinValueList, coinDict);		// 딕셔너리 초기화 
+		build_Dict(coinValueList, coinDict);		// 딕셔너리 0으로 초기화 
 
 	if (total == 0)			// total money가 0이 되면  
 		return tuple<int, map<int, int>>(numCoins, coinDict);	// 사용된 코인 개수와 코인종류를 반환
@@ -76,7 +76,7 @@ tuple<int, map<int, int>> BruteForceChange(vector<int> coinValueList, int total,
 		if (coin <= total)
 		{
 			dictCopy[coin] += 1;		// 해당코인에 해당하는 딕셔너리의 value를 1증가. 예를 들어 dictCopy[25]가 1증가 됬다 >> 25를 key로 가지는 value가 1증가 됬다는 뜻.
-			tuple<int, map<int, int>> temp_tuple = BruteForceChange(coinValueList, total - coin, numCoins + 1, dictCopy, false);	// recursion
+			tuple<int, map<int, int>> temp_tuple = BruteForceChange(coinValueList, total - coin, numCoins + 1, dictCopy, false);	// recursion, build parameter를 false로 하는것은 0으로 초기화를 방지
 			int subCoins = get<0>(temp_tuple);
 			map<int, int> subDict = get<1>(temp_tuple);
 
