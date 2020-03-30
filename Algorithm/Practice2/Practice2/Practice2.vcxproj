@@ -18,12 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="문제3.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{0E6BC656-9F8B-43E1-86DD-FE3731DDE2CA}</ProjectGuid>
+    <ProjectGuid>{4BB8DB16-D89B-4323-BEFE-444E670381CB}</ProjectGuid>
     <RootNamespace>Practice2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -125,16 +122,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-<<<<<<< HEAD
-=======
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="문제3_vector.cpp" />
-=======
-    <ClCompile Include="문제3_stack.cpp" />
->>>>>>> using_stack
+    <ClCompile Include="문제3.cpp" />
   </ItemGroup>
->>>>>>> use_vector_insteadOf_array
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

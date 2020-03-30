@@ -15,11 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <ClCompile Include="문제3_vector.cpp">
-=======
-    <ClCompile Include="문제3_stack.cpp">
->>>>>>> using_stack
+    <ClCompile Include="문제3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
