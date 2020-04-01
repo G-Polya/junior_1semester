@@ -82,10 +82,10 @@ public class ByteAndInt
 	 public static void main(String[] args) 
 	 {
 		System.out.println("Byte Array to Int");
-		byte[] bytes = new byte[]{(byte)1,(byte)2,(byte)3, (byte)4};
+		byte[] bytes = new byte[]{11,100,5,125};
 		System.out.println("Input:");
 		for(int i = 0; i < bytes.length;i++)
-			System.out.println(BitString((byte)bytes[i]));
+			System.out.println(bytes[i]+" is "+BitString(bytes[i]));
 		int result = byteArrayToInt(bytes);
 		System.out.println("Result: "+ result);
 		System.out.println(BitString(result));
@@ -93,12 +93,12 @@ public class ByteAndInt
 		System.out.println("=======================");
 	
 		System.out.println("Int to Byte Array");
-		int num = Integer.MAX_VALUE;
+		int num = result;
 		byte[] result_array = intToByteArray(num);
-		System.out.println("Input: "+ BitString(num));
+		System.out.println("Input: "+ num+" is "+ BitString(num));
 		System.out.println("Result:");
 		for(int i = 0; i < result_array.length;i++)
-			System.out.println(BitString(result_array[i]));
+			System.out.println(BitString(result_array[i])+"is "+result_array[i]);
 		
 		
 	 }
