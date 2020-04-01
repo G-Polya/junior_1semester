@@ -1,70 +1,63 @@
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
-void Merge(vector<int> arr,int left, int mid, int right)
+void merge(vector<int>& list, int left, int mid, int right) 
 {
-	vector<int> temp;
-
+	vector<int> sorted(list.size(), 0);
 	int i, j, k, l;
 	i = left;
 	j = mid + 1;
 	k = left;
 
-	while (i <= mid && j <= right)
-	{
-		if (arr[i] <= arr[j])
-			temp[k++] = arr[i++];
+	/* 분할 정렬된 list의 합병 */
+	while (i <= mid && j <= right) {
+		if (list[i] <= list[j])
+			sorted[k++] = list[i++];
 		else
-			temp[k++] = arr[j++];
+			sorted[k++] = list[j++];
 	}
 
-	if (i > mid)
+	// 남아 있는 값들을 일괄 복사
+	if (i > mid) {
 		for (l = j; l <= right; l++)
-			temp[k++] = arr[l];
-	
-	else
-		for (l = i; l < mid; l++)
-			temp[k++] = arr[l];
-
-	for (l = left; l <= right; l++)
-		arr[l] = temp[l];
-}
-
-void recursive_mergeSort(vector<int> arr,int left,int right)
-{
-	int mid;
-	if (left < right)
+			sorted[k++] = list[l];
+	}
+	else 
 	{
-		mid = (left + right) / 2;
-		recursive_mergeSort(arr, left, mid);
-		recursive_mergeSort(arr, mid + 1, right);
-		Merge(arr, left, mid, right);
+		for (l = i; l <= mid; l++)
+			sorted[k++] = list[l];
+	}
+
+	// 배열 sorted[](임시 배열)의 리스트를 배열 list[]로 재복사
+	for (l = left; l <= right; l++) {
+		list[l] = sorted[l];
 	}
 }
 
-void no_recursive_mergeSort(int arr[],int left, int right)
-{
-	
+// 합병 정렬
+void merge_sort(vector<int>& list, int left, int right) {
+	int mid;
+
+	if (left < right) {
+		mid = (left + right) / 2; // 중간 위치를 계산하여 리스트를 균등 분할 -분할(Divide)
+		merge_sort(list, left, mid); // 앞쪽 부분 리스트 정렬 -정복(Conquer)
+		merge_sort(list, mid + 1, right); // 뒤쪽 부분 리스트 정렬 -정복(Conquer)
+		merge(list, left, mid, right); // 정렬된 2개의 부분 배열을 합병하는 과정 -결합(Combine)
+	}
 }
 
-void printArray(vector<int> arr)
+void main()
 {
-	for (int i = 0; i < arr.size(); i++)
-		cout << arr[i] << " ";
-	cout << endl;
-}
+	vector<int> list = { 21, 10, 12, 20, 25, 13, 15, 22 };
+	int size = list.size();
+	merge_sort(list, 0,  size - 1);
 
-int main()
-{
-	vector<int> A = { 30,20,40,35,5,50,45,10,25,15 };
-	int size = A.size();
-	printArray(A);
-
-	recursive_mergeSort(A, 0, size-1);
-	
+	// 정렬 결과 출력
+	for (int i = 0; i < list.size(); i++) 
+	{
+		cout << list[i] << " ";
+	}
 	cout << endl;
-	printArray(A);
-	cout << endl;
-
 }
