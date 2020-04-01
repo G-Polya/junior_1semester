@@ -48,7 +48,7 @@ void merge_sort(vector<int>& list, int left, int right) {
 	}
 }
 
-void main()
+int main()
 {
 	vector<int> list = { 21, 10, 12, 20, 25, 13, 15, 22 };
 	int size = list.size();
@@ -60,4 +60,6 @@ void main()
 		cout << list[i] << " ";
 	}
 	cout << endl;
+
+	return 0;
 }
