@@ -68,24 +68,19 @@ int min(int x, int y)
 	return (x < y) ? x : y;
 }
 
-void iterative_mergeSort(vector<int>& list)
+// https://www.techiedelight.com/iterative-merge-sort-algorithm-bottom-up/
+void iterative_mergeSort(vector<int>& list, int left, int right)
 {
-	int size = list.size();
-	int i, j;
-	int from, mid, to;
-	for (i = 2; i <= size; i *= 2)
+	for (int m = 1; m < right - left; m *= 2)
 	{
-		for (j = 0; j < size; j += i)
+		for (int i = left; i < right; i += 2 * m)
 		{
-			from = j;
-			to = min(j + i - 1, size - 1);
-			mid = (from + to) / 2;
-			merge(list,from, mid, to);
+			int from = i;
+			int mid = i + m - 1;
+			int to = min(i + 2 * m - 1, right);
+			merge(list, from, mid, to);
 		}
 	}
-
-	if (size % (i / 2) != 0)
-		merge(list, 0, (size - 1 - (size % (i / 2))), size - 1);
 }
 
 
@@ -101,7 +96,7 @@ int main()
 
 	cout << "Copy:" << endl;
 	printArray(copy_list);
-	iterative_mergeSort(copy_list);
+	iterative_mergeSort(copy_list,0,size-1);
 	
 	// 정렬 결과 출력
 	printArray(copy_list);
