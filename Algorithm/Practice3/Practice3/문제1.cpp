@@ -63,8 +63,30 @@ void recursive_mergeSort(vector<int>& list, int left, int right)
 		merge(list, left, mid, right); // 정렬된 2개의 부분 배열을 합병하는 과정 -결합(Combine)
 	}
 }
+int min(int x, int y)
+{
+	return (x < y) ? x : y;
+}
 
-void iterative_mergeSort(vector<int>& list, int left, int right);
+void iterative_mergeSort(vector<int>& list)
+{
+	int size = list.size();
+	int i, j;
+	int from, mid, to;
+	for (i = 2; i <= size; i *= 2)
+	{
+		for (j = 0; j < size; j += i)
+		{
+			from = j;
+			to = min(j + i - 1, size - 1);
+			mid = (from + to) / 2;
+			merge(list,from, mid, to);
+		}
+	}
+
+	if (size % (i / 2) != 0)
+		merge(list, 0, (size - 1 - (size % (i / 2))), size - 1);
+}
 
 
 int main()
@@ -79,8 +101,10 @@ int main()
 
 	cout << "Copy:" << endl;
 	printArray(copy_list);
+	iterative_mergeSort(copy_list);
+	
 	// 정렬 결과 출력
-	//printArray(list);
+	printArray(copy_list);
 
 	return 0;
 }
