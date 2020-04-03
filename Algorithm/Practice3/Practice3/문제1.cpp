@@ -69,6 +69,7 @@ int min(int x, int y)
 }
 
 // https://www.techiedelight.com/iterative-merge-sort-algorithm-bottom-up/
+// https://www.geeksforgeeks.org/iterative-merge-sort/?ref=rp
 void iterative_mergeSort(vector<int>& list, int left, int right)
 {
 	for (int m = 1; m < right - left; m *= 2)
