@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <algorithm>
 using namespace std;
 
 void swap(int  &a, int &b)
@@ -9,6 +10,13 @@ void swap(int  &a, int &b)
 	int temp = a;
 	a = b;
 	b = temp;
+}
+
+void printArray(vector<int>& arr)
+{
+	for (int i = 0; i < arr.size(); i++)
+		cout << setw(3) << arr[i] << " ";
+	cout << endl;
 }
 
 void make_heap(vector<int> &arr, int root ,int lastNode)
@@ -40,15 +48,9 @@ void make_heap(vector<int> &arr, int root ,int lastNode)
 	}
 
 	arr[parent] = rootValue;
-
 }
 
-void printArray(vector<int>& arr)
-{
-	for (int i = 0; i < arr.size(); i++)
-		cout << setw(3)<<arr[i] << " ";
-	cout << endl;
-}
+
 
 void heapSort(vector<int> &arr)
 {
@@ -56,23 +58,36 @@ void heapSort(vector<int> &arr)
 	int i;
 
 	for (i = size / 2; i >= 0; i--)
+	{
 		make_heap(arr, i, size - 1);	// 정렬하고자 하는 배열을 힙으로 변환
+
+
+	}
+	cout << "Make Heap: " << endl;
+	printArray(arr);
 
 	for (i = size - 1; i > 0; i--)
 	{
 		swap(arr[0], arr[i]);			// 힙의 최대값을 제거하고 arr[i]와 교환
-			
-		make_heap(arr, 0, size - 1);	// 남은 원소로 다시 힙 재정비
+	
+		make_heap(arr, 0, i - 1);	// 남은 원소로 다시 힙 재정비
 	}
+
 }
 
 int main()
 {
 	vector<int> a = { 4,1,3,2,16,9,10,14,8,7 };
-	cout << "Original: ";
+	vector<int> copy_a = a;
+	cout << "Original:  "<<endl;
 	printArray(a);
+	
+
+
 	heapSort(a);
-	cout << "After...: ";
+	cout << "Heap Sort...:  "<<endl;
 	printArray(a);
+
+	
 
 }
