@@ -1,3 +1,4 @@
+// 2016112158 김희수
 #include <iostream>
 #include <vector>
 #include <iomanip>
@@ -68,18 +69,24 @@ int min(int x, int y)
 	return (x < y) ? x : y;
 }
 
-// https://www.techiedelight.com/iterative-merge-sort-algorithm-bottom-up/
-// https://www.geeksforgeeks.org/iterative-merge-sort/?ref=rp
 void iterative_mergeSort(vector<int>& list, int left, int right)
 {
-	for (int m = 1; m < right - left; m *= 2)
+	int curr_size;		// 합병될 서브정렬의 현재 사이즈
+	int left_start;		// 합병될 서브정렬의 시작 인덱스
+
+	for ( curr_size = 1; curr_size < right - left; curr_size *= 2)			// 서브정렬의 현재사이즈를 1로 시작. 2배식 증가시킴
 	{
-		for (int i = left; i < right; i += 2 * m)
+		// curr_size = 1일때, left_start = 0, 2, 4, 6, 8...
+		// curr_size = 2일때, left_start = 0, 4, 8,...
+		// curr_size = 4일때, left_start = 0, 8, ...
+		for (left_start = left; left_start < right; left_start += 2 * curr_size)	// 현재사이즈의 서브정렬과 다른 스타팅포인트
 		{
-			int from = i;
-			int mid = i + m - 1;
-			int to = min(i + 2 * m - 1, right);
-			merge(list, from, mid, to);
+			
+			int mid = left_start + curr_size - 1;
+			int to = min(left_start + 2 * curr_size - 1, right);
+
+			// 서브정렬 arr[left_start...mid]와 arr[mid+1...to]를 합병
+			merge(list, left_start, mid, to);
 		}
 	}
 }
@@ -95,12 +102,10 @@ int main()
 	cout << "Start recursive merge Sort..." << endl;
 	recursive_mergeSort(list, 0, size - 1);
 
-	cout << "Copy:" << endl;
+	cout << "Start iterative merge Sort..." << endl;
 	printArray(copy_list);
 	iterative_mergeSort(copy_list,0,size-1);
 	
-	// 정렬 결과 출력
-	printArray(copy_list);
-
+	
 	return 0;
 }
