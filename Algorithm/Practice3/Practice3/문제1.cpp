@@ -56,12 +56,12 @@ void recursive_mergeSort(vector<int>& list, int left, int right)
 	
 
 	if (left < right) {
-		mid = (left + right) / 2; // 중간 위치를 계산하여 리스트를 균등 분할 -분할(Divide)
-		recursive_mergeSort(list, left, mid); // 앞쪽 부분 리스트 정렬 -정복(Conquer)
+		mid = (left + right) / 2; // 중간 위치를 계산하여 리스트를 균등 분할 
+		recursive_mergeSort(list, left, mid); // 앞쪽 부분 리스트 정렬
 		
-		recursive_mergeSort(list, mid + 1, right); // 뒤쪽 부분 리스트 정렬 -정복(Conquer)
+		recursive_mergeSort(list, mid + 1, right); // 뒤쪽 부분 리스트 정렬
 		
-		merge(list, left, mid, right); // 정렬된 2개의 부분 배열을 합병하는 과정 -결합(Combine)
+		merge(list, left, mid, right); // 정렬된 2개의 부분 배열을 합병하는 과정
 	}
 }
 int min(int x, int y)
@@ -103,7 +103,7 @@ int main()
 	recursive_mergeSort(list, 0, size - 1);
 
 	cout << "Start iterative merge Sort..." << endl;
-	printArray(copy_list);
+
 	iterative_mergeSort(copy_list,0,size-1);
 	
 	
