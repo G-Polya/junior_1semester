@@ -150,7 +150,7 @@ public class week4_assignment
 		
 		make_matrix(size);
 		System.out.println();
-		zigzag_matrix(6);
+		zigzag_matrix(size);
 		System.out.println();
 		zigzag_NoArray(size);
 		System.out.println();
