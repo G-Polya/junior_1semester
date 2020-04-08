@@ -1,55 +1,45 @@
 // 2016112158 김희수
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
+// Map 표현
+// right: 오른쪽 간선의 weight
+// down: 아래 간선의 weight
 typedef struct Map
 {
 	int right;
 	int down;
 } Map;
 
-void get_path(Map map[][5])
+// find path greedily
+void get_path_greedy(Map map[][5])
 {
-	int current_x = 0;
-	int current_y = 0;
-	Map current_loc = map[current_y][current_x];
 	
-	cout << current_loc.right << " " << current_loc.down << endl;
+	int col = 0;
+	int row = 0;
+	cout << "Start Point: Map[" << row << "][" << col << "]" << endl;
 
-	if (current_loc.right >= current_loc.down)
-	{
-		current_x += 1;
-		current_loc = map[current_y][current_x];
-	}
-	else
-		current_loc = map[++current_y][current_x];
+	Map current_loc = map[col][row];	// 현재 위치
 	
-
-	cout << current_x<< " " << current_y << endl;
-
-	if (current_loc.right >= current_loc.down)
+	
+	for (int i = 0; i < 8; i++)					
 	{
-		current_x += 1;
-		current_loc = map[current_y][current_x];
+		if (current_loc.right >= current_loc.down)
+		{
+			current_loc = map[col][++row];
+			
+		}
+		else
+		{
+			current_loc = map[++col][row];	
+		}
+
+		cout << "Map["<<row << "][" << col <<"]"<< endl;
 	}
-	else
-		current_loc = map[++current_y][current_x];
-
-	cout << current_x << " " << current_y << endl;
-
-	cout << current_x<< " " << current_y << endl;
-
-	if (current_loc.right >= current_loc.down)
-	{
-		current_x += 1;
-		current_loc = map[current_y][current_x];
-	}
-	else
-		current_loc = map[++current_y][current_x];
-
-	cout << current_x << " " << current_y << endl;
-
+	
+	
 }
 
 
@@ -62,7 +52,7 @@ int main()
 	  { {3,5}, {3,6}, {0,8}, {2,5}, {0,3} },
 	  { {1,0}, {3,0}, {2,0} ,{2,0}, {0,0} } };
 
-	get_path(map);
+	get_path_greedy(map);
 
-
+	return 0;
 }
