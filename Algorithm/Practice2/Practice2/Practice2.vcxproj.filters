@@ -15,6 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="문제3_vector.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="문제3_stack.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="문제3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
