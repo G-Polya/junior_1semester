@@ -13,7 +13,7 @@ using namespace std;
 
 
 // swap function
-void swap(int &a, int &b)
+void swap(int& a, int& b)
 {
 	int temp;
 	temp = a;
@@ -30,10 +30,10 @@ void bubbleSort(vector<int>& arr, int size)
 
 	for (int i = 0; i < size - 1; i++)		// 0부터 arr의 길이-1까지
 		if (arr[i] < arr[i + 1])			// 앞에 있는 원소가 더 크면
-			swap(arr[i], arr[i+1]);			// 스왑한다
+			swap(arr[i], arr[i + 1]);			// 스왑한다
 	for (int i = 0; i < size - 1; i++)
 		if (arr[i] < arr[i + 1])
-			swap(arr[i], arr[i+1]);
+			swap(arr[i], arr[i + 1]);
 
 	bubbleSort(arr, size - 1);
 }
@@ -54,7 +54,7 @@ int partition(vector<int>& arr, int low, int high)
 			j--;
 
 		if (i <= j)
-	{
+		{
 			swap(arr[i], arr[j]);
 			i++;
 			j--;
@@ -64,12 +64,13 @@ int partition(vector<int>& arr, int low, int high)
 
 }
 
+
 // quick sort
 void quickSort(vector<int>& arr)
 {
 	int low = 0;
 	int high = arr.size() - 1;
-	
+
 	int* stk = new int[high - low + 1];
 	int top = -1;
 
@@ -93,6 +94,7 @@ void quickSort(vector<int>& arr)
 		if (pivot + 1 < high)
 		{
 			stk[++top] = pivot + 1;
+			stk[++top] = high;
 		}
 
 	}
@@ -114,20 +116,20 @@ void printArray(vector<int> arr)
 int main()
 {
 	srand((unsigned int)time(NULL));			// random시드 설정
-	
+
 	vector<int> N;
 	N.reserve(10);
 
 	vector<int> copy_N;
 	copy_N.reserve(N.capacity());
-	
+
 	for (int i = 0; i < N.capacity(); i++)
 		N.push_back(rand() % 10000 + 1);
-	
+
 	copy_N = N;
 
 
-	
+
 	vector<int> K;								// 버블정렬룡 배열
 	K.reserve(1000);
 	for (int i = 0; i < K.capacity(); i++)
@@ -145,7 +147,7 @@ int main()
 	printArray(N);
 	cout << endl;
 
-	
+
 
 	// 3-3
 	cout << "Copied array N: ";
@@ -154,7 +156,7 @@ int main()
 	quickSort(copy_N);
 	printArray(copy_N);
 	cout << endl;
-	
+
 
 	cout << "================================\n" << endl;
 
@@ -163,15 +165,15 @@ int main()
 	bubbleSort(K, K.size());
 	chrono::steady_clock::time_point bubble_end = chrono::steady_clock::now();
 	auto bubble_elapsed_time = chrono::duration_cast<chrono::microseconds>(bubble_end - bubble_begin).count();
-	
+
 	chrono::steady_clock::time_point quick_begin = chrono::steady_clock::now();
 	quickSort(copy_K);
 	chrono::steady_clock::time_point quick_end = chrono::steady_clock::now();
 	auto quick_elapsed_time = chrono::duration_cast<chrono::microseconds>(quick_end - quick_begin).count();
 
-	
-	cout << "Elapsed time of Bubble sort: " << bubble_elapsed_time<<" us"<< endl;
-	cout << "Elapsed time of Quick sort: " << quick_elapsed_time <<" us" <<endl;
+
+	cout << "Elapsed time of Bubble sort: " << bubble_elapsed_time << " us" << endl;
+	cout << "Elapsed time of Quick sort: " << quick_elapsed_time << " us" << endl;
 
 
 	return 0;
