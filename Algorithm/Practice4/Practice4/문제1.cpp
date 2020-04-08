@@ -28,28 +28,27 @@ int Minimum(vector<int> arr)
 }
 
 // arr : 입력 배열
-// min : arr에 저장될 수 있는 값중에서 최소값 여기선 1~100000이므로 1
-// max : arr에 저장될 수 있는 값중에서 최대값 여기선 1~100000이므로 100000
-void FindMinMax(vector<int> arr, int& min, int& max)
+void FindMinMax(vector<int> arr)
 {
-	min = arr[0], max = arr[0];
-	for (int i = 1; i < arr.size() - 1; i += 2)
+	
+	int min = arr[0], max = arr[0];
+	for (int i = 1; i < arr.size() - 1; i += 2)		// (n-1)/2
 	{
 		int small, large;
-		if (arr[i] < arr[i + 1])
+		if (arr[i] < arr[i + 1])		// i번째 원소가 i+1번쨰보다 작으면 
 		{
 			small = arr[i];
-			large = arr[i + 1];
+			large = arr[i + 1];				
 		}
-		else
+		else                           // 크면
 		{
 			small = arr[i + 1];
 			large = arr[i];
 		}
 
-		if (small < min)
+		if (small < min)		// small이 min보다 작으면 small이 새로운 min이 된다
 			min = small;
-		if (large > max)
+		if (large > max)		// larger가 max보다 크면 large가 새로운 max가 된다
 			max = large;
 	}
 
@@ -61,16 +60,19 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 	
+	// 배열 초기화
 	vector<int> arr;
 	arr.reserve(1000);
 	for (int i = 0; i < arr.capacity(); i++)
 		arr.push_back(rand() % 100000 + 1);
 
-	cout<< Maximum(arr)<<endl;
-	cout << Minimum(arr) << endl;
+	cout<< "Maximum function: "<< Maximum(arr)<<endl;
+	cout << "Minimum function: "<< Minimum(arr) << endl;
 
-	int min = 1;
-	int max = 100000;
+	cout << endl;
 
-	FindMinMax(arr, min,max);
+	cout << "Reuslt of FindMinMax: " << endl;
+	FindMinMax(arr);
+
+	return 0;
 }
