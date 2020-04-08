@@ -27,6 +27,9 @@ int Minimum(vector<int> arr)
 	return temp;
 }
 
+// arr : 입력 배열
+// min : arr에 저장될 수 있는 값중에서 최소값 여기선 1~100000이므로 1
+// max : arr에 저장될 수 있는 값중에서 최대값 여기선 1~100000이므로 100000
 void FindMinMax(vector<int> arr, int& min, int& max)
 {
 	min = arr[0], max = arr[0];
