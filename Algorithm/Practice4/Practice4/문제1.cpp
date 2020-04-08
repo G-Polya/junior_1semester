@@ -9,7 +9,7 @@ int Maximum(vector<int> arr)
 {
 	int temp = arr[0];						// temp에 arr의 첫번째 원소 저장
 	for (int i = 1; i < arr.size(); i++)	// arr의 모든 원소에 대해서
-		if (temp < arr[i])					
+		if (temp < arr[i])
 			temp = arr[i];					// 그 원소가 temp보다 크다면 그 원소를 temp에 저장. 
 
 	return temp;
@@ -56,22 +56,22 @@ void FindMinMax(vector<int> arr)
 }
 
 
-
 int main()
 {
 	srand((unsigned int)time(NULL));
-	
+
+	// 배열 초기화
 	vector<int> arr;
 	arr.reserve(1000);
 	for (int i = 0; i < arr.capacity(); i++)
-		arr.push_back(rand() % 100000 + 1);
+		arr.push_back((rand()<<15) % 100000 + 1);
 
-	cout<< Maximum(arr)<<endl;
-	cout << Minimum(arr) << endl;
+	cout << "Maximum function: " << Maximum(arr) << endl;
+	cout << "Minimum function: " << Minimum(arr) << endl;
 
-	int min = 1;
-	int max = 100000;
+	cout << endl;
 
+	cout << "Reuslt of FindMinMax: " << endl;
 	FindMinMax(arr);
 
 	return 0;
