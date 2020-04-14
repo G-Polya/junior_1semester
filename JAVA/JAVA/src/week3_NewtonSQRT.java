@@ -1,4 +1,5 @@
 
+
 public class week3_NewtonSQRT
 {
 	static double Newton_Method_SQRT(double X, int ntimes)

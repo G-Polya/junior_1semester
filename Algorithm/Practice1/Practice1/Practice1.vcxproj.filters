@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="문제2.cpp">
+    <ClCompile Include="문제1_누적평균.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
