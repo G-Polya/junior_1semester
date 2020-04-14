@@ -1,5 +1,5 @@
 
-public class week3_assignment 
+public class week3_NewtonSQRT
 {
 	static double Newton_Method_SQRT(double X, int ntimes)
 	{
@@ -31,5 +31,4 @@ public class week3_assignment
 			System.out.println();
 		}
 	}
-
 }
