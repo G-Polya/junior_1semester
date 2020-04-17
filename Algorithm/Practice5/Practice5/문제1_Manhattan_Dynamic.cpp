@@ -20,18 +20,31 @@ void print_Grid(Map map[][5])
 	int grid[5][5];
 	grid[0][0] = 0;
 
+	// 0번째 row 초기화
 	for (int j = 1; j < 5; j++)
 	{
 		int temp = j - 1;
 		grid[0][j] = grid[0][temp] + map[0][temp].right;
 	}
 
+	// 0번째 column 초기화
 	for (int i = 1; i < 5; i++)
 	{
 		int temp = i - 1;
 		grid[i][0] = grid[temp][0] + map[temp][0].down;
 	}
 	
+	for (int i = 1; i < 5; i++)
+		for (int j = 1; j < 5; j++)
+		{
+			int i_temp = i - 1;
+			int j_temp = j - 1;
+			
+			if (grid[i][j_temp] + map[i][j_temp].right > grid[i_temp][j] + map[i_temp][j].down)
+				grid[i][j] = grid[i][j_temp] + map[i][j_temp].right;
+			else
+				grid[i][j] = grid[i_temp][j] + map[i_temp][j].down;
+		}
 
 
 
