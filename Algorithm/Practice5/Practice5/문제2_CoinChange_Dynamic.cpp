@@ -2,72 +2,55 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
-#include <map>
+
 
 using namespace std;
 
-void printArray(vector<int> arr)
-{
-	for (int i = 0; i < arr.size(); i++)
-		cout << setw(5)<<arr[i];
-	cout << endl;
-}
 
 // 최소의 동전 개수 반환
-int minCoins(vector<int> coins, int amount)
+void minCoins(vector<int> coins, int amount)
 {
-	// base
-	if (amount == 0)
-		return 0;
+	int* table = new int[amount + 1];	// 동전의 최소개수를 저장할 배열 table
+	table[0] = 0;	// amount =0 일떄
 
-	int res = INT_MAX;
+	for (int i = 1; i <= amount; i++)		// table의 배열의 값들을 초기화
+		table[i] = INT_MAX;
 
-	for (int i = 0; i < coins.size(); i++)				
+	for (int i = 1 ; i <= amount; i++)		//예를 들어 1~11에 대해
 	{
-		if (coins[i] <= amount)
+		for (int j = 0; j < coins.size(); j++)		// 코인의 종류 모두에 대해서.. 1,4,7에 대해
 		{
-			int sub_res = minCoins(coins, amount - coins[i]);
-		
-			if (sub_res != INT_MAX && sub_res + 1 < res)
-				res = sub_res + 1;
+			if (coins[j] <= i)		// 현재 코인이 작으면 다음을 수행. 수업시간에 설명했던 내용. 1~11을 키로 갖는 표가 나오면서 value로는 1,2,1,2,1...이렇게 갖게 되는 과정
+			{
+				int sub_res = table[i - coins[j]];	
+				if (sub_res != INT_MAX && sub_res + 1 < table[i])	
+					table[i] = sub_res + 1;
+			}
 		}
 	}
 
-	return res;
-}
-
-void Dynamic_CoinChange(vector<int> arr, int amount)
-{
-	// 1~11을 key로 갖는 딕셔너리 생성, 초기화
-	map<int, int> amount_dict;
-	for (int i = 1; i < amount + 1; i++)
-	{
-		amount_dict.insert(make_pair(i, minCoins(arr, i)));
-	}
-	
-
 
 	// 출력
-	cout << "Keys:  ";
-	for (auto it = amount_dict.begin(); it != amount_dict.end(); it++)
-	{
-		cout << setw(3)<<it->first << " " ;
-	}
+	cout << "Keys:   ";
+	for (int i = 1; i < amount + 1; i++)
+		cout << setw(5) << i;
+
+	cout << "\nValues: ";
+	for (int i = 1; i < amount + 1; i++)
+		cout << setw(5) << table[i];
 	cout << endl;
-	cout << "Values:";
-	for (auto it = amount_dict.begin(); it != amount_dict.end(); it++)
-	{
-		cout<< setw(3) << it->second << " ";
-	}
-	cout << endl;
-	
+
+	delete table;
 }
+
+
 
 int main()
 {
 	vector<int> coins = { 1,4,7 };
 	int amount = 11;
 
+	minCoins(coins, amount);
 	
-	Dynamic_CoinChange(coins, amount);
+	return 0;
 }
