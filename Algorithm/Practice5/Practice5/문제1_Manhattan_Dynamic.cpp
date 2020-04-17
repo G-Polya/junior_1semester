@@ -38,13 +38,13 @@ void print_Grid(Map map[][5])
 	for (int i = 1; i < 5; i++)
 		for (int j = 1; j < 5; j++)
 		{
-			int i_temp = i - 1;		// 위쪽의 노드 인덱스
-			int j_temp = j - 1;		// 왼쪽의 노드 인덱스
+			int i_before = i - 1;		// 위쪽의 노드 인덱스
+			int j_before = j - 1;		// 왼쪽의 노드 인덱스
 			
-			if (grid[i][j_temp] + map[i][j_temp].right > grid[i_temp][j] + map[i_temp][j].down)	// 왼쪽 노드 값 + weight > 위쪽 노드 값 + weight라면  
-				grid[i][j] = grid[i][j_temp] + map[i][j_temp].right;							// 왼쪽 노드 값 + 
+			if (grid[i][j_before] + map[i][j_before].right > grid[i_before][j] + map[i_before][j].down)	// 왼쪽 노드 값 + weight > 위쪽 노드 값 + weight라면  
+				grid[i][j] = grid[i][j_before] + map[i][j_before].right;							// 왼쪽 노드 값 + weight를 현재 노드의 값으로 설정
 			else
-				grid[i][j] = grid[i_temp][j] + map[i_temp][j].down;								// 위의 반대
+				grid[i][j] = grid[i_before][j] + map[i_before][j].down;								// 위의 반대
 		}
 
 
