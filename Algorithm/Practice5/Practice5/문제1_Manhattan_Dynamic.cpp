@@ -34,20 +34,21 @@ void print_Grid(Map map[][5])
 		grid[i][0] = grid[temp][0] + map[temp][0].down;
 	}
 	
+	// 0행의 값들, 0행의 값들 그리고 간선의 weight를 가져서 남은 노드들의 값을 정한다
 	for (int i = 1; i < 5; i++)
 		for (int j = 1; j < 5; j++)
 		{
-			int i_temp = i - 1;
-			int j_temp = j - 1;
+			int i_temp = i - 1;		// 위쪽의 노드 인덱스
+			int j_temp = j - 1;		// 왼쪽의 노드 인덱스
 			
-			if (grid[i][j_temp] + map[i][j_temp].right > grid[i_temp][j] + map[i_temp][j].down)
-				grid[i][j] = grid[i][j_temp] + map[i][j_temp].right;
+			if (grid[i][j_temp] + map[i][j_temp].right > grid[i_temp][j] + map[i_temp][j].down)	// 왼쪽 노드 값 + weight > 위쪽 노드 값 + weight라면  
+				grid[i][j] = grid[i][j_temp] + map[i][j_temp].right;							// 왼쪽 노드 값 + 
 			else
-				grid[i][j] = grid[i_temp][j] + map[i_temp][j].down;
+				grid[i][j] = grid[i_temp][j] + map[i_temp][j].down;								// 위의 반대
 		}
 
 
-
+	// 출력
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
