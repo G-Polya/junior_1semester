@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip>
 using namespace std;
 
 
@@ -45,34 +46,24 @@ node* treeSearch(node* head, int xkey)
 // 이진 탐색 트리 키삽입
 // head : 키를 삽입할 트리
 // xkey : 삽입될 키
-void treeInsert(node* head, int xkey)
+node* treeInsert(node* root, int xkey)
 {
-	node* p, * t;
-	p = head;
-	t = p -> r;
-
-	while (t != NULL)	// 삽입할 위치 찾기. 부모노드 p 찾기
+	if (root == NULL)
 	{
-		p = t;
-		if (xkey == t->key)
-			return;
-		else if (xkey < t->key)
-			t = t->l;
+		root = new node;
+		root->l = root->r = NULL;
+		root->key = xkey;
+		return root;
+	}
+	else
+	{
+		if (root->key > xkey)
+			root->l = treeInsert(root->l, xkey);
 		else
-			t = t->r;
+			root->r = treeInsert(root->r, xkey);
 	}
 
-	// 삽입할 노드 생성
-	t = new node;
-	t->key = xkey;
-	t->l = NULL;
-	t->r = NULL;
-	
-	// 부모 노드의 키값과 비교후 작으면 왼쪽, 크면 오른쪽에 삽입
-	if (xkey < p->key)
-		p->l = t;
-	else
-		p->r = t;
+	return root;
 }
 
 // 이진탐색트리에서 키삭제
@@ -121,7 +112,49 @@ void treeDel(node* head, int xkey)
 
 }
 
-void printTree();
+// 트리의 높이를 구하는 함수
+int getHeight(node* tree)
+{
+	if (tree)
+	{
+		int lheight = getHeight(tree->l);
+		int rheight = getHeight(tree->r);
+		if (lheight > rheight)
+			return lheight + 1;
+		else
+			return rheight + 1;
+	}
+	return -1;
+}
+
+void padding(char ch, int n)
+{
+	for (int i = 0; i < n; i++)
+		putchar(ch);
+}
+
+#define pow2(n) (1 << (n))
+void displayTree(node* root)
+{
+	node** row1, ** row2, ** rowtemp;
+	int rows, row, col;
+
+	if (root == NULL)
+		return;
+
+	rows = getHeight(root);
+	row1 = new node*[pow2(rows)];
+	row2 = new node * [pow2(rows];
+	row1[0] = root;
+
+	for (row = 0; row < rows; row++)
+	{
+		int col2 = 0, cols = pow2(row);
+		cout << pow2(rows - (row + 1));
+
+
+	}
+}
 
 
 int main()
@@ -133,7 +166,7 @@ int main()
 	cout << "Q     : Quit the test program" << endl;
 	bool flag = true;
 
-	node* bst = treeInit();
+	node* root = NULL;
 
 	while (flag)
 	{
@@ -146,7 +179,8 @@ int main()
 		{
 		case '+':
 			cout << "inert : key = " << key << endl;
-			
+			root = treeInsert(root, key);
+			displayTree(root);
 			break;
 		case '-':
 			cout << "-" << endl;
@@ -158,5 +192,5 @@ int main()
 		}
 	}
 
-	ㅊㅁㄴㅇ
+	
 }
