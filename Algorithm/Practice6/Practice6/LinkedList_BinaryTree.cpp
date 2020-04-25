@@ -69,7 +69,7 @@ node* treeInsert(node* root, int xkey)
 // 이진탐색트리에서 키삭제
 // head : 키를 삭제할 트리
 // xkey : 삭제될 키
-void treeDel(node* head, int xkey)
+node* treeDel(node* head, int xkey)
 {
 	node* p, * c, * t, * x;
 	p = head;
@@ -78,7 +78,7 @@ void treeDel(node* head, int xkey)
 	
 
 	if (x == NULL)
-		return;
+		return NULL;
 	else
 		t = x;
 
@@ -109,52 +109,35 @@ void treeDel(node* head, int xkey)
 	else
 		p->r = x;
 
+	return t;
 
 }
 
-// 트리의 높이를 구하는 함수
-int getHeight(node* tree)
+#define COUNT 5
+void print2DUtil(node* root, int space)
 {
-	if (tree)
-	{
-		int lheight = getHeight(tree->l);
-		int rheight = getHeight(tree->r);
-		if (lheight > rheight)
-			return lheight + 1;
-		else
-			return rheight + 1;
-	}
-	return -1;
-}
-
-void padding(char ch, int n)
-{
-	for (int i = 0; i < n; i++)
-		putchar(ch);
-}
-
-#define pow2(n) (1 << (n))
-void displayTree(node* root)
-{
-	node** row1, ** row2, ** rowtemp;
-	int rows, row, col;
-
+	// base case of recursion
 	if (root == NULL)
 		return;
 
-	rows = getHeight(root);
-	row1 = new node*[pow2(rows)];
-	row2 = new node * [pow2(rows];
-	row1[0] = root;
+	// 계층간의 거리 증가
+	space += COUNT;
 
-	for (row = 0; row < rows; row++)
-	{
-		int col2 = 0, cols = pow2(row);
-		cout << pow2(rows - (row + 1));
+	// 오른쪽 자식노드에 대해서 먼저 수행
+	print2DUtil(root->r, space);
+
+	cout << endl;
+	for (int i = COUNT; i < space; i++)
+		cout << "  ";
+	cout << root->key << "\n";
+
+	// 왼쪽 자식 수행
+	print2DUtil(root->l, space);
 
 
-	}
 }
+
+
 
 
 int main()
@@ -166,7 +149,7 @@ int main()
 	cout << "Q     : Quit the test program" << endl;
 	bool flag = true;
 
-	node* root = NULL;
+	node* root = treeInit();
 
 	while (flag)
 	{
@@ -178,13 +161,21 @@ int main()
 		switch (command)
 		{
 		case '+':
-			cout << "inert : key = " << key << endl;
+			cout << "insert : key = " << key << endl;
 			root = treeInsert(root, key);
-			displayTree(root);
+			print2DUtil(root, 0);
 			break;
 		case '-':
-			cout << "-" << endl;
+			root = treeDel(root, key);
+			print2DUtil(root,0);
 			break;
+		case '?':
+		{
+			node* retreived = treeSearch(root, key);
+			cout << "left child is " << retreived->l->key << endl;
+			cout << "right child is " << retreived->r->key << endl;
+			break; 
+		}
 		case 'Q':
 			cout << "Quit" << endl;
 			flag = false;
