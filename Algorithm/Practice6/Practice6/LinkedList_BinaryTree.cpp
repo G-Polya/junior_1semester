@@ -166,10 +166,11 @@ int main()
 		string input;
 		cout << "Command: ";
 		cin >> input;
-		char command = input.c_str()[0];
-		int key;
+		char command = input.c_str()[0];	// +, -, ?, Q ¼±ÅÃ
+		int key;							// key°ª
 		if (input.size() > 1)
 			key = stoi(input.substr(1, input.length()));
+		
 		
 		switch (command)
 		{
@@ -183,20 +184,21 @@ int main()
 			print2DUtil(root,0);
 			break;
 		case '?':
+		{
 			cout << "Retrieved : key = " << key << endl;
-			root = treeSearch(root, key);
-			
-			if (root->l != NULL)
-				cout << "left child is " << root->l->key << endl;
-			else 
+			node* temp = treeSearch(root, key);
+
+			if (temp->l != NULL)
+				cout << "left child is " << temp->l->key << endl;
+			else
 				cout << "left child is none" << endl;
-			
-			if (root->r != NULL)
-				cout << "right child is " << root->r->key << endl;
+
+			if (temp->r != NULL)
+				cout << "right child is " << temp->r->key << endl;
 			else
 				cout << "right child is none" << endl;
 			break;
-			
+		}
 		case 'Q':
 			cout << "Quit" << endl;
 			flag = false;
