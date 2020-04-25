@@ -17,7 +17,7 @@ typedef struct node
 node* treeInit()
 {
 	node* t, *head;
-	head = new node;
+	head = new node();
 	head->l = NULL;
 	head->r = NULL;
 	head->key = 0;
