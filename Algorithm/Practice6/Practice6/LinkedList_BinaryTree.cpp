@@ -1,3 +1,4 @@
+// 2016112158 김희수
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -40,7 +41,7 @@ node* treeSearch(node* head, int xkey)
 		if (xkey > t->key)	// 찾고자하는 키가 현재키보다 크면 오른쪽에서 탐색
 			t = t->r;
 	}
-	return NULL;
+	return t;
 }
 
 // 이진 탐색 트리 키삽입
@@ -48,9 +49,10 @@ node* treeSearch(node* head, int xkey)
 // xkey : 삽입될 키
 node* treeInsert(node* root, int xkey)
 {
+	// root가 시작이면
 	if (root == NULL)
 	{
-		root = new node;
+		root = new node();
 		root->l = root->r = NULL;
 		root->key = xkey;
 		return root;
@@ -66,51 +68,59 @@ node* treeInsert(node* root, int xkey)
 	return root;
 }
 
+// 트리에서 가장작은 키값을 찾는 함수
+node* minValueNode(node* root)
+{
+	node* current = root;
+
+	while (current && current->l != NULL)
+		current = current->l;
+
+	return current;
+}
+
 // 이진탐색트리에서 키삭제
 // head : 키를 삭제할 트리
 // xkey : 삭제될 키
-node* treeDel(node* head, int xkey)
+node* treeDel(node* root, int key)
 {
-	node* p, * c, * t, * x;
-	p = head;
-	x = head->r;
-	x = treeSearch(x, xkey);		// xkey와 동일한 key를 갖는 노드 x찾기
-	
+	// base case of recusrion
+	if (root == NULL)
+		return root;
 
-	if (x == NULL)
-		return NULL;
+	// 지우려는 키가 root의 키보다 작을때
+	// 지우려는 키는 왼쪽 서브트리에 위치한다
+	if (key < root->key)
+		root->l = treeDel(root->l, key);
+
+	// 지우려는 키가 root의 키보다 클때
+	// 지우려는 키는 오른쪽 서브트리에 위치한다
+	else if (key > root->key)
+		root->r = treeDel(root->r, key);
 	else
-		t = x;
-
-	if (t->r == NULL)		// 오른쪽 자식이 없는 경우
-		x = t->l;			
-	else if (t->r->l == NULL)	// 오른쪽자식의 왼쪽자식이 없는경우
 	{
-		x = t->r;
-		x->l = t->l;
+		// 자식노드가 없거나 하나만 있는 경우
+		if (root->l == NULL)
+		{
+			node* temp = root->r;
+			free(root);
+			return temp;
+		}
+		else if (root->r == NULL)
+		{
+			node* temp = root->l;
+			free(root);
+			return temp;
+		}
+
+		// 자식 노드가 두개 모두 있는 경우
+		node* temp = minValueNode(root->r);
+		root->key = temp->key;
+
+		root->r = treeDel(root->r, temp->key);
 	}
-	else                     // 그 외 나머지 경우
-	{
-		c = x->r;
-		while (c->l->l = NULL)
-			c = c->l;
-		
-		x = c->l;
-		c->l = x->r;
-		x->l = t->l;
-		x->r = t->r;
-	}
 
-	delete t;
-
-	// 부모노드의 링크조정
-	if (xkey < p->key)
-		p->l = x;
-	else
-		p->r = x;
-
-	return t;
-
+	return root;
 }
 
 #define COUNT 5
@@ -157,7 +167,10 @@ int main()
 		cout << "Command: ";
 		cin >> input;
 		char command = input.c_str()[0];
-		int key = stoi(input.substr(1, input.length()));
+		int key;
+		if (input.size() > 1)
+			key = stoi(input.substr(1, input.length()));
+		
 		switch (command)
 		{
 		case '+':
@@ -170,16 +183,24 @@ int main()
 			print2DUtil(root,0);
 			break;
 		case '?':
-		{
-			node* retreived = treeSearch(root, key);
-			cout << "left child is " << retreived->l->key << endl;
-			cout << "right child is " << retreived->r->key << endl;
-			break; 
-		}
+			cout << "Retrieved : key = " << key << endl;
+			root = treeSearch(root, key);
+			
+			if (root->l != NULL)
+				cout << "left child is " << root->l->key << endl;
+			else 
+				cout << "left child is none" << endl;
+			
+			if (root->r != NULL)
+				cout << "right child is " << root->r->key << endl;
+			else
+				cout << "right child is none" << endl;
+			break;
+			
 		case 'Q':
 			cout << "Quit" << endl;
 			flag = false;
-			break;
+			
 		}
 	}
 
