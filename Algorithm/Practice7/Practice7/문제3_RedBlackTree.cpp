@@ -37,32 +37,17 @@ public:
 	// Constructor 
 	RBTree() { root = NULL; }
 	void insert(const int& n);
-	void inorder();
-	void levelOrder();
 	void print2DUtil(Node*, int space);
 	void print2D(int space);
 };
 
-// A recursive function to do level order traversal 
-void inorderHelper(Node* root)
-{
-	if (root == NULL)
-		return;
 
-	inorderHelper(root->left);
-	cout << root->data << "  ";
-	inorderHelper(root->right);
-}
-
-/* A utility function to insert a new node with given key
-   in BST */
+// 이진검색트리 삽입
 Node* BSTInsert(Node* root, Node* pt)
 {
-	/* If the tree is empty, return a new node */
 	if (root == NULL)
 		return pt;
 
-	/* Otherwise, recur down the tree */
 	if (pt->data < root->data)
 	{
 		root->left = BSTInsert(root->left, pt);
@@ -74,32 +59,10 @@ Node* BSTInsert(Node* root, Node* pt)
 		root->right->parent = root;
 	}
 
-	/* return the (unchanged) node pointer */
+	
 	return root;
 }
 
-// Utility function to do level order traversal 
-void levelOrderHelper(Node* root)
-{
-	if (root == NULL)
-		return;
-
-	std::queue<Node*> q;
-	q.push(root);
-
-	while (!q.empty())
-	{
-		Node* temp = q.front();
-		cout << temp->data << "  ";
-		q.pop();
-
-		if (temp->left != NULL)
-			q.push(temp->left);
-
-		if (temp->right != NULL)
-			q.push(temp->right);
-	}
-}
 
 void RBTree::print2DUtil(Node* root, int space)
 {
@@ -129,30 +92,32 @@ void RBTree::print2D(int space)
 	print2DUtil(this->root, space);
 }
 
+// 노드 pt쪽으로 좌회전
 void RBTree::rotateLeft(Node*& root, Node*& pt)
 {
-	Node* pt_right = pt->right;
+	Node* y = pt->right;	// y설정
 
-	pt->right = pt_right->left;
+	pt->right = y->left;	 // y의 왼쪽 서브트리를 pt의 오른쪽 서브트리로 옮김
 
 	if (pt->right != NULL)
 		pt->right->parent = pt;
 
-	pt_right->parent = pt->parent;
+	y->parent = pt->parent;	// x의 부모를 y로 연결
 
 	if (pt->parent == NULL)
-		root = pt_right;
+		root = y;
 
 	else if (pt == pt->parent->left)
-		pt->parent->left = pt_right;
+		pt->parent->left = y;
 
 	else
-		pt->parent->right = pt_right;
+		pt->parent->right = y;
 
-	pt_right->left = pt;
-	pt->parent = pt_right;
+	y->left = pt;
+	pt->parent = y;
 }
 
+// 노드 pt쪽으로 우회전. 좌회전의 반대
 void RBTree::rotateRight(Node*& root, Node*& pt)
 {
 	Node* pt_left = pt->left;
@@ -177,11 +142,11 @@ void RBTree::rotateRight(Node*& root, Node*& pt)
 	pt->parent = pt_left;
 }
 
-// This function fixes violations caused by BST insertion 
+// 레드블랙트리의 특성유지를 위한 함수
 void RBTree::fixViolation(Node*& root, Node*& pt)
 {
-	Node* parent_pt = NULL;
-	Node* grand_parent_pt = NULL;
+	Node* parent_pt = NULL;				// 부모 노드
+	Node* grand_parent_pt = NULL;		// 조부모 노드
 
 	while ((pt != root) && (pt->color != BLACK) &&
 		(pt->parent->color == RED))
@@ -190,54 +155,44 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 		parent_pt = pt->parent;
 		grand_parent_pt = pt->parent->parent;
 
-		/*  Case : A
-			Parent of pt is left child of Grand-parent of pt */
+		// 부모노드가 조부모노드의 왼쪽 자식인 경우
 		if (parent_pt == grand_parent_pt->left)
 		{
 
-			Node* uncle_pt = grand_parent_pt->right;
+			Node* uncle_pt = grand_parent_pt->right;	// 삼촌 노드
 
-			/* Case : 1
-			   The uncle of pt is also red
-			   Only Recoloring required */
+			// case 1: 삽입하려는 노드 pt의 삼촌 uncle_pt가 적색인 경우
 			if (uncle_pt != NULL && uncle_pt->color == RED)
 			{
-				grand_parent_pt->color = RED;
-				parent_pt->color = BLACK;
+				grand_parent_pt->color = RED;	// 조부모를 red로
+				parent_pt->color = BLACK;		// 부모와 삼촌은 red로
 				uncle_pt->color = BLACK;
-				pt = grand_parent_pt;
+				pt = grand_parent_pt;			// 조부모를 새로운 pt로 설정해서 while루프 반복
 			}
 
 			else
 			{
-				/* Case : 2
-				   pt is right child of its parent
-				   Left-rotation required */
+				// case 2: pt의 삼촌 uncle_pt가 흑색이며 pt가 오른쪽 자식인 경우
 				if (pt == parent_pt->right)
 				{
-					rotateLeft(root, parent_pt);
-					pt = parent_pt;
+					rotateLeft(root, parent_pt);	// 좌회전 후,
+					pt = parent_pt;					// pt를 부모노드로 재설정.. 부모노드는 조부모노드로 재설정된다
 					parent_pt = pt->parent;
 				}
 
-				/* Case : 3
-				   pt is left child of its parent
-				   Right-rotation required */
-				rotateRight(root, grand_parent_pt);
-				swap(parent_pt->color, grand_parent_pt->color);
+				// case 3: pt의 삼촌 uncle_pt가 흑색이며 pt가 왼쪽 자식인 경우
+				rotateRight(root, grand_parent_pt);		// 조부모 노드 쪽으로 우회전을 수행하고
+				swap(parent_pt->color, grand_parent_pt->color);	// pt부모와 조부모 노드들의 색을 바꿔줌
 				pt = parent_pt;
 			}
 		}
 
-		/* Case : B
-		   Parent of pt is right child of Grand-parent of pt */
+		// 부모노드가 조부모노드이 오른쪽 자식인 경우 >> 왼쪽 자식인 경우에서 right와 left를 바꾼 경우와 같다
 		else
 		{
 			Node* uncle_pt = grand_parent_pt->left;
 
-			/*  Case : 1
-				The uncle of pt is also red
-				Only Recoloring required */
+			// case 1
 			if ((uncle_pt != NULL) && (uncle_pt->color == RED))
 			{
 				grand_parent_pt->color = RED;
@@ -247,9 +202,7 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 			}
 			else
 			{
-				/* Case : 2
-				   pt is left child of its parent
-				   Right-rotation required */
+				// case 2
 				if (pt == parent_pt->left)
 				{
 					rotateRight(root, parent_pt);
@@ -257,9 +210,7 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 					parent_pt = pt->parent;
 				}
 
-				/* Case : 3
-				   pt is right child of its parent
-				   Left-rotation required */
+				// case 3
 				rotateLeft(root, grand_parent_pt);
 				swap(parent_pt->color, grand_parent_pt->color);
 				pt = parent_pt;
@@ -270,23 +221,17 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 	root->color = BLACK;
 }
 
-// Function to insert a new node with given data 
+// 새로운 데이터를 레드블랙트리에 삽입하기 위한 함수
 void RBTree::insert(const int& data)
 {
 	Node* pt = new Node(data);
 
-	// Do a normal BST insert 
+	// 일반적인 이진탐색트리를 만들고
 	root = BSTInsert(root, pt);
 
-	// fix Red Black Tree violations 
+	// 레드 블랙 트리의 특성을 유지하도록 만듦 
 	fixViolation(root, pt);
 }
-
-// Function to do inorder and level order traversals 
-void RBTree::inorder() { inorderHelper(root); }
-void RBTree::levelOrder() { levelOrderHelper(root); }
-
-
 
 
 
