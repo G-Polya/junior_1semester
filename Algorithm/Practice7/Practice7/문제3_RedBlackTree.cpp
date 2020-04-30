@@ -24,7 +24,7 @@ struct Node
 	}
 };
 
-// Class to represent Red-Black Tree 
+// 레드 블랙 트리를 표현하기 위한 클래스 
 class RBTree
 {
 private:
