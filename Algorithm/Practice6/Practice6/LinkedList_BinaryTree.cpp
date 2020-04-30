@@ -45,7 +45,7 @@ node* treeSearch(node* head, int xkey)
 }
 
 // 이진 탐색 트리 키삽입
-// head : 키를 삽입할 트리
+// root : 키를 삽입할 트리
 // xkey : 삽입될 키
 node* treeInsert(node* root, int xkey)
 {
@@ -166,13 +166,13 @@ int main()
 		string input;
 		cout << "Command: ";
 		cin >> input;
-		char command = input.c_str()[0];	// +, -, ?, Q 선택
+		char _operator = input.c_str()[0];	// +, -, ?, Q 선택
 		int key;							// key값
 		if (input.size() > 1)
 			key = stoi(input.substr(1, input.length()));
 		
 		
-		switch (command)
+		switch (_operator)
 		{
 		case '+':
 			cout << "insert : key = " << key << endl;
