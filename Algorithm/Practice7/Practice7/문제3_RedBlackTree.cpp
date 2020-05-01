@@ -102,15 +102,13 @@ void RBTree::rotateLeft(Node*& root, Node*& pt)
 	if (pt->right != NULL)
 		pt->right->parent = pt;
 
-	y->parent = pt->parent;	// x의 부모를 y로 연결
+	y->parent = pt->parent;	// pt의 부모를 y로 연결
 
-	if (pt->parent == NULL)
+	if (pt->parent == NULL)  
 		root = y;
-
-	else if (pt == pt->parent->left)
+	else if (pt == pt->parent->left)   // pt가 pt부모의 왼쪽자식이었으면 pt부모의 왼쪽 자식이 y가 된다
 		pt->parent->left = y;
-
-	else
+	else                              // pt가 pt부모의 오른쪽 자식이었으면 pt부모의 오른쪽 자식이 y가 된다
 		pt->parent->right = y;
 
 	y->left = pt;
@@ -148,8 +146,7 @@ void RBTree::fixViolation(Node*& root, Node*& pt)
 	Node* parent_pt = NULL;				// 부모 노드
 	Node* grand_parent_pt = NULL;		// 조부모 노드
 
-	while ((pt != root) && (pt->color != BLACK) &&
-		(pt->parent->color == RED))
+	while ((pt != root) && (pt->color != BLACK) &&(pt->parent->color == RED))
 	{
 
 		parent_pt = pt->parent;
