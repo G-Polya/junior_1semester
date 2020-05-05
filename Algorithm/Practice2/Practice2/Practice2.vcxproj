@@ -123,10 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="문제1_회문판별.cpp" />
-    <ClCompile Include="문제2_최대공약수.cpp" />
     <ClCompile Include="문제3_퀵소트.cpp" />
-    <ClCompile Include="문제3_vector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
