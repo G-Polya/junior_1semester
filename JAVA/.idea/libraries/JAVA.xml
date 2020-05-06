@@ -2,6 +2,8 @@
   <library name="JAVA">
     <CLASSES>
       <root url="file://$PROJECT_DIR$" />
+      <root url="jar://D:/download/mysql-connector-java-8.0.20/mysql-connector-java-8.0.20.jar!/" />
+      <root url="jar://D:/download/mariadb-java-client-2.6.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
