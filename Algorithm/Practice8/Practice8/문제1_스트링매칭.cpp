@@ -1,10 +1,12 @@
 //2016112158 김희수
+
 #include <iostream>
-#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <chrono>
 #include <algorithm>
-#include <string>
-#include <iterator>
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -19,11 +21,11 @@ void brute_force_matching(string text, string pattern)
 			if (pattern[j] != text[i + j])		// 패턴의 문자와 텍스트의 문자가 같지않으면 break되고 한문자만큼 슬라이드
 				break;
 		if (j == pattern.size())				
-			cout << "패턴이 텍스트의 " << i+1 << "번쨰부터 나타남" << endl;
+			cout << "(Brute-Force) 패턴이 텍스트의 " << i+1 << "번쨰부터 나타남" << endl;
 	}
 }
 
-//https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/
+//
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
 void rabin_karp_matching(string text, string pattern, int q)
 {
@@ -32,28 +34,144 @@ void rabin_karp_matching(string text, string pattern, int q)
 	const int N = text.size();
 	int p = 0;		// pattern을 위한 hash 값
 	int t = 0;		// text를 위한 hash값
-	
-	int h = (int)pow(d, M-1) % q;
+	int i, j;
+	int h = 1;
 
-	// pattern과 text의 첫번째 덩이의 hash 계산 (pattern길이만큼 text를 잘라놓은 거를 '덩이'라고 하겠다.)
-	for (int i = 0; i < M; i++)
+	for (i = 0; i < M - 1; i++)
+		h = (h * d) % q;
+	
+
+	// 호너방법을 통한 p,t계산
+	for (i = 0; i < M; i++)
 	{
 		p = (d * p + pattern[i]) % q;
 		t = (d * t + text[i]) % q;
 	}
 
+	// 하나씩 슬라이드해가며 패턴 찾기
+	for (i = 0; i < N - M + 1; i++)
+	{
 
+		if (p == t)	// hash값이 동일한 경우에 한해 세부 패턴 매칭진행
+		{
+			for (j = 0; j < M; j++)
+				if (text[i + j] != pattern[j])
+					break;
+
+			//p == t이고 pattern[0...M-1] == text[i...i+M-1]이면 
+			if (j == M)
+				cout << "(Rabin-Karp) 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+		}
+		// 점화식을 이용한 다음 t값 계산
+		if (i < N - M)
+		{
+			t = (d * (t - text[i] * h) + text[i + M]) % q;
+
+			if (t < 0)
+				t = t + q;
+		}
+	}
 
 }
 
+void computeSP(string pattern, int SP[])
+{
+	int len = 0;	// 이전에서 가장 길었던 prefix-suffix의 길이
+	int M = pattern.size();
+	SP[0] = 0;
+
+
+
+	// SP[i]를 채우기 위한 계산 1~M-1
+	int i = 1;
+	while (i < M)
+	{
+		if (pattern[i] == pattern[len])
+		{
+			len++;
+			SP[i] = len;
+			i++;
+		}
+		else
+		{
+			if (len != 0)
+				len = SP[len - 1];
+			else
+			{
+				SP[i] = 0;
+				i++;
+			}
+		}
+	}
+}
+
+void KMP_matching(string text, string pattern)
+{
+	int M = pattern.size();
+	int N = text.size();
+
+	int* SP = new int[M];
+	
+	computeSP(pattern, SP);
+
+	int i = 0;	// text를 위한 index
+	int j = 0;  // pattern을 위한 인덱스
+	while (i < N)
+	{
+		if (pattern[j] == text[i])
+		{
+			j++;
+			i++;
+		}
+
+		if (j == M)
+		{
+			cout << "(KMP) 패턴이 텍스트의 " << i -j + 1 << "번쨰부터 나타남" << endl;
+			j = SP[j - 1];
+		}
+		else if (i < N && pattern[j] != text[i])
+		{
+			if (j != 0)
+				j = SP[j - 1];
+			else
+				i = i + 1;
+		}
+	}
+
+	delete SP;
+}
 
 int main()
 {
 	string text;
 	string pattern;
 
-	cout << "text와 pattern 입력 >> ";
-	cin >> text >> pattern;
+	cout << "text 입력 >> ";
+	cin >> text;
+	cout << "pattern 입력 >> ";
+	cin >> pattern;
 	
+	//bruteforce matching
+	chrono::steady_clock::time_point br_start = chrono::steady_clock::now();
 	brute_force_matching(text, pattern);
+	chrono::steady_clock::time_point br_end = chrono::steady_clock::now();
+	auto br_elapsed_time = chrono::duration_cast<chrono::microseconds>(br_end - br_start).count();
+	cout << "Elapsed time of Brute-Force matching : " << br_elapsed_time << endl << endl;
+
+	// Rabin-Karp
+	chrono::steady_clock::time_point rk_start = chrono::steady_clock::now();
+	rabin_karp_matching(text, pattern, 13);
+	chrono::steady_clock::time_point rk_end = chrono::steady_clock::now();
+	auto rk_elapsed_time = chrono::duration_cast<chrono::microseconds>(rk_end - rk_start).count();
+	cout << "Elapsed time of Rabin-Karp mathcing : " << rk_elapsed_time << endl<<endl;
+
+
+	// KMP
+	chrono::steady_clock::time_point kmp_start = chrono::steady_clock::now();
+	KMP_matching(text, pattern);
+	chrono::steady_clock::time_point kmp_end = chrono::steady_clock::now();
+	auto kmp_elapsed_time = chrono::duration_cast<chrono::microseconds>(kmp_end - kmp_start).count();
+	cout << "Elapsed time of KMP mathcing : " << kmp_elapsed_time << endl << endl;
+
+
 }
