@@ -26,21 +26,21 @@ void brute_force_matching(string text, string pattern)
 		if (j == M)
 			cout << "(Brute Force)íŒ¨í„´ì´ í…ìŠ¤íŠ¸ì˜ " << i + 1 << "ë²ˆì¨°ë¶€í„° ë‚˜íƒ€ë‚¨" << endl;
 =======
-// brute force·Î ½ºÆ®¸µ ¸ÅÄª
-// text : ÅØ½ºÆ®, pattern : ÆÐÅÏ
+// brute forceï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Äª
+// text : ï¿½Ø½ï¿½Æ®, pattern : ï¿½ï¿½ï¿½ï¿½
 void brute_force_matching(string text, string pattern)
 {
 	size_t M = pattern.size();
 	size_t N = text.size();
 	cout << "brute foce M " <<M << endl;
-	for (size_t i = 0; i <= N - M; i++)		// ÅØ½ºÆ®Å©±â - ÆÐÅÏÅ©±â¸¸Å­ ¾ÕÀ¸·Î ½½¶óÀÌµå µÉ °Í
+	for (size_t i = 0; i <= N - M; i++)		// ï¿½Ø½ï¿½Æ®Å©ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½Å©ï¿½â¸¸Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ ï¿½ï¿½
 	{
 		size_t j;
-		for (j = 0; j < M; j++)				// ÆÐÅÏÀÇ °¢ ¹®ÀÚ¿¡ ´ëÇØ¼­
-			if (pattern[j] != text[i + j])	// ÆÐÅÏÀÇ ¹®ÀÚ¿Í ÅØ½ºÆ®ÀÇ ¹®ÀÚ°¡ °°Áö¾ÊÀ¸¸é breakµÇ°í ÇÑ¹®ÀÚ¸¸Å­ ½½¶óÀÌµå
+		for (j = 0; j < M; j++)				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+			if (pattern[j] != text[i + j])	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ breakï¿½Ç°ï¿½ ï¿½Ñ¹ï¿½ï¿½Ú¸ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
 				break;
 		if (j == M)
-			cout << "(Brute Force)ÆÐÅÏÀÌ ÅØ½ºÆ®ÀÇ " << i + 1 << " ¹ø¤Š ºÎÅÍ "<<pattern <<" ³ªÅ¸³²" << endl;
+			cout << "(Brute Force)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ " << i + 1 << " ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ "<<pattern <<" ï¿½ï¿½Å¸ï¿½ï¿½" << endl;
 >>>>>>> java
 	}
 }
@@ -58,14 +58,14 @@ void rabin_karp_matching(string text, string pattern, int q)
 	int p = 0;		// patternì„ ìœ„í•œ hash ê°’
 	int t = 0;		// textë¥¼ ìœ„í•œ hashê°’
 =======
-// q: ÇØ½ÃÇÔ¼ö¿¡ ÀÇÇØ °áÁ¤µÇ´Â mod¸¦ À§ÇÑ Á¦¼ö
+// q: ï¿½Ø½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ modï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 void rabin_karp_matching(string text, string pattern, int q)
 {
 	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
 	const size_t M = pattern.size();
 	const size_t N = text.size();
-	size_t p = 0;		// patternÀ» À§ÇÑ hash °ª
-	size_t t = 0;		// text¸¦ À§ÇÑ hash°ª
+	size_t p = 0;		// patternï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ hash ï¿½ï¿½
+	size_t t = 0;		// textï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ hashï¿½ï¿½
 >>>>>>> java
 	int i, j;
 	int h = 1;
@@ -77,7 +77,7 @@ void rabin_karp_matching(string text, string pattern, int q)
 <<<<<<< HEAD
 	// í˜¸ë„ˆë°©ë²•ì„ í†µí•œ p,tê³„ì‚°
 =======
-	// È£³Ê¹æ¹ýÀ» ÅëÇÑ p,t°è»ê
+	// È£ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ p,tï¿½ï¿½ï¿½
 >>>>>>> java
 	for (i = 0; i < M; i++)
 	{
@@ -92,11 +92,11 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 		if (p == t)	// hashê°’ì´ ë™ì¼í•œ ê²½ìš°ì— í•œí•´ ì„¸ë¶€ íŒ¨í„´ ë§¤ì¹­ì§„í–‰
 =======
-	// ÇÏ³ª¾¿ ½½¶óÀÌµåÇØ°¡¸ç ÆÐÅÏ Ã£±â
+	// ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½Ø°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½
 	for (i = 0; i < N - M + 1; i++)
 	{
 
-		if (p == t)	// hash°ªÀÌ µ¿ÀÏÇÑ °æ¿ì¿¡ ÇÑÇØ ¼¼ºÎ ÆÐÅÏ ¸ÅÄªÁøÇà
+		if (p == t)	// hashï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Äªï¿½ï¿½ï¿½ï¿½
 >>>>>>> java
 		{
 			for (j = 0; j < M; j++)
@@ -113,14 +113,14 @@ void rabin_karp_matching(string text, string pattern, int q)
 		}
 		// ì í™”ì‹ì„ ì´ìš©í•œ ë‹¤ìŒ tê°’ ê³„ì‚°
 =======
-			//p == tÀÌ°í pattern[0...M-1] == text[i...i+M-1]ÀÌ¸é 
+			//p == tï¿½Ì°ï¿½ pattern[0...M-1] == text[i...i+M-1]ï¿½Ì¸ï¿½ 
 			if (j == M)
 			{
-				cout << "(Rabin-Karp)ÆÐÅÏÀÌ ÅØ½ºÆ®ÀÇ " << i + 1 << " ¹ø¤Š ºÎÅÍ " << pattern << " ³ªÅ¸³²" << endl;
+				cout << "(Rabin-Karp)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ " << i + 1 << " ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ " << pattern << " ï¿½ï¿½Å¸ï¿½ï¿½" << endl;
 			}
 
 		}
-		// Á¡È­½ÄÀ» ÀÌ¿ëÇÑ ´ÙÀ½ t°ª °è»ê
+		// ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ tï¿½ï¿½ ï¿½ï¿½ï¿½
 >>>>>>> java
 		if (i < N - M)
 		{
@@ -141,7 +141,7 @@ void computeSP(string pattern, int SP[])
 =======
 void computeSP(string pattern, size_t SP[])
 {
-	size_t  len = 0;	// ÀÌÀü¿¡¼­ °¡Àå ±æ¾ú´ø prefix-suffixÀÇ ±æÀÌ
+	size_t  len = 0;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ prefix-suffixï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	size_t  M = pattern.size();
 >>>>>>> java
 	SP[0] = 0;
@@ -152,7 +152,7 @@ void computeSP(string pattern, size_t SP[])
 	// SP[i]ë¥¼ ì±„ìš°ê¸° ìœ„í•œ ê³„ì‚° 1~M-1
 	int i = 1;
 =======
-	// SP[i]¸¦ Ã¤¿ì±â À§ÇÑ °è»ê 1~M-1
+	// SP[i]ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 1~M-1
 	size_t  i = 1;
 >>>>>>> java
 	while (i < M)
@@ -196,8 +196,8 @@ void KMP_matching(string text, string pattern)
 
 	computeSP(pattern, SP);
 
-	size_t  i = 0;	// text¸¦ À§ÇÑ index
-	size_t  j = 0;  // patternÀ» À§ÇÑ ÀÎµ¦½º
+	size_t  i = 0;	// textï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ index
+	size_t  j = 0;  // patternï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
 >>>>>>> java
 	while (i < N)
 	{
@@ -212,7 +212,7 @@ void KMP_matching(string text, string pattern)
 <<<<<<< HEAD
 			cout << "(KMP) íŒ¨í„´ì´ í…ìŠ¤íŠ¸ì˜ " << i - j + 1 << "ë²ˆì¨°ë¶€í„° ë‚˜íƒ€ë‚¨" << endl;
 =======
-			cout << "(KMP) ÆÐÅÏÀÌ ÅØ½ºÆ®ÀÇ " << i - j + 1 <<"¹ø¤Š ºÎÅÍ " << pattern << " ³ªÅ¸³²" << endl;;
+			cout << "(KMP) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ " << i - j + 1 <<"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ " << pattern << " ï¿½ï¿½Å¸ï¿½ï¿½" << endl;;
 >>>>>>> java
 			j = SP[j - 1];
 		}
