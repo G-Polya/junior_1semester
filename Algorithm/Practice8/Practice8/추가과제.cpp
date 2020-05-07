@@ -1,0 +1,342 @@
+Ôªø//2016112158 ÍπÄÌù¨Ïàò
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <stdio.h>
+#include <cmath>
+#include <string>
+#include <vector>
+using namespace std;
+
+<<<<<<< HEAD
+// brute forceÎ°ú Ïä§Ìä∏ÎßÅ Îß§Ïπ≠
+// text : ÌÖçÏä§Ìä∏, pattern : Ìå®ÌÑ¥
+void brute_force_matching(string text, string pattern)
+{
+	int M = pattern.size();
+	int N = text.size();
+	for (int i = 0; i <= N - M; i++)		// ÌÖçÏä§Ìä∏ÌÅ¨Í∏∞ - Ìå®ÌÑ¥ÌÅ¨Í∏∞ÎßåÌÅº ÏïûÏúºÎ°ú Ïä¨ÎùºÏù¥Îìú Îê† Í≤É
+	{
+		int j;
+		for (j = 0; j < M; j++)				// Ìå®ÌÑ¥Ïùò Í∞Å Î¨∏ÏûêÏóê ÎåÄÌï¥ÏÑú
+			if (pattern[j] != text[i + j])	// Ìå®ÌÑ¥Ïùò Î¨∏ÏûêÏôÄ ÌÖçÏä§Ìä∏Ïùò Î¨∏ÏûêÍ∞Ä Í∞ôÏßÄÏïäÏúºÎ©¥ breakÎêòÍ≥† ÌïúÎ¨∏ÏûêÎßåÌÅº Ïä¨ÎùºÏù¥Îìú
+				break;
+		if (j == M)
+			cout << "(Brute Force)Ìå®ÌÑ¥Ïù¥ ÌÖçÏä§Ìä∏Ïùò " << i + 1 << "Î≤àÏ®∞Î∂ÄÌÑ∞ ÎÇòÌÉÄÎÇ®" << endl;
+=======
+// brute force∑Œ Ω∫∆Æ∏µ ∏≈ƒ™
+// text : ≈ÿΩ∫∆Æ, pattern : ∆–≈œ
+void brute_force_matching(string text, string pattern)
+{
+	size_t M = pattern.size();
+	size_t N = text.size();
+	cout << "brute foce M " <<M << endl;
+	for (size_t i = 0; i <= N - M; i++)		// ≈ÿΩ∫∆Æ≈©±‚ - ∆–≈œ≈©±‚∏∏≈≠ æ’¿∏∑Œ ΩΩ∂Û¿ÃµÂ µ… ∞Õ
+	{
+		size_t j;
+		for (j = 0; j < M; j++)				// ∆–≈œ¿« ∞¢ πÆ¿⁄ø° ¥Î«ÿº≠
+			if (pattern[j] != text[i + j])	// ∆–≈œ¿« πÆ¿⁄øÕ ≈ÿΩ∫∆Æ¿« πÆ¿⁄∞° ∞∞¡ˆæ ¿∏∏È breakµ«∞Ì «—πÆ¿⁄∏∏≈≠ ΩΩ∂Û¿ÃµÂ
+				break;
+		if (j == M)
+			cout << "(Brute Force)∆–≈œ¿Ã ≈ÿΩ∫∆Æ¿« " << i + 1 << " π¯§ä ∫Œ≈Õ "<<pattern <<" ≥™≈∏≥≤" << endl;
+>>>>>>> java
+	}
+}
+
+
+//
+<<<<<<< HEAD
+// q: Ìï¥ÏãúÌï®ÏàòÏóê ÏùòÌï¥ Í≤∞Ï†ïÎêòÎäî modÎ•º ÏúÑÌïú Ï†úÏàò
+void rabin_karp_matching(string text, string pattern, int q)
+{
+	bool flag = false;
+	const int d = 36; // [0~9]+[a-z] = 10 +_ 26 = 36. 
+	const int M = pattern.size();
+	const int N = text.size();
+	int p = 0;		// patternÏùÑ ÏúÑÌïú hash Í∞í
+	int t = 0;		// textÎ•º ÏúÑÌïú hashÍ∞í
+=======
+// q: «ÿΩ√«‘ºˆø° ¿««ÿ ∞·¡§µ«¥¬ mod∏¶ ¿ß«— ¡¶ºˆ
+void rabin_karp_matching(string text, string pattern, int q)
+{
+	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
+	const size_t M = pattern.size();
+	const size_t N = text.size();
+	size_t p = 0;		// pattern¿ª ¿ß«— hash ∞™
+	size_t t = 0;		// text∏¶ ¿ß«— hash∞™
+>>>>>>> java
+	int i, j;
+	int h = 1;
+
+	for (i = 0; i < M - 1; i++)
+		h = (h * d) % q;
+
+
+<<<<<<< HEAD
+	// Ìò∏ÎÑàÎ∞©Î≤ïÏùÑ ÌÜµÌïú p,tÍ≥ÑÏÇ∞
+=======
+	// »£≥ πÊπ˝¿ª ≈Î«— p,t∞ËªÍ
+>>>>>>> java
+	for (i = 0; i < M; i++)
+	{
+		p = (d * p + pattern[i]) % q;
+		t = (d * t + text[i]) % q;
+	}
+
+<<<<<<< HEAD
+	// ÌïòÎÇòÏî© Ïä¨ÎùºÏù¥ÎìúÌï¥Í∞ÄÎ©∞ Ìå®ÌÑ¥ Ï∞æÍ∏∞
+	for (i = 0; i < N - M + 1; i++)
+	{
+
+		if (p == t)	// hashÍ∞íÏù¥ ÎèôÏùºÌïú Í≤ΩÏö∞Ïóê ÌïúÌï¥ ÏÑ∏Î∂Ä Ìå®ÌÑ¥ Îß§Ïπ≠ÏßÑÌñâ
+=======
+	// «œ≥™æø ΩΩ∂Û¿ÃµÂ«ÿ∞°∏Á ∆–≈œ √£±‚
+	for (i = 0; i < N - M + 1; i++)
+	{
+
+		if (p == t)	// hash∞™¿Ã µø¿œ«— ∞ÊøÏø° «—«ÿ ºº∫Œ ∆–≈œ ∏≈ƒ™¡¯«‡
+>>>>>>> java
+		{
+			for (j = 0; j < M; j++)
+				if (text[i + j] != pattern[j])
+					break;
+
+<<<<<<< HEAD
+			//p == tÏù¥Í≥† pattern[0...M-1] == text[i...i+M-1]Ïù¥Î©¥ 
+			if (j == M)
+			{
+				cout << "(Rabin-Karp) Ìå®ÌÑ¥Ïù¥ ÌÖçÏä§Ìä∏Ïùò " << i + 1 << "Î≤àÏ®∞Î∂ÄÌÑ∞ ÎÇòÌÉÄÎÇ®" << endl;
+			}
+		
+		}
+		// Ï†êÌôîÏãùÏùÑ Ïù¥Ïö©Ìïú Îã§Ïùå tÍ∞í Í≥ÑÏÇ∞
+=======
+			//p == t¿Ã∞Ì pattern[0...M-1] == text[i...i+M-1]¿Ã∏È 
+			if (j == M)
+			{
+				cout << "(Rabin-Karp)∆–≈œ¿Ã ≈ÿΩ∫∆Æ¿« " << i + 1 << " π¯§ä ∫Œ≈Õ " << pattern << " ≥™≈∏≥≤" << endl;
+			}
+
+		}
+		// ¡°»≠Ωƒ¿ª ¿ÃøÎ«— ¥Ÿ¿Ω t∞™ ∞ËªÍ
+>>>>>>> java
+		if (i < N - M)
+		{
+			t = (d * (t - text[i] * h) + text[i + M]) % q;
+
+			if (t < 0)
+				t = t + q;
+		}
+	}
+
+}
+
+<<<<<<< HEAD
+void computeSP(string pattern, int SP[])
+{
+	int len = 0;	// Ïù¥Ï†ÑÏóêÏÑú Í∞ÄÏû• Í∏∏ÏóàÎçò prefix-suffixÏùò Í∏∏Ïù¥
+	int M = pattern.size();
+=======
+void computeSP(string pattern, size_t SP[])
+{
+	size_t  len = 0;	// ¿Ã¿¸ø°º≠ ∞°¿Â ±Êæ˙¥¯ prefix-suffix¿« ±Ê¿Ã
+	size_t  M = pattern.size();
+>>>>>>> java
+	SP[0] = 0;
+
+
+
+<<<<<<< HEAD
+	// SP[i]Î•º Ï±ÑÏö∞Í∏∞ ÏúÑÌïú Í≥ÑÏÇ∞ 1~M-1
+	int i = 1;
+=======
+	// SP[i]∏¶ √§øÏ±‚ ¿ß«— ∞ËªÍ 1~M-1
+	size_t  i = 1;
+>>>>>>> java
+	while (i < M)
+	{
+		if (pattern[i] == pattern[len])
+		{
+			len++;
+			SP[i] = len;
+			i++;
+		}
+		else
+		{
+			if (len != 0)
+				len = SP[len - 1];
+			else
+			{
+				SP[i] = 0;
+				i++;
+			}
+		}
+	}
+}
+
+void KMP_matching(string text, string pattern)
+{
+<<<<<<< HEAD
+	int M = pattern.size();
+	int N = text.size();
+
+	int* SP = new int[M];
+
+	computeSP(pattern, SP);
+
+	int i = 0;	// textÎ•º ÏúÑÌïú index
+	int j = 0;  // patternÏùÑ ÏúÑÌïú Ïù∏Îç±Ïä§
+=======
+	size_t  M = pattern.size();
+	size_t N = text.size();
+
+	size_t* SP = new size_t[M];
+
+	computeSP(pattern, SP);
+
+	size_t  i = 0;	// text∏¶ ¿ß«— index
+	size_t  j = 0;  // pattern¿ª ¿ß«— ¿Œµ¶Ω∫
+>>>>>>> java
+	while (i < N)
+	{
+		if (pattern[j] == text[i])
+		{
+			j++;
+			i++;
+		}
+
+		if (j == M)
+		{
+<<<<<<< HEAD
+			cout << "(KMP) Ìå®ÌÑ¥Ïù¥ ÌÖçÏä§Ìä∏Ïùò " << i - j + 1 << "Î≤àÏ®∞Î∂ÄÌÑ∞ ÎÇòÌÉÄÎÇ®" << endl;
+=======
+			cout << "(KMP) ∆–≈œ¿Ã ≈ÿΩ∫∆Æ¿« " << i - j + 1 <<"π¯§ä ∫Œ≈Õ " << pattern << " ≥™≈∏≥≤" << endl;;
+>>>>>>> java
+			j = SP[j - 1];
+		}
+		else if (i < N && pattern[j] != text[i])
+		{
+			if (j != 0)
+				j = SP[j - 1];
+			else
+				i = i + 1;
+		}
+	}
+
+	delete SP;
+}
+
+
+void printArray(int arr[], int size)
+{
+	for (int i = 0; i < size; i++)
+		cout << arr[i];
+	cout << endl;
+}
+
+
+string get_rand_pattern(int size)
+{
+	char* temp_pattern = new char[size];
+<<<<<<< HEAD
+	for (int i = 0; i < size; i++)
+	{
+		temp_pattern[i] = (char)(rand() % 10) + '0';
+	}
+
+	string random_pattern;
+	for (int i = 0; i < size; i++)
+=======
+	for (int i = 0; i < size; i++)
+	{
+		temp_pattern[i] = (char)(rand() % 10) + '0';
+	}
+
+	string random_pattern;
+	for (size_t  i = 0; i < size; i++)
+>>>>>>> java
+		random_pattern += temp_pattern[i];
+
+	delete temp_pattern;
+	return random_pattern;
+}
+
+void get_result(string filename)
+{
+	ifstream inFile;
+
+<<<<<<< HEAD
+	cout << filename<<" :" << endl;
+=======
+	cout << filename << " :" << endl;
+>>>>>>> java
+	inFile.open(filename);
+	string text;
+	inFile >> text;
+
+	string pattern;
+<<<<<<< HEAD
+	for (int length = 5; length <= 30; length += 5)
+	{
+		pattern = get_rand_pattern(length);
+		brute_force_matching(text, pattern);
+		rabin_karp_matching(text, pattern,13);
+=======
+	for (size_t  length = 5; length <= 30; length += 5)
+	{
+		pattern = get_rand_pattern(length);
+		cout << pattern << endl;
+		brute_force_matching(text, pattern);
+		rabin_karp_matching(text, pattern, 13);
+>>>>>>> java
+		KMP_matching(text, pattern);
+	}
+	inFile.close();
+}
+
+void make_text_file(string filename, int size)
+{
+	ofstream outFile;
+	outFile.open(filename);
+<<<<<<< HEAD
+	for (int i = 0; i < size; i++)
+	{
+		int rand_number = rand() % 10;
+=======
+	for (size_t  i = 0; i < size; i++)
+	{
+		size_t  rand_number = rand() % 10;
+>>>>>>> java
+		outFile << rand_number;
+	}
+
+	outFile.close();
+}
+
+
+int main()
+{
+	srand((unsigned int)time(NULL));
+
+	//make_text_file("10,000.txt", 10000);
+	//make_text_file("100,000.txt", 100000);
+	//make_text_file("1,000,000.txt", 1000000);
+	//make_text_file("10,000,000.txt", 10000000);
+	//make_text_file("100,000,000.txt", 100000000);
+
+
+
+<<<<<<< HEAD
+	get_result("10,000.txt");
+	get_result("100,000.txt");
+=======
+	//get_result("10,000.txt");
+	//get_result("100,000.txt");
+>>>>>>> java
+	get_result("1,000,000.txt");
+	//get_result("10,00,000.txt");
+	//get_result("100,000,000.txt");
+
+}
