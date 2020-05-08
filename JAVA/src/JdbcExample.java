@@ -13,7 +13,7 @@ public class JdbcExample
 		{
 			Class.forName("org.mariadb.jdbc.Driver");		// 드라이버 로드
 			
-			connection =  DriverManager.getConnection("jdbc:mariadb://localhost:3306/mysql", "root", "skyss123");	// DB에 연결. mysql:데이터베이스 이름, root:사용자이름, skyss123:비밀번호
+			connection =  DriverManager.getConnection("jdbc:mariadb://localhost:3306/test", "testuser", "1234");	// DB에 연결. mysql:데이터베이스 이름, root:사용자이름, skyss123:비밀번호
 	
 			if(connection != null)
 				System.out.println("DB접속 성공");
