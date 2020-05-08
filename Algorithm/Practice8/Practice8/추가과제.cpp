@@ -10,63 +10,35 @@
 #include <vector>
 using namespace std;
 
-<<<<<<< HEAD
+
 // brute force로 스트링 매칭
 // text : 텍스트, pattern : 패턴
 void brute_force_matching(string text, string pattern)
 {
-	int M = pattern.size();
-	int N = text.size();
-	for (int i = 0; i <= N - M; i++)		// 텍스트크기 - 패턴크기만큼 앞으로 슬라이드 될 것
+	size_t M = pattern.size();
+	size_t N = text.size();
+	cout << "brute foce M " << M << endl;
+	for (size_t i = 0; i <= N - M; i++)		// 텍스트크기 - 패턴크기만큼 앞으로 슬라이드 될 것
 	{
-		int j;
+		size_t j;
 		for (j = 0; j < M; j++)				// 패턴의 각 문자에 대해서
 			if (pattern[j] != text[i + j])	// 패턴의 문자와 텍스트의 문자가 같지않으면 break되고 한문자만큼 슬라이드
 				break;
 		if (j == M)
 			cout << "(Brute Force)패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
-=======
-// brute force�� ��Ʈ�� ��Ī
-// text : �ؽ�Ʈ, pattern : ����
-void brute_force_matching(string text, string pattern)
-{
-	size_t M = pattern.size();
-	size_t N = text.size();
-	cout << "brute foce M " <<M << endl;
-	for (size_t i = 0; i <= N - M; i++)		// �ؽ�Ʈũ�� - ����ũ�⸸ŭ ������ �����̵� �� ��
-	{
-		size_t j;
-		for (j = 0; j < M; j++)				// ������ �� ���ڿ� ���ؼ�
-			if (pattern[j] != text[i + j])	// ������ ���ڿ� �ؽ�Ʈ�� ���ڰ� ���������� break�ǰ� �ѹ��ڸ�ŭ �����̵�
-				break;
-		if (j == M)
-			cout << "(Brute Force)������ �ؽ�Ʈ�� " << i + 1 << " ���� ���� "<<pattern <<" ��Ÿ��" << endl;
->>>>>>> java
 	}
 }
 
 
 //
-<<<<<<< HEAD
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
-void rabin_karp_matching(string text, string pattern, int q)
-{
-	bool flag = false;
-	const int d = 36; // [0~9]+[a-z] = 10 +_ 26 = 36. 
-	const int M = pattern.size();
-	const int N = text.size();
-	int p = 0;		// pattern을 위한 hash 값
-	int t = 0;		// text를 위한 hash값
-=======
-// q: �ؽ��Լ��� ���� �����Ǵ� mod�� ���� ����
 void rabin_karp_matching(string text, string pattern, int q)
 {
 	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
 	const size_t M = pattern.size();
 	const size_t N = text.size();
-	size_t p = 0;		// pattern�� ���� hash ��
-	size_t t = 0;		// text�� ���� hash��
->>>>>>> java
+	size_t p = 0;		// pattern을 위한 hash 값
+	size_t t = 0;
 	int i, j;
 	int h = 1;
 
@@ -74,54 +46,31 @@ void rabin_karp_matching(string text, string pattern, int q)
 		h = (h * d) % q;
 
 
-<<<<<<< HEAD
 	// 호너방법을 통한 p,t계산
-=======
-	// ȣ�ʹ���� ���� p,t���
->>>>>>> java
 	for (i = 0; i < M; i++)
 	{
 		p = (d * p + pattern[i]) % q;
 		t = (d * t + text[i]) % q;
 	}
 
-<<<<<<< HEAD
 	// 하나씩 슬라이드해가며 패턴 찾기
 	for (i = 0; i < N - M + 1; i++)
 	{
 
 		if (p == t)	// hash값이 동일한 경우에 한해 세부 패턴 매칭진행
-=======
-	// �ϳ��� �����̵��ذ��� ���� ã��
-	for (i = 0; i < N - M + 1; i++)
-	{
-
-		if (p == t)	// hash���� ������ ��쿡 ���� ���� ���� ��Ī����
->>>>>>> java
 		{
 			for (j = 0; j < M; j++)
 				if (text[i + j] != pattern[j])
 					break;
 
-<<<<<<< HEAD
 			//p == t이고 pattern[0...M-1] == text[i...i+M-1]이면 
 			if (j == M)
 			{
 				cout << "(Rabin-Karp) 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
 			}
-		
-		}
-		// 점화식을 이용한 다음 t값 계산
-=======
-			//p == t�̰� pattern[0...M-1] == text[i...i+M-1]�̸� 
-			if (j == M)
-			{
-				cout << "(Rabin-Karp)������ �ؽ�Ʈ�� " << i + 1 << " ���� ���� " << pattern << " ��Ÿ��" << endl;
-			}
 
 		}
-		// ��ȭ���� �̿��� ���� t�� ���
->>>>>>> java
+		// 점화식을 이용한 다음 t값 계산
 		if (i < N - M)
 		{
 			t = (d * (t - text[i] * h) + text[i + M]) % q;
@@ -133,28 +82,17 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 }
 
-<<<<<<< HEAD
-void computeSP(string pattern, int SP[])
-{
-	int len = 0;	// 이전에서 가장 길었던 prefix-suffix의 길이
-	int M = pattern.size();
-=======
+
 void computeSP(string pattern, size_t SP[])
 {
-	size_t  len = 0;	// �������� ���� ����� prefix-suffix�� ����
+	size_t  len = 0;
 	size_t  M = pattern.size();
->>>>>>> java
 	SP[0] = 0;
 
 
 
-<<<<<<< HEAD
-	// SP[i]를 채우기 위한 계산 1~M-1
+	// SP[i]를 채우기 위한 계산 
 	int i = 1;
-=======
-	// SP[i]�� ä��� ���� ��� 1~M-1
-	size_t  i = 1;
->>>>>>> java
 	while (i < M)
 	{
 		if (pattern[i] == pattern[len])
@@ -178,17 +116,6 @@ void computeSP(string pattern, size_t SP[])
 
 void KMP_matching(string text, string pattern)
 {
-<<<<<<< HEAD
-	int M = pattern.size();
-	int N = text.size();
-
-	int* SP = new int[M];
-
-	computeSP(pattern, SP);
-
-	int i = 0;	// text를 위한 index
-	int j = 0;  // pattern을 위한 인덱스
-=======
 	size_t  M = pattern.size();
 	size_t N = text.size();
 
@@ -196,9 +123,9 @@ void KMP_matching(string text, string pattern)
 
 	computeSP(pattern, SP);
 
-	size_t  i = 0;	// text�� ���� index
-	size_t  j = 0;  // pattern�� ���� �ε���
->>>>>>> java
+	size_t  i = 0;	// text를 위한 index
+	size_t  j = 0;  // pattern을 위한 인덱스
+
 	while (i < N)
 	{
 		if (pattern[j] == text[i])
@@ -209,11 +136,7 @@ void KMP_matching(string text, string pattern)
 
 		if (j == M)
 		{
-<<<<<<< HEAD
 			cout << "(KMP) 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
-=======
-			cout << "(KMP) ������ �ؽ�Ʈ�� " << i - j + 1 <<"���� ���� " << pattern << " ��Ÿ��" << endl;;
->>>>>>> java
 			j = SP[j - 1];
 		}
 		else if (i < N && pattern[j] != text[i])
@@ -240,23 +163,14 @@ void printArray(int arr[], int size)
 string get_rand_pattern(int size)
 {
 	char* temp_pattern = new char[size];
-<<<<<<< HEAD
+
 	for (int i = 0; i < size; i++)
 	{
 		temp_pattern[i] = (char)(rand() % 10) + '0';
 	}
 
 	string random_pattern;
-	for (int i = 0; i < size; i++)
-=======
-	for (int i = 0; i < size; i++)
-	{
-		temp_pattern[i] = (char)(rand() % 10) + '0';
-	}
-
-	string random_pattern;
-	for (size_t  i = 0; i < size; i++)
->>>>>>> java
+	for (size_t i = 0; i < size; i++)
 		random_pattern += temp_pattern[i];
 
 	delete temp_pattern;
@@ -267,30 +181,19 @@ void get_result(string filename)
 {
 	ifstream inFile;
 
-<<<<<<< HEAD
-	cout << filename<<" :" << endl;
-=======
 	cout << filename << " :" << endl;
->>>>>>> java
+
 	inFile.open(filename);
 	string text;
 	inFile >> text;
 
 	string pattern;
-<<<<<<< HEAD
-	for (int length = 5; length <= 30; length += 5)
-	{
-		pattern = get_rand_pattern(length);
-		brute_force_matching(text, pattern);
-		rabin_karp_matching(text, pattern,13);
-=======
-	for (size_t  length = 5; length <= 30; length += 5)
+	for (size_t length = 5; length <= 30; length += 5)
 	{
 		pattern = get_rand_pattern(length);
 		cout << pattern << endl;
 		brute_force_matching(text, pattern);
 		rabin_karp_matching(text, pattern, 13);
->>>>>>> java
 		KMP_matching(text, pattern);
 	}
 	inFile.close();
@@ -300,15 +203,9 @@ void make_text_file(string filename, int size)
 {
 	ofstream outFile;
 	outFile.open(filename);
-<<<<<<< HEAD
-	for (int i = 0; i < size; i++)
-	{
-		int rand_number = rand() % 10;
-=======
-	for (size_t  i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		size_t  rand_number = rand() % 10;
->>>>>>> java
 		outFile << rand_number;
 	}
 
@@ -326,15 +223,8 @@ int main()
 	//make_text_file("10,000,000.txt", 10000000);
 	//make_text_file("100,000,000.txt", 100000000);
 
-
-
-<<<<<<< HEAD
 	get_result("10,000.txt");
 	get_result("100,000.txt");
-=======
-	//get_result("10,000.txt");
-	//get_result("100,000.txt");
->>>>>>> java
 	get_result("1,000,000.txt");
 	//get_result("10,00,000.txt");
 	//get_result("100,000,000.txt");

@@ -22,7 +22,7 @@ void brute_force_matching(string text, string pattern)
 		for (j = 0; j < M; j++)				// 패턴의 각 문자에 대해서
 			if (pattern[j] != text[i + j])	// 패턴의 문자와 텍스트의 문자가 같지않으면 break되고 한문자만큼 슬라이드
 				break;
-		if(j == M)
+		if (j == M)
 			cout << "(Brute Force)패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
 	}
 }
@@ -41,7 +41,7 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 	for (i = 0; i < M - 1; i++)
 		h = (h * d) % q;
-	
+
 
 	// 호너방법을 통한 p,t계산
 	for (i = 0; i < M; i++)
@@ -84,20 +84,20 @@ void computeSP(string pattern, int SP[])
 
 
 
-	// SP[i]를 채우기 위한 계산 1~M-1
+	// SP[i]를 채우기 위한 계산 1부터 M-1까지 반복
 	int i = 1;
 	while (i < M)
 	{
-		if (pattern[i] == pattern[len])
+		if (pattern[i] == pattern[len])	 // pattern의 i번째 인덱스와 len번째 인덱스를 비교해서 같으면
 		{
 			len++;
-			SP[i] = len;
+			SP[i] = len;	// len을 증가시켜 SP[i]에 저장
 			i++;
 		}
-		else
+		else     // 다르면
 		{
-			if (len != 0)
-				len = SP[len - 1];
+			if (len != 0)          // len이 0이 아니면
+				len = SP[len - 1]; // len은 한칸 뒤로
 			else
 			{
 				SP[i] = 0;
@@ -113,25 +113,25 @@ void KMP_matching(string text, string pattern)
 	int N = text.size();
 
 	int* SP = new int[M];
-	
+
 	computeSP(pattern, SP);
 
 	int i = 0;	// text를 위한 index
 	int j = 0;  // pattern을 위한 인덱스
 	while (i < N)
 	{
-		if (pattern[j] == text[i])
+		if (pattern[j] == text[i])	// pattern과 text가 일치하는 동안엔 그냥 넘어간다. 
 		{
 			j++;
 			i++;
 		}
 
-		if (j == M)
+		if (j == M) // pattern을 위한 인덱스가 패턴의 길이와 같다는 건, text안에 패턴이 존재한다는 걸 의미
 		{
-			cout << "(KMP) 패턴이 텍스트의 " << i -j + 1 << "번쨰부터 나타남" << endl;
+			cout << "(KMP) 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 			j = SP[j - 1];
 		}
-		else if (i < N && pattern[j] != text[i])
+		else if (i < N && pattern[j] != text[i]) // 같지 않으면 뒤로 이동
 		{
 			if (j != 0)
 				j = SP[j - 1];
@@ -152,7 +152,7 @@ int main()
 	cin >> text;
 	cout << "pattern 입력 >> ";
 	cin >> pattern;
-	
+
 	//bruteforce matching
 	chrono::steady_clock::time_point br_start = chrono::steady_clock::now();
 	brute_force_matching(text, pattern);
@@ -165,7 +165,7 @@ int main()
 	rabin_karp_matching(text, pattern, 13);
 	chrono::steady_clock::time_point rk_end = chrono::steady_clock::now();
 	auto rk_elapsed_time = chrono::duration_cast<chrono::microseconds>(rk_end - rk_start).count();
-	cout << "Elapsed time of Rabin-Karp mathcing : " << rk_elapsed_time << endl<<endl;
+	cout << "Elapsed time of Rabin-Karp mathcing : " << rk_elapsed_time << endl << endl;
 
 
 	// KMP
