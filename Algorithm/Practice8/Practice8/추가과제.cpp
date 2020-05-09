@@ -119,9 +119,10 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 }
 
 
-// 최대 접두부 테이블 생성함수
 void computeSP(string pattern, size_t SP[])
 {
+
+
 	size_t  j = 0;
 	size_t  M = pattern.size();
 	SP[0] = 0;
@@ -243,17 +244,17 @@ void get_result(string filename)
 	string text;
 	inFile >> text;
 
-	string pattern;
-	for (size_t length = 5; length <= 30; length += 5)
+	string real_pattern;
+	for (size_t length = 10; length <= 30; length += 5)
 	{
-		pattern = get_rand_pattern(length);
-		//cout << pattern << endl;
+		real_pattern = text.substr(0, length);
+
 		string br_output_name = "brute_force_" + filename;
 		string rk_output_name = "rabin_karp_" + filename;
 		string kmp_outpunt_name = "kmp_" + filename;
-		//brute_force_matching(text, pattern, br_output_name);
-		rabin_karp_matching(text, pattern, 2, rk_output_name);
-		//KMP_matching(text, pattern, kmp_outpunt_name);
+		brute_force_matching(text, real_pattern, br_output_name);
+		rabin_karp_matching(text, real_pattern, 2, rk_output_name);
+		KMP_matching(text, real_pattern, kmp_outpunt_name);
 	}
 	inFile.close();
 }
@@ -272,6 +273,26 @@ void make_text_file(string filename, int size)
 	outFile.close();
 }
 
+// dest : 결과로 만들어지는 txt파일
+// source : 추출해올 txt파일
+// size : 결과파일안의 스트링 크기
+void extract(string dest, int size)
+{
+	ifstream inFile; // 100,000,000.txt를 읽어올 객체
+	inFile.open("100,000,000.txt");
+	string temp_text;
+	inFile >> temp_text;
+
+	string result_text = temp_text.substr(0, size);	// 길이size인 substring. 반드시 100,000,000.txt안에 존재
+
+	ofstream outFile; // result_text를 입력할 객체
+	outFile.open(dest);
+	outFile << result_text;
+
+	outFile.close();
+	inFile.close();
+
+}
 
 int main()
 {
@@ -283,10 +304,18 @@ int main()
 	//make_text_file("10,000,000.txt", 10000000);
 	//make_text_file("100,000,000.txt", 100000000);
 
+	//extract("10,000.txt", 10000);
+	//extract("100,000.txt", 100000);
+	//extract("1,000,000.txt", 1000000);
+	//extract("10,000,000.txt", 10000000);
+
+
+
+
 	get_result("10,000.txt");
 	get_result("100,000.txt");
 	get_result("1,000,000.txt");
 	get_result("10,000,000.txt");
-//	get_result("100,000,000.txt");
+	get_result("100,000,000.txt");
 
 }
