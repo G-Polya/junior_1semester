@@ -15,6 +15,9 @@ using namespace std;
 // text : 텍스트, pattern : 패턴
 void brute_force_matching(string text, string pattern, string output_name)
 {
+	ofstream fout;
+	fout.open(output_name, ios::app | ios::out);
+
 	size_t M = pattern.size();
 	size_t N = text.size();
 	//cout << "brute foce M " << M << endl;
@@ -25,15 +28,23 @@ void brute_force_matching(string text, string pattern, string output_name)
 			if (pattern[j] != text[i + j])	// 패턴의 문자와 텍스트의 문자가 같지않으면 break되고 한문자만큼 슬라이드
 				break;
 		if (j == M)
-			cout << "(Brute Force)"<<pattern<<" 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+		{
+			cout << "(Brute Force)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+			fout << "(Brute Force)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+
+		}
 	}
 }
 
 
 //
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
-void rabin_karp_matching(string text, string pattern, int q)
+void rabin_karp_matching(string text, string pattern, int q, string output_name)
 {
+	ofstream fout;
+	fout.open(output_name, ios::app | ios::out);
+
+
 	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
 	const size_t M = pattern.size();
 	const size_t N = text.size();
@@ -67,6 +78,7 @@ void rabin_karp_matching(string text, string pattern, int q)
 			if (j == M)
 			{
 				cout << "(Rabin-Karp)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+				fout << "(Rabin-Karp)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
 			}
 
 		}
@@ -85,6 +97,8 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 void computeSP(string pattern, size_t SP[])
 {
+
+
 	size_t  len = 0;
 	size_t  M = pattern.size();
 	SP[0] = 0;
@@ -114,8 +128,12 @@ void computeSP(string pattern, size_t SP[])
 	}
 }
 
-void KMP_matching(string text, string pattern)
+void KMP_matching(string text, string pattern,string output_name)
 {
+	ofstream fout;
+	fout.open(output_name, ios::app | ios::out);
+
+
 	size_t  M = pattern.size();
 	size_t N = text.size();
 
@@ -137,6 +155,8 @@ void KMP_matching(string text, string pattern)
 		if (j == M)
 		{
 			cout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
+			fout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
+
 			j = SP[j - 1];
 		}
 		else if (i < N && pattern[j] != text[i])
@@ -192,9 +212,12 @@ void get_result(string filename)
 	{
 		pattern = get_rand_pattern(length);
 		//cout << pattern << endl;
-		brute_force_matching(text, pattern);
-		rabin_karp_matching(text, pattern, 13);
-		KMP_matching(text, pattern);
+		string br_output_name = "brute_force_" + filename;
+		string rk_output_name = "rabin_karp_" + filename;
+		string kmp_outpunt_name = "kmp_output_name_" + filename;
+		brute_force_matching(text, pattern, br_output_name);
+		rabin_karp_matching(text, pattern, 13,rk_output_name);
+		KMP_matching(text, pattern,kmp_outpunt_name);
 	}
 	inFile.close();
 }
