@@ -76,6 +76,7 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 }
 
+// 최대 접두부 테이블 생성함수
 void computeSP(string pattern, int SP[])
 {
 	int j = 0;	// 이전에서 가장 길었던 prefix-suffix의 길이
