@@ -13,10 +13,13 @@ using namespace std;
 
 // brute force로 스트링 매칭
 // text : 텍스트, pattern : 패턴
-void brute_force_matching(char text[], char pattern[])
+void brute_force_matching(string text, string pattern, string output_name)
 {
-	size_t M = _msize(pattern) / sizeof(char);
-	size_t N = _msize(text) / sizeof(char);
+	ofstream fout;
+	fout.open(output_name, ios::app | ios::out);
+
+	size_t M = pattern.size();
+	size_t N = text.size();
 	//cout << "brute foce M " << M << endl;
 	for (size_t i = 0; i <= N - M; i++)		// 텍스트크기 - 패턴크기만큼 앞으로 슬라이드 될 것
 	{
@@ -25,18 +28,26 @@ void brute_force_matching(char text[], char pattern[])
 			if (pattern[j] != text[i + j])	// 패턴의 문자와 텍스트의 문자가 같지않으면 break되고 한문자만큼 슬라이드
 				break;
 		if (j == M)
+		{
 			cout << "(Brute Force)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+			fout << "(Brute Force)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+
+		}
 	}
 }
 
 
 //
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
-void rabin_karp_matching(char text[], char pattern[], int q)
+void rabin_karp_matching(string text, string pattern, int q, string output_name)
 {
+	ofstream fout;
+	fout.open(output_name, ios::app | ios::out);
+
+
 	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
-	const size_t M = _msize(pattern) / sizeof(char);
-	const size_t N = _msize(text) / sizeof(char);
+	const size_t M = pattern.size();
+	const size_t N = text.size();
 	size_t p = 0;		// pattern을 위한 hash 값
 	size_t t = 0;
 	int i, j;
@@ -67,6 +78,7 @@ void rabin_karp_matching(char text[], char pattern[], int q)
 			if (j == M)
 			{
 				cout << "(Rabin-Karp)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+				fout << "(Rabin-Karp)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
 			}
 
 		}
@@ -83,10 +95,12 @@ void rabin_karp_matching(char text[], char pattern[], int q)
 }
 
 
-void computeSP(char pattern[], size_t SP[])
+void computeSP(string pattern, size_t SP[])
 {
+
+
 	size_t  len = 0;
-	size_t  M = _msize(pattern) / sizeof(char);
+	size_t  M = pattern.size();
 	SP[0] = 0;
 
 
@@ -114,10 +128,14 @@ void computeSP(char pattern[], size_t SP[])
 	}
 }
 
-void KMP_matching(char text[], char pattern[])
+void KMP_matching(string text, string pattern,string output_name)
 {
-	size_t  M = _msize(pattern) / sizeof(char);
-	size_t N = _msize(text) / sizeof(char);
+	ofstream fout;
+	fout.open(output_name, ios::app | ios::out);
+
+
+	size_t  M = pattern.size();
+	size_t N = text.size();
 
 	size_t* SP = new size_t[M];
 
@@ -136,7 +154,9 @@ void KMP_matching(char text[], char pattern[])
 
 		if (j == M)
 		{
-			cout << "(KMP" << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
+			cout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
+			fout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
+
 			j = SP[j - 1];
 		}
 		else if (i < N && pattern[j] != text[i])
@@ -160,7 +180,7 @@ void printArray(int arr[], int size)
 }
 
 
-char* get_rand_pattern(int size)
+string get_rand_pattern(int size)
 {
 	char* temp_pattern = new char[size];
 
@@ -169,12 +189,12 @@ char* get_rand_pattern(int size)
 		temp_pattern[i] = (char)(rand() % 10) + '0';
 	}
 
-	//string random_pattern;
-	//for (size_t i = 0; i < size; i++)
-	//	random_pattern += temp_pattern[i];
+	string random_pattern;
+	for (size_t i = 0; i < size; i++)
+		random_pattern += temp_pattern[i];
 
-
-	return temp_pattern;
+	delete temp_pattern;
+	return random_pattern;
 }
 
 void get_result(string filename)
@@ -187,19 +207,19 @@ void get_result(string filename)
 	string text;
 	inFile >> text;
 
-	char* ch = new char[text.size()];
-	strcpy(ch, text.c_str());
-	char* pattern;
+	string pattern;
 	for (size_t length = 5; length <= 30; length += 5)
 	{
 		pattern = get_rand_pattern(length);
-		
-		brute_force_matching(ch , pattern);
-		rabin_karp_matching(ch, pattern, 13);
-		KMP_matching(ch, pattern);
+		//cout << pattern << endl;
+		string br_output_name = "brute_force_" + filename;
+		string rk_output_name = "rabin_karp_" + filename;
+		string kmp_outpunt_name = "kmp_output_name_" + filename;
+		brute_force_matching(text, pattern, br_output_name);
+		rabin_karp_matching(text, pattern, 13,rk_output_name);
+		KMP_matching(text, pattern,kmp_outpunt_name);
 	}
 	inFile.close();
-	
 }
 
 void make_text_file(string filename, int size)
