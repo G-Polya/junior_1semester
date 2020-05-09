@@ -119,10 +119,9 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 }
 
 
+// 최대 접두부 테이블 생성함수
 void computeSP(string pattern, size_t SP[])
 {
-
-
 	size_t  j = 0;
 	size_t  M = pattern.size();
 	SP[0] = 0;
