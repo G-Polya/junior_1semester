@@ -18,10 +18,10 @@ using namespace std;
 void brute_force_matching(string text, string pattern, string output_name)
 {
 	ofstream fout;	// 패턴을 찾은 결과
-	fout.open(output_name, ios::app | ios::out | ios::trunc);
+	fout.open(output_name, ios::app | ios::out);
 
 	ofstream time_stamp;
-	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out | ios::trunc);
+	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
 	size_t M = pattern.size();
@@ -54,10 +54,10 @@ void brute_force_matching(string text, string pattern, string output_name)
 void rabin_karp_matching(string text, string pattern, int q, string output_name)
 {
 	ofstream fout;
-	fout.open(output_name, ios::app | ios::out | ios::trunc);
+	fout.open(output_name, ios::app | ios::out);
 
 	ofstream time_stamp;
-	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out | ios::trunc);
+	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
 
@@ -155,10 +155,10 @@ void computeSP(string pattern, size_t SP[])
 void KMP_matching(string text, string pattern, string output_name)
 {
 	ofstream fout;
-	fout.open(output_name, ios::app | ios::out | ios::trunc);
+	fout.open(output_name, ios::app | ios::out);
 
 	ofstream time_stamp;
-	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out | ios::trunc);
+	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
 
@@ -282,10 +282,10 @@ int main()
 	//make_text_file("10,000,000.txt", 10000000);
 	//make_text_file("100,000,000.txt", 100000000);
 
-	get_result("10,000.txt");
-	get_result("100,000.txt");
-	get_result("1,000,000.txt");
-	//get_result("10,000,000.txt");
+	//get_result("10,000.txt");
+	//get_result("100,000.txt");
+	//get_result("1,000,000.txt");
+	get_result("10,000,000.txt");
 	//get_result("100,000,000.txt");
 
 }
