@@ -45,7 +45,7 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 	fout.open(output_name, ios::app | ios::out);
 
 
-	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
+	const size_t d = 10; // 진수
 	const size_t M = pattern.size();
 	const size_t N = text.size();
 	size_t p = 0;		// pattern을 위한 hash 값
@@ -128,7 +128,7 @@ void computeSP(string pattern, size_t SP[])
 	}
 }
 
-void KMP_matching(string text, string pattern,string output_name)
+void KMP_matching(string text, string pattern, string output_name)
 {
 	ofstream fout;
 	fout.open(output_name, ios::app | ios::out);
@@ -216,8 +216,8 @@ void get_result(string filename)
 		string rk_output_name = "rabin_karp_" + filename;
 		string kmp_outpunt_name = "kmp_output_name_" + filename;
 		brute_force_matching(text, pattern, br_output_name);
-		rabin_karp_matching(text, pattern, 13,rk_output_name);
-		KMP_matching(text, pattern,kmp_outpunt_name);
+		rabin_karp_matching(text, pattern, 101, rk_output_name);
+		KMP_matching(text, pattern, kmp_outpunt_name);
 	}
 	inFile.close();
 }
@@ -246,10 +246,10 @@ int main()
 	//make_text_file("10,000,000.txt", 10000000);
 	//make_text_file("100,000,000.txt", 100000000);
 
-	get_result("10,000.txt");
-	get_result("100,000.txt");
-	get_result("1,000,000.txt");
-	//get_result("10,00,000.txt");
+	//get_result("10,000.txt");
+	//get_result("100,000.txt");
+	//get_result("1,000,000.txt");
+	get_result("10,000,000.txt");
 	//get_result("100,000,000.txt");
 
 }
