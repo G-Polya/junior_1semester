@@ -23,7 +23,7 @@ void brute_force_matching(string text, string pattern)
 			if (pattern[j] != text[i + j])	// 패턴의 문자와 텍스트의 문자가 같지않으면 break되고 한문자만큼 슬라이드
 				break;
 		if (j == M)
-			cout << "(Brute Force)패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+			cout << "(Brute Force)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
 	}
 }
 
@@ -62,7 +62,7 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 			//p == t이고 pattern[0...M-1] == text[i...i+M-1]이면 
 			if (j == M)
-				cout << "(Rabin-Karp) 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
+				cout << "(Rabin-Karp)" << pattern << " 패턴이 텍스트의 " << i + 1 << "번쨰부터 나타남" << endl;
 		}
 		// 점화식을 이용한 다음 t값 계산
 		if (i < N - M)
@@ -128,7 +128,7 @@ void KMP_matching(string text, string pattern)
 
 		if (j == M) // pattern을 위한 인덱스가 패턴의 길이와 같다는 건, text안에 패턴이 존재한다는 걸 의미
 		{
-			cout << "(KMP) 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
+			cout << "(KMP)" << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 			j = SP[j - 1];
 		}
 		else if (i < N && pattern[j] != text[i]) // pattern과 text가 같지 않을때 뒤로 이동해서 text의 suffix/pattern의 prefix 다음의 문자를 비교
