@@ -78,7 +78,7 @@ void rabin_karp_matching(string text, string pattern, int q)
 
 void computeSP(string pattern, int SP[])
 {
-	int len = 0;	// 이전에서 가장 길었던 prefix-suffix의 길이
+	int j = 0;	// 이전에서 가장 길었던 prefix-suffix의 길이
 	int M = pattern.size();
 	SP[0] = 0;
 
@@ -88,16 +88,16 @@ void computeSP(string pattern, int SP[])
 	int i = 1;
 	while (i < M)
 	{
-		if (pattern[i] == pattern[len])	 // pattern의 i번째 인덱스와 len번째 인덱스를 비교해서 같으면
+		if (pattern[i] == pattern[j])	 // pattern의 i번째 인덱스와 j번째 인덱스를 비교해서 같으면
 		{
-			len++;
-			SP[i] = len;	// len을 증가시켜 SP[i]에 저장
+			j++;
+			SP[i] = j;	// j을 증가시켜 SP[i]에 저장
 			i++;
 		}
 		else     // 다르면
 		{
-			if (len != 0)          // len이 0이 아니면
-				len = SP[len - 1]; // len은 한칸 뒤로
+			if (j != 0)          // j이 0이 아니면
+				j = SP[j - 1]; // j은 한칸 뒤로
 			else
 			{
 				SP[i] = 0;
@@ -131,7 +131,7 @@ void KMP_matching(string text, string pattern)
 			cout << "(KMP) 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 			j = SP[j - 1];
 		}
-		else if (i < N && pattern[j] != text[i]) // 같지 않으면 뒤로 이동
+		else if (i < N && pattern[j] != text[i]) // pattern과 text가 같지 않을때 뒤로 이동해서 text의 suffix/pattern의 prefix 다음의 문자를 비교
 		{
 			if (j != 0)
 				j = SP[j - 1];
