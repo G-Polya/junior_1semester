@@ -8,6 +8,8 @@
 #include <cmath>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <ctime>
 using namespace std;
 
 
@@ -15,8 +17,9 @@ using namespace std;
 // text : 텍스트, pattern : 패턴
 void brute_force_matching(string text, string pattern, string output_name)
 {
-	ofstream fout;
+	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
+
 
 	size_t M = pattern.size();
 	size_t N = text.size();
@@ -34,6 +37,8 @@ void brute_force_matching(string text, string pattern, string output_name)
 
 		}
 	}
+	
+	fout.close();
 }
 
 
@@ -41,15 +46,16 @@ void brute_force_matching(string text, string pattern, string output_name)
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
 void rabin_karp_matching(string text, string pattern, int q, string output_name)
 {
-	ofstream fout;
+	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
+	
 
-	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
+	const size_t d = 10; // 진수
 	const size_t M = pattern.size();
 	const size_t N = text.size();
 	size_t p = 0;		// pattern을 위한 hash 값
-	size_t t = 0;
+	size_t t = 0;		// text를 위한 hash값
 	int i, j;
 	int h = 1;
 
@@ -92,6 +98,9 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 		}
 	}
 
+	
+	fout.close();
+
 }
 
 
@@ -99,7 +108,7 @@ void computeSP(string pattern, size_t SP[])
 {
 
 
-	size_t  len = 0;
+	size_t  j = 0;
 	size_t  M = pattern.size();
 	SP[0] = 0;
 
@@ -109,16 +118,16 @@ void computeSP(string pattern, size_t SP[])
 	int i = 1;
 	while (i < M)
 	{
-		if (pattern[i] == pattern[len])
+		if (pattern[i] == pattern[j])	// pattern의 i번째 인덱스와 j번째 인덱스를 비교해서 같으면
 		{
-			len++;
-			SP[i] = len;
+			j++;
+			SP[i] = j;		// j을 증가시켜 SP[i]에 저장
 			i++;
 		}
 		else
 		{
-			if (len != 0)
-				len = SP[len - 1];
+			if (j != 0)		// j이 0이 아니면
+				j = SP[j - 1];	 // j은 한칸 뒤로
 			else
 			{
 				SP[i] = 0;
@@ -128,10 +137,12 @@ void computeSP(string pattern, size_t SP[])
 	}
 }
 
-void KMP_matching(string text, string pattern,string output_name)
+void KMP_matching(string text, string pattern, string output_name)
 {
-	ofstream fout;
+	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
+
+	
 
 
 	size_t  M = pattern.size();
@@ -146,20 +157,20 @@ void KMP_matching(string text, string pattern,string output_name)
 
 	while (i < N)
 	{
-		if (pattern[j] == text[i])
+		if (pattern[j] == text[i])	// pattern과 text가 일치하는 동안엔 그냥 넘어간다. 
 		{
 			j++;
 			i++;
 		}
 
-		if (j == M)
+		if (j == M)	// pattern을 위한 인덱스가 패턴의 길이와 같다는 건, text안에 패턴이 존재한다는 걸 의미
 		{
 			cout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 			fout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 
 			j = SP[j - 1];
 		}
-		else if (i < N && pattern[j] != text[i])
+		else if (i < N && pattern[j] != text[i])	// pattern과 text가 같지 않을때 뒤로 이동해서 text의 suffix/pattern의 prefix 다음의 문자를 비교
 		{
 			if (j != 0)
 				j = SP[j - 1];
@@ -167,6 +178,9 @@ void KMP_matching(string text, string pattern,string output_name)
 				i = i + 1;
 		}
 	}
+
+	
+	fout.close();
 
 	delete SP;
 }
@@ -179,7 +193,7 @@ void printArray(int arr[], int size)
 	cout << endl;
 }
 
-
+// random pattern 생성 함수
 string get_rand_pattern(int size)
 {
 	char* temp_pattern = new char[size];
@@ -197,31 +211,63 @@ string get_rand_pattern(int size)
 	return random_pattern;
 }
 
+// 파일을 읽어와서 스트링매칭을 수행하는 함수
 void get_result(string filename)
 {
-	ifstream inFile;
+	string br_output_name = "brute_force_" + filename;
+	string rk_output_name = "rabin_karp_" + filename;
+	string kmp_output_name = "kmp_" + filename;
 
+
+	ifstream inFile;
 	cout << filename << " :" << endl;
+	
+	ofstream br_time;
+	br_time.open("elapsed time_" + br_output_name, ios::app | ios::out);
+
+	ofstream rk_time;
+	rk_time.open("elapsed time_" + rk_output_name, ios::app | ios::out);
+
+	ofstream kmp_time;
+	kmp_time.open("elapsed time_" + kmp_output_name, ios::app | ios::out);
+
 
 	inFile.open(filename);
 	string text;
 	inFile >> text;
 
-	string pattern;
-	for (size_t length = 5; length <= 30; length += 5)
+	
+	string real_pattern;
+	for (size_t length = 10; length <= 30; length += 5)
 	{
-		pattern = get_rand_pattern(length);
-		//cout << pattern << endl;
-		string br_output_name = "brute_force_" + filename;
-		string rk_output_name = "rabin_karp_" + filename;
-		string kmp_outpunt_name = "kmp_output_name_" + filename;
-		brute_force_matching(text, pattern, br_output_name);
-		rabin_karp_matching(text, pattern, 13,rk_output_name);
-		KMP_matching(text, pattern,kmp_outpunt_name);
+		real_pattern = text.substr(0, length);
+		
+		chrono::steady_clock::time_point br_start = chrono::steady_clock::now();
+		brute_force_matching(text, real_pattern, br_output_name);
+		chrono::steady_clock::time_point br_end = chrono::steady_clock::now();
+		auto br_elapsed_time = chrono::duration_cast<chrono::microseconds>(br_end - br_start).count();
+		br_time << "To find " << real_pattern << " : Elapsed time of Brute-Force matching : " << br_elapsed_time << "마이크로초" << endl << endl;
+
+		chrono::steady_clock::time_point rk_start = chrono::steady_clock::now();
+		rabin_karp_matching(text, real_pattern, 2, rk_output_name);
+		chrono::steady_clock::time_point rk_end = chrono::steady_clock::now();
+		auto rk_elapsed_time = chrono::duration_cast<chrono::microseconds>(rk_end - rk_start).count();
+		rk_time << "To find " << real_pattern << " : Elapsed time of Rabin-Karp matching : " << rk_elapsed_time << "마이크로초" << endl << endl;
+
+
+		
+		chrono::steady_clock::time_point kmp_start = chrono::steady_clock::now();
+		KMP_matching(text, real_pattern, kmp_output_name);
+		chrono::steady_clock::time_point kmp_end = chrono::steady_clock::now();
+		auto kmp_elapsed_time = chrono::duration_cast<chrono::microseconds>(kmp_end - kmp_start).count();
+		kmp_time << "To find " << real_pattern << " : Elapsed time of KMP matching : " << kmp_elapsed_time << "마이크로초" << endl << endl;
+
+
 	}
 	inFile.close();
 }
 
+// 주어진 길이만큼의 string을 생성하여 파일에 입력하는 함수
 void make_text_file(string filename, int size)
 {
 	ofstream outFile;
@@ -235,21 +281,45 @@ void make_text_file(string filename, int size)
 	outFile.close();
 }
 
+// dest : 결과로 만들어지는 txt파일
+// source : 추출해올 txt파일
+// size : 결과파일안의 스트링 크기
+void extract(string dest, int size)
+{
+	ifstream inFile; // 100,000,000.txt를 읽어올 객체
+	inFile.open("100,000,000.txt");
+	string temp_text;
+	inFile >> temp_text;
+
+	string result_text = temp_text.substr(0, size);	// 길이size인 substring. 반드시 100,000,000.txt안에 존재
+
+	ofstream outFile; // result_text를 입력할 객체
+	outFile.open(dest);
+	outFile << result_text;
+
+	outFile.close();
+	inFile.close();
+
+}
 
 int main()
 {
 	srand((unsigned int)time(NULL));
 
-	//make_text_file("10,000.txt", 10000);
-	//make_text_file("100,000.txt", 100000);
-	//make_text_file("1,000,000.txt", 1000000);
-	//make_text_file("10,000,000.txt", 10000000);
 	//make_text_file("100,000,000.txt", 100000000);
+
+	//extract("10,000.txt", 10000);
+	//extract("100,000.txt", 100000);
+	//extract("1,000,000.txt", 1000000);
+	//extract("10,000,000.txt", 10000000);
+
+
+
 
 	get_result("10,000.txt");
 	get_result("100,000.txt");
 	get_result("1,000,000.txt");
-	//get_result("10,00,000.txt");
-	//get_result("100,000,000.txt");
+	get_result("10,000,000.txt");
+	get_result("100,000,000.txt");
 
 }
