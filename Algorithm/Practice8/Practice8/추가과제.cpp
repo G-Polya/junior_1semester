@@ -17,10 +17,10 @@ using namespace std;
 // text : 텍스트, pattern : 패턴
 void brute_force_matching(string text, string pattern, string output_name)
 {
-	ofstream fout;	// 패턴을 찾은 결과
+	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
-	ofstream time_stamp;
+	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
 	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
@@ -53,10 +53,10 @@ void brute_force_matching(string text, string pattern, string output_name)
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
 void rabin_karp_matching(string text, string pattern, int q, string output_name)
 {
-	ofstream fout;
+	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
-	ofstream time_stamp;
+	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
 	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
@@ -65,7 +65,7 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 	const size_t M = pattern.size();
 	const size_t N = text.size();
 	size_t p = 0;		// pattern을 위한 hash 값
-	size_t t = 0;
+	size_t t = 0;		// text를 위한 hash값
 	int i, j;
 	int h = 1;
 
@@ -123,7 +123,7 @@ void computeSP(string pattern, size_t SP[])
 {
 
 
-	size_t  len = 0;
+	size_t  j = 0;
 	size_t  M = pattern.size();
 	SP[0] = 0;
 
@@ -133,16 +133,16 @@ void computeSP(string pattern, size_t SP[])
 	int i = 1;
 	while (i < M)
 	{
-		if (pattern[i] == pattern[len])
+		if (pattern[i] == pattern[j])	// pattern의 i번째 인덱스와 j번째 인덱스를 비교해서 같으면
 		{
-			len++;
-			SP[i] = len;
+			j++;
+			SP[i] = j;		// j을 증가시켜 SP[i]에 저장
 			i++;
 		}
 		else
 		{
-			if (len != 0)
-				len = SP[len - 1];
+			if (j != 0)		// j이 0이 아니면
+				j = SP[j - 1];	 // j은 한칸 뒤로
 			else
 			{
 				SP[i] = 0;
@@ -154,10 +154,10 @@ void computeSP(string pattern, size_t SP[])
 
 void KMP_matching(string text, string pattern, string output_name)
 {
-	ofstream fout;
+	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
-	ofstream time_stamp;
+	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
 	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
@@ -175,20 +175,20 @@ void KMP_matching(string text, string pattern, string output_name)
 
 	while (i < N)
 	{
-		if (pattern[j] == text[i])
+		if (pattern[j] == text[i])	// pattern과 text가 일치하는 동안엔 그냥 넘어간다. 
 		{
 			j++;
 			i++;
 		}
 
-		if (j == M)
+		if (j == M)	// pattern을 위한 인덱스가 패턴의 길이와 같다는 건, text안에 패턴이 존재한다는 걸 의미
 		{
 			cout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 			fout << "(KMP) " << pattern << " 패턴이 텍스트의 " << i - j + 1 << "번쨰부터 나타남" << endl;
 
 			j = SP[j - 1];
 		}
-		else if (i < N && pattern[j] != text[i])
+		else if (i < N && pattern[j] != text[i])	// pattern과 text가 같지 않을때 뒤로 이동해서 text의 suffix/pattern의 prefix 다음의 문자를 비교
 		{
 			if (j != 0)
 				j = SP[j - 1];
@@ -215,7 +215,7 @@ void printArray(int arr[], int size)
 	cout << endl;
 }
 
-
+// random pattern 생성 함수
 string get_rand_pattern(int size)
 {
 	char* temp_pattern = new char[size];
@@ -233,6 +233,7 @@ string get_rand_pattern(int size)
 	return random_pattern;
 }
 
+// 파일을 읽어와서 스트링매칭을 수행하는 함수
 void get_result(string filename)
 {
 	ifstream inFile;
@@ -251,13 +252,14 @@ void get_result(string filename)
 		string br_output_name = "brute_force_" + filename;
 		string rk_output_name = "rabin_karp_" + filename;
 		string kmp_outpunt_name = "kmp_" + filename;
-		brute_force_matching(text, pattern, br_output_name);
+		//brute_force_matching(text, pattern, br_output_name);
 		rabin_karp_matching(text, pattern, 2, rk_output_name);
-		KMP_matching(text, pattern, kmp_outpunt_name);
+		//KMP_matching(text, pattern, kmp_outpunt_name);
 	}
 	inFile.close();
 }
 
+// 주어진 길이만큼의 string을 생성하여 파일에 입력하는 함수
 void make_text_file(string filename, int size)
 {
 	ofstream outFile;
@@ -286,6 +288,6 @@ int main()
 	get_result("100,000.txt");
 	get_result("1,000,000.txt");
 	get_result("10,000,000.txt");
-	//get_result("100,000,000.txt");
+//	get_result("100,000,000.txt");
 
 }
