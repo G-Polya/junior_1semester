@@ -1,0 +1,12 @@
+To find 31504 : Elapsed time of KMP matching : 446252마이크로초
+
+To find 5896429549 : Elapsed time of KMP matching : 410597마이크로초
+
+To find 170944700720057 : Elapsed time of KMP matching : 415987마이크로초
+
+To find 30169228504850893775 : Elapsed time of KMP matching : 452858마이크로초
+
+To find 4766231029730721907980333 : Elapsed time of KMP matching : 449554마이크로초
+
+To find 787075030117402708819732460353 : Elapsed time of KMP matching : 475877마이크로초
+

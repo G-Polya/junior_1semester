@@ -1,0 +1,12 @@
+To find 97715 : Elapsed time of Rabin-Karp matching : 3662마이크로초
+
+To find 9061223158 : Elapsed time of Rabin-Karp matching : 3640마이크로초
+
+To find 903074386098760 : Elapsed time of Rabin-Karp matching : 3656마이크로초
+
+To find 17503356539565723337 : Elapsed time of Rabin-Karp matching : 3793마이크로초
+
+To find 0142754737412931222010179 : Elapsed time of Rabin-Karp matching : 3743마이크로초
+
+To find 090425508310894058103023138339 : Elapsed time of Rabin-Karp matching : 3740마이크로초
+

@@ -252,7 +252,7 @@ void get_result(string filename)
 		string rk_output_name = "rabin_karp_" + filename;
 		string kmp_outpunt_name = "kmp_" + filename;
 		brute_force_matching(text, pattern, br_output_name);
-		rabin_karp_matching(text, pattern, 101, rk_output_name);
+		rabin_karp_matching(text, pattern, 2, rk_output_name);
 		KMP_matching(text, pattern, kmp_outpunt_name);
 	}
 	inFile.close();
@@ -282,9 +282,9 @@ int main()
 	//make_text_file("10,000,000.txt", 10000000);
 	//make_text_file("100,000,000.txt", 100000000);
 
-	//get_result("10,000.txt");
-	//get_result("100,000.txt");
-	//get_result("1,000,000.txt");
+	get_result("10,000.txt");
+	get_result("100,000.txt");
+	get_result("1,000,000.txt");
 	get_result("10,000,000.txt");
 	//get_result("100,000,000.txt");
 
