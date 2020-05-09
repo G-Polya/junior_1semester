@@ -13,11 +13,11 @@ using namespace std;
 
 // brute force로 스트링 매칭
 // text : 텍스트, pattern : 패턴
-void brute_force_matching(string text, string pattern)
+void brute_force_matching(char text[], char pattern[])
 {
-	size_t M = pattern.size();
-	size_t N = text.size();
-	cout << "brute foce M " << M << endl;
+	size_t M = _msize(pattern) / sizeof(char);
+	size_t N = _msize(text) / sizeof(char);
+	//cout << "brute foce M " << M << endl;
 	for (size_t i = 0; i <= N - M; i++)		// 텍스트크기 - 패턴크기만큼 앞으로 슬라이드 될 것
 	{
 		size_t j;
@@ -32,11 +32,11 @@ void brute_force_matching(string text, string pattern)
 
 //
 // q: 해시함수에 의해 결정되는 mod를 위한 제수
-void rabin_karp_matching(string text, string pattern, int q)
+void rabin_karp_matching(char text[], char pattern[], int q)
 {
 	const size_t d = 10; // [0~9]+[a-z] = 10 +_ 26 = 36. 
-	const size_t M = pattern.size();
-	const size_t N = text.size();
+	const size_t M = _msize(pattern) / sizeof(char);
+	const size_t N = _msize(text) / sizeof(char);
 	size_t p = 0;		// pattern을 위한 hash 값
 	size_t t = 0;
 	int i, j;
@@ -83,10 +83,10 @@ void rabin_karp_matching(string text, string pattern, int q)
 }
 
 
-void computeSP(string pattern, size_t SP[])
+void computeSP(char pattern[], size_t SP[])
 {
 	size_t  len = 0;
-	size_t  M = pattern.size();
+	size_t  M = _msize(pattern) / sizeof(char);
 	SP[0] = 0;
 
 
@@ -114,10 +114,10 @@ void computeSP(string pattern, size_t SP[])
 	}
 }
 
-void KMP_matching(string text, string pattern)
+void KMP_matching(char text[], char pattern[])
 {
-	size_t  M = pattern.size();
-	size_t N = text.size();
+	size_t  M = _msize(pattern) / sizeof(char);
+	size_t N = _msize(text) / sizeof(char);
 
 	size_t* SP = new size_t[M];
 
@@ -160,7 +160,7 @@ void printArray(int arr[], int size)
 }
 
 
-string get_rand_pattern(int size)
+char* get_rand_pattern(int size)
 {
 	char* temp_pattern = new char[size];
 
@@ -169,12 +169,12 @@ string get_rand_pattern(int size)
 		temp_pattern[i] = (char)(rand() % 10) + '0';
 	}
 
-	string random_pattern;
-	for (size_t i = 0; i < size; i++)
-		random_pattern += temp_pattern[i];
+	//string random_pattern;
+	//for (size_t i = 0; i < size; i++)
+	//	random_pattern += temp_pattern[i];
 
-	delete temp_pattern;
-	return random_pattern;
+
+	return temp_pattern;
 }
 
 void get_result(string filename)
@@ -187,16 +187,19 @@ void get_result(string filename)
 	string text;
 	inFile >> text;
 
-	string pattern;
+	char* ch = new char[text.size()];
+	strcpy(ch, text.c_str());
+	char* pattern;
 	for (size_t length = 5; length <= 30; length += 5)
 	{
 		pattern = get_rand_pattern(length);
-		cout << pattern << endl;
-		brute_force_matching(text, pattern);
-		rabin_karp_matching(text, pattern, 13);
-		KMP_matching(text, pattern);
+		
+		brute_force_matching(ch , pattern);
+		rabin_karp_matching(ch, pattern, 13);
+		KMP_matching(ch, pattern);
 	}
 	inFile.close();
+	
 }
 
 void make_text_file(string filename, int size)
