@@ -41,8 +41,8 @@ void brute_force_matching(string text, string pattern, string output_name)
 		}
 	}
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
-	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
-	time_stamp << "To find " << pattern << " : Elapsed time of Brute-Force matching : " << elapsed_time << "마이크로초" << endl << endl;
+	auto elapsed_time = chrono::duration_cast<chrono::seconds>(end - start).count();
+	time_stamp << "To find " << pattern << " : Elapsed time of Brute-Force matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
 
 	time_stamp.close();
 	fout.close();
@@ -110,7 +110,7 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
 	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
-	time_stamp << "To find " << pattern << " : Elapsed time of Rabin-Karp matching : " << elapsed_time << "마이크로초" << endl << endl;
+	time_stamp << "To find " << pattern << " : Elapsed time of Rabin-Karp matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
 
 	time_stamp.close();
 
@@ -199,7 +199,7 @@ void KMP_matching(string text, string pattern, string output_name)
 
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
 	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
-	time_stamp << "To find " << pattern << " : Elapsed time of KMP matching : " << elapsed_time << "마이크로초" << endl << endl;
+	time_stamp << "To find " << pattern << " : Elapsed time of KMP matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
 	time_stamp.close();
 
 	fout.close();
@@ -298,12 +298,12 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 
-	//make_text_file("100,000,000.txt", 100000000);
+	make_text_file("100,000,000.txt", 100000000);
 
-	//extract("10,000.txt", 10000);
-	//extract("100,000.txt", 100000);
-	//extract("1,000,000.txt", 1000000);
-	//extract("10,000,000.txt", 10000000);
+	extract("10,000.txt", 10000);
+	extract("100,000.txt", 100000);
+	extract("1,000,000.txt", 1000000);
+	extract("10,000,000.txt", 10000000);
 
 
 

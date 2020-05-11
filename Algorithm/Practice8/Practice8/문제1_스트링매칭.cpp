@@ -159,14 +159,14 @@ int main()
 	brute_force_matching(text, pattern);
 	chrono::steady_clock::time_point br_end = chrono::steady_clock::now();
 	auto br_elapsed_time = chrono::duration_cast<chrono::microseconds>(br_end - br_start).count();
-	cout << "Elapsed time of Brute-Force matching : " << br_elapsed_time << "마이크로초" << endl << endl;
+	cout << "Elapsed time of Brute-Force matching : " << (double)br_elapsed_time/1000000 << "초" << endl << endl;
 
 	// Rabin-Karp
 	chrono::steady_clock::time_point rk_start = chrono::steady_clock::now();
 	rabin_karp_matching(text, pattern, 13);
 	chrono::steady_clock::time_point rk_end = chrono::steady_clock::now();
 	auto rk_elapsed_time = chrono::duration_cast<chrono::microseconds>(rk_end - rk_start).count();
-	cout << "Elapsed time of Rabin-Karp mathcing : " << rk_elapsed_time <<"마이크로초"<< endl << endl;
+	cout << "Elapsed time of Rabin-Karp mathcing : " << (double)rk_elapsed_time / 1000000 <<"초"<< endl << endl;
 
 
 	// KMP
@@ -174,7 +174,7 @@ int main()
 	KMP_matching(text, pattern);
 	chrono::steady_clock::time_point kmp_end = chrono::steady_clock::now();
 	auto kmp_elapsed_time = chrono::duration_cast<chrono::microseconds>(kmp_end - kmp_start).count();
-	cout << "Elapsed time of KMP mathcing : " << kmp_elapsed_time << "마이크로초" << endl << endl;
+	cout << "Elapsed time of KMP mathcing : " << (double)kmp_elapsed_time / 1000000 << "초" << endl << endl;
 
 
 }
