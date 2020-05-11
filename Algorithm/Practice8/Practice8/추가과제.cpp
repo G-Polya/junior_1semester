@@ -298,6 +298,11 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 
+//	make_text_file("10,000.txt", 100000000);
+//	make_text_file("100,000.txt", 100000000);
+//	make_text_file("1,000,000.txt", 100000000);
+//	make_text_file("10,000,000.txt", 100000000);
+
 	make_text_file("100,000,000.txt", 100000000);
 
 	extract("10,000.txt", 10000);
