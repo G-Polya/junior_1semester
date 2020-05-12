@@ -15,13 +15,13 @@ public class 기말점검2차
 			BufferedWriter fw = new BufferedWriter(new FileWriter(filepath+"\\"+title+".csv", true)); // 정보가 저장될 BufferedWriter 객체
 			
 			
-			// 첫 row는 학번, 이름, 출석, 중간, 기말
-			fw.write("학번,이름,출석,중간,기말");
+			// 첫 row는 학번, 이름, 출석,과제, 중간, 기말
+			fw.write("학번,이름,출석,과제,중간,기말");
 			fw.newLine();
 			
 			for (List<String> student : table)
 			{
-				fw.write(student.get(0)+","+student.get(1) +","+student.get(2)+","+student.get(3)+","+student.get(4));	// 정보 저장
+				fw.write(student.get(0)+","+student.get(1) +","+student.get(2)+","+student.get(3)+","+student.get(4)+","+student.get(5));	// 정보 저장
 				fw.newLine();
 				//resultCount++;
 			}
@@ -130,38 +130,38 @@ public class 기말점검2차
 	
 	public static void main(String[] args)
 	{
-//		 콘솔에 성적을 입력하여 inputFile.csv에 저장하는 과정이다.
-//		Scanner scanner = new Scanner(System.in);
-//		
-//		System.out.print("학생 수를 입력하세요 (20명 이상 입력하세요)>> ");
-//		int size = scanner.nextInt();
-//		
-//		List<List<String>> student_table = new ArrayList<List<String>>();	// 학생들의 정보가 입력될 List
-//		
-//		System.out.println("학번, 성명, 출석, 과제, 중간, 기말 순으로 입력하세요");
-//		
-//		for(int i = 0; i<size;i++)
-//		{
-//			String id_num = scanner.next();
-//			String name = scanner.next();
-//			String attendance = scanner.next();
-//			String assignment = scanner.next();
-//			String mid_term = scanner.next();
-//			String final_term = scanner.next();
-//			
-//			List<String> student = new ArrayList<String>();
-//			student.add(id_num);
-//			student.add(name);
-//			student.add(attendance);
-//			student.add(assignment);
-//			student.add(mid_term);
-//			student.add(final_term);
-//			
-//			
-//			student_table.add(student);
-//		}
-//		
-//		make_inputCSV(student_table, "intputFile","C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment" );	
+	//	 콘솔에 성적을 입력하여 inputFile.csv에 저장하는 과정이다.
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("학생 수를 입력하세요 (20명 이상 입력하세요)>> ");
+		int size = scanner.nextInt();
+		
+		List<List<String>> student_table = new ArrayList<List<String>>();	// 학생들의 정보가 입력될 List
+		
+		System.out.println("학번, 성명, 출석, 과제, 중간, 기말 순으로 입력하세요");
+		
+		for(int i = 0; i<size;i++)
+		{
+			String id_num = scanner.next();
+			String name = scanner.next();
+			String attendance = scanner.next();
+			String assignment = scanner.next();
+			String mid_term = scanner.next();
+			String final_term = scanner.next();
+			
+			List<String> student = new ArrayList<String>();
+			student.add(id_num);
+			student.add(name);
+			student.add(attendance);
+			student.add(assignment);
+			student.add(mid_term);
+			student.add(final_term);
+			
+			
+			student_table.add(student);
+		}
+		
+		make_inputCSV(student_table, "inputFile","C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment" );	
 
 		String inputFile = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment\\inputFile.csv";
 		
