@@ -20,6 +20,12 @@ void brute_force_matching(string text, string pattern, string output_name)
 	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
+<<<<<<< HEAD
+=======
+	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
+	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
+	chrono::steady_clock::time_point start = chrono::steady_clock::now();
+>>>>>>> master
 
 	size_t M = pattern.size();
 	size_t N = text.size();
@@ -37,7 +43,15 @@ void brute_force_matching(string text, string pattern, string output_name)
 
 		}
 	}
+<<<<<<< HEAD
 	
+=======
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	auto elapsed_time = chrono::duration_cast<chrono::seconds>(end - start).count();
+	time_stamp << "To find " << pattern << " : Elapsed time of Brute-Force matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
+
+	time_stamp.close();
+>>>>>>> master
 	fout.close();
 }
 
@@ -49,7 +63,14 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
+<<<<<<< HEAD
 	
+=======
+	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
+	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
+	chrono::steady_clock::time_point start = chrono::steady_clock::now();
+
+>>>>>>> master
 
 	const size_t d = 10; // 진수
 	const size_t M = pattern.size();
@@ -98,7 +119,16 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 		}
 	}
 
+<<<<<<< HEAD
 	
+=======
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
+	time_stamp << "To find " << pattern << " : Elapsed time of Rabin-Karp matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
+
+	time_stamp.close();
+
+>>>>>>> master
 	fout.close();
 
 }
@@ -142,7 +172,14 @@ void KMP_matching(string text, string pattern, string output_name)
 	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
+<<<<<<< HEAD
 	
+=======
+	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
+	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
+	chrono::steady_clock::time_point start = chrono::steady_clock::now();
+
+>>>>>>> master
 
 
 	size_t  M = pattern.size();
@@ -179,7 +216,15 @@ void KMP_matching(string text, string pattern, string output_name)
 		}
 	}
 
+<<<<<<< HEAD
 	
+=======
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
+	time_stamp << "To find " << pattern << " : Elapsed time of KMP matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
+	time_stamp.close();
+
+>>>>>>> master
 	fout.close();
 
 	delete SP;
@@ -236,11 +281,15 @@ void get_result(string filename)
 	string text;
 	inFile >> text;
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> master
 	string real_pattern;
 	for (size_t length = 10; length <= 30; length += 5)
 	{
 		real_pattern = text.substr(0, length);
+<<<<<<< HEAD
 		
 		chrono::steady_clock::time_point br_start = chrono::steady_clock::now();
 		brute_force_matching(text, real_pattern, br_output_name);
@@ -263,6 +312,15 @@ void get_result(string filename)
 		kmp_time << "To find " << real_pattern << " : Elapsed time of KMP matching : " << kmp_elapsed_time << "마이크로초" << endl << endl;
 
 
+=======
+
+		string br_output_name = "brute_force_" + filename;
+		string rk_output_name = "rabin_karp_" + filename;
+		string kmp_outpunt_name = "kmp_" + filename;
+		brute_force_matching(text, real_pattern, br_output_name);
+		rabin_karp_matching(text, real_pattern, 2, rk_output_name);
+		KMP_matching(text, real_pattern, kmp_outpunt_name);
+>>>>>>> master
 	}
 	inFile.close();
 }
@@ -306,7 +364,24 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 
+<<<<<<< HEAD
 	//make_text_file("100,000,000.txt", 100000000);
+=======
+//	make_text_file("10,000.txt", 100000000);
+//	make_text_file("100,000.txt", 100000000);
+//	make_text_file("1,000,000.txt", 100000000);
+//	make_text_file("10,000,000.txt", 100000000);
+
+	make_text_file("100,000,000.txt", 100000000);
+
+	extract("10,000.txt", 10000);
+	extract("100,000.txt", 100000);
+	extract("1,000,000.txt", 1000000);
+	extract("10,000,000.txt", 10000000);
+
+
+
+>>>>>>> master
 
 	//extract("10,000.txt", 10000);
 	//extract("100,000.txt", 100000);
