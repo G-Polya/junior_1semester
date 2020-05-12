@@ -1,6 +1,6 @@
 package Assignment;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+
+import java.io.*;
 import java.util.*;
 
 class Student
@@ -57,6 +57,7 @@ public class 기말점검2차
 			
 			
 			fw.write("학번,이름,출석,중간,기말");
+			fw.newLine();
 			
 			for (Student student : list)
 			{
@@ -74,6 +75,21 @@ public class 기말점검2차
 		}
 	}
 	
+	public static Scanner readCSV(String filename)
+	{
+		Scanner inputTxt = null;
+		try
+		{
+			inputTxt = new Scanner(new FileReader(filename)).useDelimiter(",");
+			
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		return inputTxt;
+	}
+	
 	public static void main(String[] args)
 	{
 		Scanner scanner = new Scanner(System.in);
@@ -84,8 +100,6 @@ public class 기말점검2차
 		List<Student> student_list = new ArrayList<Student>();
 		
 		System.out.println("학번, 성명, 출석, 과제, 중간, 기말 순으로 20명 이상 입력하세요");
-		//Student first = new Student("학번","이름","출석","중간","기말");
-		//student_list.add(first);
 		
 		for(int i = 0; i<size;i++)
 		{
@@ -99,7 +113,17 @@ public class 기말점검2차
 			student_list.add(student);
 		}
 		
-		기말점검2차.createCSV(student_list, "Students","C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment" );	
+//		기말점검2차.createCSV(student_list, "inputFile","C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment" );	
+//		
+		String inputFile = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment\\inputFile.csv";
+		
+		Scanner inputScanner = 기말점검2차.readCSV(inputFile);
+		List<List<String>> output_list = ArrayList<List<String>>(); 
+		while(inputScanner.hasNext())
+		{
+			
+		}
+		
 	}
 	
 }
