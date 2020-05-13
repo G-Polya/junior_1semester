@@ -1,15 +1,16 @@
+package Assignment;
 import java.rmi.server.ExportException;
 import java.sql.*;
 
 
-public class Create_DataBase_Table
+class Create_Database_Table
 {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs, rs2;
 	
 	// 데이터베이스 연결
-	public Create_DataBase_Table()
+	public Create_Database_Table()
 	{
 		try
 		{
@@ -116,9 +117,49 @@ public class Create_DataBase_Table
 
 				if(conn!=null)pstmt.close();
 
-			} catch (Exception e) 
+			} 
+			catch (Exception e) 
 			{
 
+			}
+		}
+	}
+	
+	public void insert_toTable(String dbName, String tName, String no, String name, int attend, int assign, int _mid, int _final)
+	{
+		try
+		{
+			CreateTable(dbName, tName);
+			String insertSql = "insert into "+tName+" value (?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(insertSql);
+			
+			pstmt.setString(1, no);
+			pstmt.setString(2,  name);
+			pstmt.setInt(3, attend);
+			pstmt.setInt(4, assign);
+			pstmt.setInt(5, _mid);
+			pstmt.setInt(6, _final);
+			
+			rs = pstmt.executeQuery();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("Insert error : "+ e);
+		}
+		finally
+		{
+			try
+			{
+				if(rs!=null)rs.close();
+
+				if(pstmt!=null)pstmt.close();
+
+				if(conn!=null)pstmt.close();
+			}
+			catch(Exception e)
+			{
+				
 			}
 		}
 	}
@@ -128,6 +169,14 @@ public class 기말점검3차
 {
 	public static void main(String[] args)
 	{
+		Create_Database_Table db = new Create_Database_Table();
+		String no = "2016112158";
+		String name = "kim";
+		int attend = 10;
+		int assign = 20;
+		int mid_term = 35;
+		int final_term = 35;
 		
+		db.insert_toTable("test", "student", no, name, attend, assign, mid_term, final_term);
 	}
 }
