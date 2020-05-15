@@ -3,7 +3,7 @@ package Assignment;
 import java.util.StringTokenizer;
 import java.util.Scanner;
 
-public class Assignment_20200428 
+public class 교재6장실습 
 {
 	
 	public static void main(String[] args)
