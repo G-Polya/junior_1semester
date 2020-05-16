@@ -216,8 +216,8 @@ string trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
 // refDNA와 myDNA를 비교하여 일치하는 정도를 반환하는 함수
 double get_match_degree(string refDNA, string myDNA)
 {
-	int N = refDNA.size();
-	int M = myDNA.size();
+	double N = refDNA.size();
+	double M = myDNA.size();
 
 	int mismatches = 0;
 
@@ -233,64 +233,75 @@ double get_match_degree(string refDNA, string myDNA)
 	}
 
 
-
-	int result = (M - mismatches) / M * 100;
+	double result = (M - mismatches) / M * 100;
 
 	return result;
 }
 
 int main()
 {
-	//make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
-	int length = 30;
-	int n = 20000;
-	////make_shortRead(length, n, "referenceDNA.txt", "30_shortRead");	// shortRead들을 만들때 사용
+	////make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
+	//int length = 30;
+	//int n = 20000;
+	//////make_shortRead(length, n, "referenceDNA.txt", "30_shortRead");	// shortRead들을 만들때 사용
 
-	//length = 60;
-	//n = 15000;
-	//make_shortRead(length, 15000, "referenceDNA.txt", "60_shortRead");
+	////length = 60;
+	////n = 15000;
+	////make_shortRead(length, 15000, "referenceDNA.txt", "60_shortRead");
 
-	ifstream inDNA;
-	inDNA.open("referenceDNA.txt");
-	string refDNA;
-	inDNA >> refDNA;
+	//ifstream inDNA;
+	//inDNA.open("referenceDNA.txt");
+	//string refDNA;
+	//inDNA >> refDNA;
 
-	//myDNA를 만들 때 사용
-	vector<string> shortReads;		//shortRead들을 저장할 vector
-	for (int i = 0; i < n; i++)
-	{
-		ifstream fin;
-		fin.open("30_shortRead\\shortRead_" + to_string(i) + ".txt");
-		string shortRead;
-		fin >> shortRead;
+	////myDNA를 만들 때 사용
+	//vector<string> shortReads;		//shortRead들을 저장할 vector
+	//for (int i = 0; i < n; i++)
+	//{
+	//	ifstream fin;
+	//	fin.open("30_shortRead\\shortRead_" + to_string(i) + ".txt");
+	//	string shortRead;
+	//	fin >> shortRead;
 
-		shortReads.push_back(shortRead);
-	}
+	//	shortReads.push_back(shortRead);
+	//}
 
-	ofstream myDNA_out;
-	myDNA_out.open("myDNA.txt", ios::app | ios::out);
-	ofstream information;
-	information.open("information.txt", ios::app | ios::out);
+	//ofstream myDNA_out;
+	//myDNA_out.open("myDNA.txt", ios::app | ios::out);
+	//ofstream information;
+	//information.open("information.txt", ios::app | ios::out);
 
 
-	cout << "myDNA : " << endl;
+	//cout << "myDNA : " << endl;
+	//string myDNA;
+	//chrono::steady_clock::time_point start = chrono::steady_clock::now();
+	//myDNA = trivial_Mapping(refDNA, shortReads, 4);
+	//chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	//auto elapsed_time = chrono::duration_cast<chrono::minutes>(end - start).count();
+	//cout << "복원 시간 : " << elapsed_time << " 분" << endl;
+	//information << "복원 시간 : " << elapsed_time << " 분" << endl;
+
+	//myDNA_out << myDNA;
+	//myDNA_out.close();
+
+
+	//cout << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
+	//information << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
+	//information.close();
+
+
+
+	// test_case
+	string refDNA = "GCATGGATTCTCTTTGGACGAAAGTTTCCCAGACTGAGCGCACCACCAATAGTAAAAGAA";
+	vector<string> shortReads = { "GCGTTGCTT","TTGTCTATGGCCG","CGAGAGATTCCTAGACT","CAGAGCGGACCACCA","AACAGTAGAACAA" };
+
+
 	string myDNA;
-	chrono::steady_clock::time_point start = chrono::steady_clock::now();
-	myDNA =  trivial_Mapping(refDNA, shortReads, 4);
-	chrono::steady_clock::time_point end = chrono::steady_clock::now();
-	auto elapsed_time = chrono::duration_cast<chrono::minutes>(end - start).count();
-	cout << "복원 시간 : " << elapsed_time << " 분" << endl;
-	information << "복원 시간 : " << elapsed_time << " 분" << endl;
+	myDNA = trivial_Mapping(refDNA, shortReads, 4);
+	cout << refDNA << endl;
+	cout << myDNA << endl;
+	cout << get_match_degree(refDNA, myDNA) << " %" << endl;
 
-	myDNA_out << myDNA;
-	myDNA_out.close();
 
-	
-	cout << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
-	information << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
-	information.close();
-
-	
-	
 	return 0;
 }
