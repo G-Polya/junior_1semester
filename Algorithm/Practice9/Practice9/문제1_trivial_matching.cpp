@@ -267,15 +267,15 @@ int main()
 		shortReads.push_back(shortRead);
 	}
 
-	
+
 	cout << "myDNA : " << endl;
-	
+
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
-	string myDNA =  trivial_Mapping(refDNA, shortReads, 4);
+	string myDNA = trivial_Mapping(refDNA, shortReads, 4);
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
 	auto elapsed_time = chrono::duration_cast<chrono::minutes>(end - start).count();
-	
-	
+
+
 
 	ofstream myDNA_out;
 	myDNA_out.open("myDNA.txt", ios::app | ios::out);
