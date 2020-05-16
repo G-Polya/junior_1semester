@@ -269,23 +269,28 @@ int main()
 
 	ofstream myDNA_out;
 	myDNA_out.open("myDNA.txt", ios::app | ios::out);
+	ofstream information;
+	information.open("information.txt", ios::app | ios::out);
+
 
 	cout << "myDNA : " << endl;
+	string myDNA;
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
-	myDNA_out << trivial_Mapping(refDNA, shortReads, 4);
+	myDNA =  trivial_Mapping(refDNA, shortReads, 4);
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
-	auto elapsed_time = chrono::duration_cast<chrono::seconds>(end - start).count();
-	cout << "복원 시간 : " << elapsed_time << " 초" << endl;
+	auto elapsed_time = chrono::duration_cast<chrono::minutes>(end - start).count();
+	cout << "복원 시간 : " << elapsed_time << " 분" << endl;
+	information << "복원 시간 : " << elapsed_time << " 분" << endl;
+
+	myDNA_out << myDNA;
 	myDNA_out.close();
 
-	ifstream myDNA_in;
-	myDNA_in.open("myDNA.txt");
-	string myDNA;
-	myDNA_in >> myDNA;
-
-
+	
 	cout << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
+	information << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
+	information.close();
 
-
+	
+	
 	return 0;
 }
