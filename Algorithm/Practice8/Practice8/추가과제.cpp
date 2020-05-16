@@ -20,12 +20,9 @@ void brute_force_matching(string text, string pattern, string output_name)
 	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
-<<<<<<< HEAD
-=======
 	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
 	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
->>>>>>> master
 
 	size_t M = pattern.size();
 	size_t N = text.size();
@@ -43,15 +40,11 @@ void brute_force_matching(string text, string pattern, string output_name)
 
 		}
 	}
-<<<<<<< HEAD
-	
-=======
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
 	auto elapsed_time = chrono::duration_cast<chrono::seconds>(end - start).count();
 	time_stamp << "To find " << pattern << " : Elapsed time of Brute-Force matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
 
 	time_stamp.close();
->>>>>>> master
 	fout.close();
 }
 
@@ -63,14 +56,10 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
-<<<<<<< HEAD
-	
-=======
 	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
 	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
->>>>>>> master
 
 	const size_t d = 10; // 진수
 	const size_t M = pattern.size();
@@ -119,16 +108,12 @@ void rabin_karp_matching(string text, string pattern, int q, string output_name)
 		}
 	}
 
-<<<<<<< HEAD
-	
-=======
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
 	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
 	time_stamp << "To find " << pattern << " : Elapsed time of Rabin-Karp matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
 
 	time_stamp.close();
 
->>>>>>> master
 	fout.close();
 
 }
@@ -172,14 +157,10 @@ void KMP_matching(string text, string pattern, string output_name)
 	ofstream fout;	// 패턴을 찾은 결과가 입력되는 파일객체
 	fout.open(output_name, ios::app | ios::out);
 
-<<<<<<< HEAD
-	
-=======
 	ofstream time_stamp;	// 소요시간이 입력되는 파일객체
 	time_stamp.open("timeStamp_" + output_name, ios::app | ios::out);
 	chrono::steady_clock::time_point start = chrono::steady_clock::now();
 
->>>>>>> master
 
 
 	size_t  M = pattern.size();
@@ -216,15 +197,11 @@ void KMP_matching(string text, string pattern, string output_name)
 		}
 	}
 
-<<<<<<< HEAD
-	
-=======
 	chrono::steady_clock::time_point end = chrono::steady_clock::now();
 	auto elapsed_time = chrono::duration_cast<chrono::microseconds>(end - start).count();
 	time_stamp << "To find " << pattern << " : Elapsed time of KMP matching : " << (double)elapsed_time / 1000000 << "초" << endl << endl;
 	time_stamp.close();
 
->>>>>>> master
 	fout.close();
 
 	delete SP;
@@ -259,60 +236,18 @@ string get_rand_pattern(int size)
 // 파일을 읽어와서 스트링매칭을 수행하는 함수
 void get_result(string filename)
 {
-	string br_output_name = "brute_force_" + filename;
-	string rk_output_name = "rabin_karp_" + filename;
-	string kmp_output_name = "kmp_" + filename;
-
-
 	ifstream inFile;
+
 	cout << filename << " :" << endl;
-	
-	ofstream br_time;
-	br_time.open("elapsed time_" + br_output_name, ios::app | ios::out);
-
-	ofstream rk_time;
-	rk_time.open("elapsed time_" + rk_output_name, ios::app | ios::out);
-
-	ofstream kmp_time;
-	kmp_time.open("elapsed time_" + kmp_output_name, ios::app | ios::out);
-
 
 	inFile.open(filename);
 	string text;
 	inFile >> text;
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> master
 	string real_pattern;
 	for (size_t length = 10; length <= 30; length += 5)
 	{
 		real_pattern = text.substr(0, length);
-<<<<<<< HEAD
-		
-		chrono::steady_clock::time_point br_start = chrono::steady_clock::now();
-		brute_force_matching(text, real_pattern, br_output_name);
-		chrono::steady_clock::time_point br_end = chrono::steady_clock::now();
-		auto br_elapsed_time = chrono::duration_cast<chrono::microseconds>(br_end - br_start).count();
-		br_time << "To find " << real_pattern << " : Elapsed time of Brute-Force matching : " << br_elapsed_time << "마이크로초" << endl << endl;
-
-		chrono::steady_clock::time_point rk_start = chrono::steady_clock::now();
-		rabin_karp_matching(text, real_pattern, 2, rk_output_name);
-		chrono::steady_clock::time_point rk_end = chrono::steady_clock::now();
-		auto rk_elapsed_time = chrono::duration_cast<chrono::microseconds>(rk_end - rk_start).count();
-		rk_time << "To find " << real_pattern << " : Elapsed time of Rabin-Karp matching : " << rk_elapsed_time << "마이크로초" << endl << endl;
-
-
-		
-		chrono::steady_clock::time_point kmp_start = chrono::steady_clock::now();
-		KMP_matching(text, real_pattern, kmp_output_name);
-		chrono::steady_clock::time_point kmp_end = chrono::steady_clock::now();
-		auto kmp_elapsed_time = chrono::duration_cast<chrono::microseconds>(kmp_end - kmp_start).count();
-		kmp_time << "To find " << real_pattern << " : Elapsed time of KMP matching : " << kmp_elapsed_time << "마이크로초" << endl << endl;
-
-
-=======
 
 		string br_output_name = "brute_force_" + filename;
 		string rk_output_name = "rabin_karp_" + filename;
@@ -320,7 +255,6 @@ void get_result(string filename)
 		brute_force_matching(text, real_pattern, br_output_name);
 		rabin_karp_matching(text, real_pattern, 2, rk_output_name);
 		KMP_matching(text, real_pattern, kmp_outpunt_name);
->>>>>>> master
 	}
 	inFile.close();
 }
@@ -364,9 +298,6 @@ int main()
 {
 	srand((unsigned int)time(NULL));
 
-<<<<<<< HEAD
-	//make_text_file("100,000,000.txt", 100000000);
-=======
 //	make_text_file("10,000.txt", 100000000);
 //	make_text_file("100,000.txt", 100000000);
 //	make_text_file("1,000,000.txt", 100000000);
@@ -378,15 +309,6 @@ int main()
 	extract("100,000.txt", 100000);
 	extract("1,000,000.txt", 1000000);
 	extract("10,000,000.txt", 10000000);
-
-
-
->>>>>>> master
-
-	//extract("10,000.txt", 10000);
-	//extract("100,000.txt", 100000);
-	//extract("1,000,000.txt", 1000000);
-	//extract("10,000,000.txt", 10000000);
 
 
 
