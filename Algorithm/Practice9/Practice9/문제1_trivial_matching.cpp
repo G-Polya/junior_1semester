@@ -22,7 +22,7 @@ void make_refDNA(string filename, int length)
 
 	mt19937 gen(rd());	// random_deivce를 통해 난수 생성 엔진을 초기화, 메르센 트위스터 알고리즘. rand가 사용했던 선형합동방식보다 좋은 난수열 생성
 
-	uniform_int_distribution<int> distribution(0, 99);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
+	uniform_int_distribution<int> distribution(0, 50000);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
 	for (int i = 0; i < length; i++)
 	{
 		if (distribution(gen) % 4 == 0)
@@ -267,38 +267,24 @@ int main()
 		shortReads.push_back(shortRead);
 	}
 
-
-	cout << "myDNA : " << endl;
-
-	chrono::steady_clock::time_point start = chrono::steady_clock::now();
-	string myDNA = trivial_Mapping(refDNA, shortReads, 4);
-	chrono::steady_clock::time_point end = chrono::steady_clock::now();
-	auto elapsed_time = chrono::duration_cast<chrono::minutes>(end - start).count();
-
-
-
 	ofstream myDNA_out;
 	myDNA_out.open("myDNA.txt", ios::app | ios::out);
-	myDNA_out << myDNA;
+
+	cout << "myDNA : " << endl;
+	chrono::steady_clock::time_point start = chrono::steady_clock::now();
+	myDNA_out << trivial_Mapping(refDNA, shortReads, 4);
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	auto elapsed_time = chrono::duration_cast<chrono::seconds>(end - start).count();
+	cout << "복원 시간 : " << elapsed_time << " 초" << endl;
 	myDNA_out.close();
 
-	ofstream information;
-	information.open("information.txt", ios::app | ios::out);
-	information << "복원 시간 : " << elapsed_time << " 분" << endl;
-	cout << "복원 시간 : " << elapsed_time << " 분" << endl;
+	ifstream myDNA_in;
+	myDNA_in.open("myDNA.txt");
+	string myDNA;
+	myDNA_in >> myDNA;
 
-	information << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
+
 	cout << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
-	information.close();
-
-	// myDNA.txt가 있을때는 이걸로 비교
-	//ifstream myDNA_in;
-	//myDNA_in.open("myDNA.txt");
-	//string my;
-	//myDNA_in >> my;
-	//myDNA_in.close();
-	//cout << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, my) << endl;
-
 
 
 	return 0;
