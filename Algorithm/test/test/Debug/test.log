@@ -1,3 +1,4 @@
 ﻿  소스.cpp
-  LINK : C:\Users\wlska\Documents\junior_1semester\Algorithm\test\Debug\test.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+C:\Users\wlska\Documents\junior_1semester\Algorithm\test\test\소스.cpp(166,7): warning C4101:  'j' :참조되지 않은 지역 변수입니다.
+C:\Users\wlska\Documents\junior_1semester\Algorithm\test\test\소스.cpp(210,25): warning C4018:  '<': signed 또는 unsigned가 일치하지 않습니다.
   test.vcxproj -> C:\Users\wlska\Documents\junior_1semester\Algorithm\test\Debug\test.exe
