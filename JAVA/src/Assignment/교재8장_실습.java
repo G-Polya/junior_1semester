@@ -43,10 +43,7 @@ public class 교재8장_실습
 	
 	public static void main(String args[])
 	{
-		
-		
-		
-		String java_file = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment\\BitStringout.java";
+		String java_file = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment\\test.java";
 		Scanner sc = readJAVA(java_file);		// // inputFile.csv 읽어오기
         
 		String input_str = "";					// input_str 초기화
@@ -56,7 +53,7 @@ public class 교재8장_실습
         	String input = sc.next();
         	input_str = input_str.concat(input+"\n");
         }
-        
+       
         StringTokenizer st = new StringTokenizer(input_str, " ={};\t\r\n,");	// input_str을 StringTokenizer로 토큰화
         int index = 0, temp = 0;
         

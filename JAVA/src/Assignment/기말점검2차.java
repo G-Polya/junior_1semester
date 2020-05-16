@@ -172,7 +172,7 @@ public class 기말점검2차
 			temp.add(inputScanner.next());	
 		}
 		
-		// 합계를 저장하기 위한 과정
+		// 합계를 저장하기 위한 과
 		List<String[]> temp_table = new ArrayList<String[]>();
 		
 		for(int i = 1; i < temp.size();i++)
