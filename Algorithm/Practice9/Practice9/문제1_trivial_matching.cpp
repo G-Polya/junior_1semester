@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <queue>
-#include <map>
+#include <tuple>
 #include <iomanip>
 #include <algorithm>
 #include <chrono>
@@ -155,66 +155,62 @@ void make_shortRead(int length, int n, string refDNA, string directory)
 
 }
 
+//threshold를 적절히 주는게 관건이다.
+// 너무 적은 수를 주면 string subscript out of range에러가 나타나고
+// 너무 큰 수를 주면 myDNA와 refDNA가 거의 일치함
 int brute_force_matching(string refDNA, string shortRead, int threshold)
 {
+	int i_sum;
 	int M = shortRead.size();
 	int N = refDNA.size();
-	map<int, int> result;		// mismatch 개수를 key로 하고, 일치가 시작하는 인덱스를 value로 하는 map
-
 	for (int i = 0; i <= N - M; i++)
 	{
 		int j;
 		int mismatches = 0;		// 일치하지 않는 문자의 개수
 
-		string temp = refDNA.substr(i, M);
-		for (int j = 0; j < M; j++)
-		{
-			if (shortRead[j] != temp[j])
+		for (j = 0; j < M; j++)
+			if (shortRead[j] != refDNA[i + j])
 			{
 				mismatches++;
 				continue;
 			}
 
-		}
 		if (mismatches < threshold)
 		{
-			auto pr = make_pair(mismatches, i);
-			result.insert(pr);
-
+			return i;
 		}
-		else
-		{
-			auto pr = make_pair(mismatches, 0);
-			result.insert(pr);
-		}
+
 	}
-
-	vector<int> index_vector;	// map에서 index들을 뽑아오기 위한 vector
-
-	for (auto& iter : result)
-	{
-		index_vector.push_back(iter.second);
-	}
-
-	int index = *max_element(begin(index_vector), end(index_vector));	// 가장 mismatch가 적은 인덱스이다.  
-
-	return index;
 }
+
 
 string trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
 {
-	string myDNA = refDNA;	// myDNA와 refDNA는 거의 비슷하다. 
-	for (auto& shortRead : shortReads)		// 각각의 shortRead에 대해서
+	try
 	{
-		int index = brute_force_matching(refDNA, shortRead, threshold);		// 가정 mismatch가 적은 인덱스를 가져온다. 
-		for (int i = index; i < index + shortRead.length(); i++)
-			myDNA[i] = shortRead[i - index];				// myDNA에서 index ~ (index+length)에 해당하는 부분을 shortRead로 바꿔준다.
+		string myDNA = refDNA;	// myDNA와 refDNA는 거의 비슷하다. 
+
+		int number = 0;
+		for (auto& shortRead : shortReads)		// 각각의 shortRead에 대해서
+		{
+			int index = brute_force_matching(refDNA, shortRead, threshold);		// 가정 mismatch가 적은 인덱스를 가져온다. 
+			cout << number << " 번쨰 shortRead는 " << index << "부터 나타남" << endl;
+			number++;
+			for (int i = index; i < index + shortRead.length(); i++)
+				myDNA[i] = shortRead[i - index];				// myDNA에서 index ~ (index+length)에 해당하는 부분을 shortRead로 바꿔준다.
+		}
+		return myDNA;
 	}
-	return myDNA;
+	catch (exception e)
+	{
+		cout << e.what() << endl;
+	}
+
+
 }
 
 // refDNA와 myDNA를 비교하여 일치하는 정도를 반환하는 함수
-double get_match_degree(string refDNA, string myDNA)
+tuple<double, int> compare_degree(string refDNA, string myDNA)
 {
 	double N = refDNA.size();
 	double M = myDNA.size();
@@ -235,64 +231,80 @@ double get_match_degree(string refDNA, string myDNA)
 
 	double result = (M - mismatches) / M * 100;
 
-	return result;
+	return make_tuple(result, mismatches);
 }
+
+
+
 
 int main()
 {
-	////make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
-	//int length = 30;
-	//int n = 20000;
-	//////make_shortRead(length, n, "referenceDNA.txt", "30_shortRead");	// shortRead들을 만들때 사용
+	//make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
+	int length = 30;
+	int n = 20000;
+	////make_shortRead(length, n, "referenceDNA.txt", "30_shortRead");	// shortRead들을 만들때 사용
 
-	////length = 60;
-	////n = 15000;
-	////make_shortRead(length, 15000, "referenceDNA.txt", "60_shortRead");
+	//length = 60;
+	//n = 15000;
+	//make_shortRead(length, 15000, "referenceDNA.txt", "60_shortRead");
 
-	//ifstream inDNA;
-	//inDNA.open("referenceDNA.txt");
-	//string refDNA;
-	//inDNA >> refDNA;
+	ifstream inDNA;
+	inDNA.open("referenceDNA.txt");
+	string refDNA;
+	inDNA >> refDNA;
 
-	////myDNA를 만들 때 사용
-	//vector<string> shortReads;		//shortRead들을 저장할 vector
-	//for (int i = 0; i < n; i++)
-	//{
-	//	ifstream fin;
-	//	fin.open("30_shortRead\\shortRead_" + to_string(i) + ".txt");
-	//	string shortRead;
-	//	fin >> shortRead;
+	//myDNA를 만들 때 사용
+	vector<string> shortReads;		//shortRead들을 저장할 vector
+	for (int i = 0; i < n; i++)
+	{
+		ifstream fin;
+		fin.open("30_shortRead\\shortRead_" + to_string(i) + ".txt");
+		string shortRead;
+		fin >> shortRead;
 
-	//	shortReads.push_back(shortRead);
-	//}
-
-	//ofstream myDNA_out;
-	//myDNA_out.open("myDNA.txt", ios::app | ios::out);
-	//ofstream information;
-	//information.open("information.txt", ios::app | ios::out);
+		shortReads.push_back(shortRead);
+	}
 
 
-	//cout << "myDNA : " << endl;
-	//string myDNA;
-	//chrono::steady_clock::time_point start = chrono::steady_clock::now();
-	//myDNA = trivial_Mapping(refDNA, shortReads, 4);
-	//chrono::steady_clock::time_point end = chrono::steady_clock::now();
-	//auto elapsed_time = chrono::duration_cast<chrono::minutes>(end - start).count();
-	//cout << "복원 시간 : " << elapsed_time << " 분" << endl;
-	//information << "복원 시간 : " << elapsed_time << " 분" << endl;
 
-	//myDNA_out << myDNA;
-	//myDNA_out.close();
+	cout << "myDNA : " << endl;
+	string myDNA;
+
+	// 13이하의 threshold는 String subscript of range 에러가 발생함
+	for (int threshold = 14; threshold < 20; threshold++)
+	{
+		ofstream myDNA_out;
+		myDNA_out.open("myDNA.txt", ios::app | ios::out);
+		ofstream information;
+		information.open("information.txt", ios::app | ios::out);
 
 
-	//cout << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
-	//information << "myDNA와 refDNA의 일치하는 정도 : " << get_match_degree(refDNA, myDNA) << endl;
-	//information.close();
+		chrono::steady_clock::time_point start = chrono::steady_clock::now();
+		myDNA = trivial_Mapping(refDNA, shortReads, threshold);
+		chrono::steady_clock::time_point end = chrono::steady_clock::now();
+		auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start).count();
+		auto elapsed_minutes = chrono::duration_cast<chrono::minutes>(end - start).count();
+
+		information << "threshold가 " << threshold << " 일 때 : " << endl;
+		information << "복원 시간 : " << elapsed_seconds << " 초 (" << elapsed_minutes << " 분)" << endl;
+
+		myDNA_out << myDNA;
+		myDNA_out.close();
+
+		double degree = get<0>(compare_degree(refDNA, myDNA));
+		int mismathces = get<1>(compare_degree(refDNA, myDNA));
+		information << "myDNA와 refDNA의 일치하는 정도 : " << get<0>(compare_degree(refDNA, myDNA)) << endl;
+		information << "불일치 개수 : " << get<1>(compare_degree(refDNA, myDNA)) << endl;
+		information << "============================" << endl;
+
+		information.close();
+	}
+
 
 
 
 	// test_case
-	string refDNA = "GCATGGATTCTCTTTGGACGAAAGTTTCCCAGACTGAGCGCACCACCAATAGTAAAAGAA";
+	/*string refDNA = "GCATGGATTCTCTTTGGACGAAAGTTTCCCAGACTGAGCGCACCACCAATAGTAAAAGAA";
 	vector<string> shortReads = { "GCGTTGCTT","TTGTCTATGGCCG","CGAGAGATTCCTAGACT","CAGAGCGGACCACCA","AACAGTAGAACAA" };
 
 
@@ -300,7 +312,7 @@ int main()
 	myDNA = trivial_Mapping(refDNA, shortReads, 4);
 	cout << refDNA << endl;
 	cout << myDNA << endl;
-	cout << get_match_degree(refDNA, myDNA) << " %" << endl;
+	cout << get<0>(compare_degree(refDNA, myDNA))<<" %" << endl;*/
 
 
 	return 0;
