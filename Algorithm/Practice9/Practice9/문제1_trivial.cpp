@@ -240,13 +240,12 @@ tuple<double, int> compare_degree(string refDNA, string myDNA)
 int main()
 {
 	//make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
-	int length = 30;
-	int n = 20000;
-	////make_shortRead(length, n, "referenceDNA.txt", "30_shortRead");	// shortRead들을 만들때 사용
-
-	length = 60;
-	n = 15000;
-	//make_shortRead(length, 15000, "referenceDNA.txt", "60_shortRead");
+	int k, n;
+	cout << "shortRead의 길이 k를 입력해주세요 >> ";
+	cin >> k;
+	cout << "shortRead의 개수 n를 입력해주세요 >> ";
+	cin >> n;
+	make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
 
 	ifstream inDNA;
 	inDNA.open("referenceDNA.txt");
@@ -258,7 +257,7 @@ int main()
 	for (int i = 0; i < n; i++)
 	{
 		ifstream fin;
-		fin.open("60_shortRead\\shortRead_" + to_string(i) + ".txt");
+		fin.open(to_string(k) + "_shortRead\\shortRead_" + to_string(i) + ".txt");
 		string shortRead;
 		fin >> shortRead;
 
@@ -272,25 +271,27 @@ int main()
 
 	for (int threshold = 15; threshold < 20; threshold++)
 	{
-		ofstream myDNA_out;
-		string myDNA_name = to_string(length) + "_" + to_string(threshold) + "_myDNA.txt";
+		ofstream myDNA_out;	// myDNA.txt를 입력하기 위한 파일스트림
+		string myDNA_name = to_string(k) + "_" + to_string(threshold) + "_myDNA.txt";
 		myDNA_out.open(myDNA_name, ios::app | ios::out);
-		ofstream information;
-		string information_name = to_string(length) + "_information.txt";
+
+		ofstream information;	// 복원시간, 일치도, 불일치 개수를 입력하기 위한 파일 스트림
+		string information_name = to_string(k) + "_information.txt";
 		information.open(information_name, ios::app | ios::out);
 
 
 		chrono::steady_clock::time_point start = chrono::steady_clock::now();
-		myDNA = trivial_Mapping(refDNA, shortReads, threshold);
+		myDNA = trivial_Mapping(refDNA, shortReads, threshold);	// myDNA 생성
 		chrono::steady_clock::time_point end = chrono::steady_clock::now();
 		auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start).count();
 		auto elapsed_minutes = chrono::duration_cast<chrono::minutes>(end - start).count();
 
+		myDNA_out << myDNA;	//myDNA를 파일에 입력. 
+		myDNA_out.close();
+
+		// threshold에 따른 복원시간, 일치도, 불일치 개수를 파일에 입력
 		information << "threshold가 " << threshold << " 일 때 : " << endl;
 		information << "복원 시간 : " << elapsed_seconds << " 초 (" << elapsed_minutes << " 분)" << endl;
-
-		myDNA_out << myDNA;
-		myDNA_out.close();
 
 		double degree = get<0>(compare_degree(refDNA, myDNA));
 		int mismathces = get<1>(compare_degree(refDNA, myDNA));
@@ -299,7 +300,40 @@ int main()
 		information << "============================" << endl;
 
 		information.close();
+
 	}
+	ofstream myDNA_out;	// myDNA.txt를 입력하기 위한 파일스트림
+	string myDNA_name = to_string(k) + "_" + to_string(threshold) + "_myDNA.txt";
+	myDNA_out.open(myDNA_name, ios::app | ios::out);
+
+	ofstream information;	// 복원시간, 일치도, 불일치 개수를 입력하기 위한 파일 스트림
+	string information_name = to_string(k) + "_information.txt";
+	information.open(information_name, ios::app | ios::out);
+
+
+	chrono::steady_clock::time_point start = chrono::steady_clock::now();
+	myDNA = trivial_Mapping(refDNA, shortReads, threshold);	// myDNA 생성
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start).count();
+	auto elapsed_minutes = chrono::duration_cast<chrono::minutes>(end - start).count();
+
+	myDNA_out << myDNA;	//myDNA를 파일에 입력. 
+	myDNA_out.close();
+
+	// threshold에 따른 복원시간, 일치도, 불일치 개수를 파일에 입력
+	information << "threshold가 " << threshold << " 일 때 : " << endl;
+	information << "복원 시간 : " << elapsed_seconds << " 초 (" << elapsed_minutes << " 분)" << endl;
+
+	double degree = get<0>(compare_degree(refDNA, myDNA));
+	int mismathces = get<1>(compare_degree(refDNA, myDNA));
+	information << "myDNA와 refDNA의 일치하는 정도 : " << get<0>(compare_degree(refDNA, myDNA)) << endl;
+	information << "불일치 개수 : " << get<1>(compare_degree(refDNA, myDNA)) << endl;
+	information << "============================" << endl;
+
+	information.close();
+
+
+
 
 
 
