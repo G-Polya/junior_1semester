@@ -22,7 +22,7 @@ void make_refDNA(string filename, int length)
 
 	mt19937 gen(rd());	// random_deivce를 통해 난수 생성 엔진을 초기화, 메르센 트위스터 알고리즘. rand가 사용했던 선형합동방식보다 좋은 난수열 생성
 
-	uniform_int_distribution<int> distribution(0, 50000);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
+	uniform_int_distribution<int> distribution(0, INT_MAX);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
 	for (int i = 0; i < length; i++)
 	{
 		if (distribution(gen) % 4 == 0)
@@ -239,7 +239,7 @@ tuple<double, int> compare_degree(string refDNA, string myDNA)
 
 int main()
 {
-	////make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
+	make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
 	//int length = 30;
 	//int n = 20000;
 	//////make_shortRead(length, n, "referenceDNA.txt", "30_shortRead");	// shortRead들을 만들때 사용
