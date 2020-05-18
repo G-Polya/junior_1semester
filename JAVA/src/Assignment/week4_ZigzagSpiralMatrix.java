@@ -1,165 +1,165 @@
 package Assignment;
 import java.util.Scanner;
 
-public class week4_ZigzagSpiralMatrix 
+public class week4_ZigzagSpiralMatrix
 {
-	//¹®Á¦1
+	//ë¬¸ì œ1
 	static void make_matrix(int size)
 	{
-		int matrix[][] = new int[size][size];		//2Â÷¿ø ¹è¿­
-	
-		for(int col = 0; col<matrix.length;col++)	//(i,j)Çà·Ä. iÇà j¿­
+		int matrix[][] = new int[size][size];		//2ì°¨ì› ë°°ì—´
+
+		for(int col = 0; col<matrix.length;col++)	//(i,j)í–‰ë ¬. ií–‰ jì—´
 		{
 			for(int row = 0;row<matrix[0].length;row++)
 			{
-				matrix[col][row] = row + col * size;	// 2Â÷¿ø ¹è¿­À» ÃÊ±âÈ­
+				matrix[col][row] = row + col * size;	// 2ì°¨ì› ë°°ì—´ì„ ì´ˆê¸°í™”
 			}
 		}
-		
+
 		for(int col = 0 ; col<matrix.length;col++)
 		{
 			for(int row = 0; row<matrix[0].length;row++)
-				System.out.print(String.format("%3d", matrix[col][row]));	//2Â÷¿ø¹è¿­ Ãâ·Â
+				System.out.print(String.format("%3d", matrix[col][row]));	//2ì°¨ì›ë°°ì—´ ì¶œë ¥
 			System.out.println();
 		}
-		
+
 	}
-		
-	//¹®Á¦2
+
+	//ë¬¸ì œ2
 	static void zigzag_matrix(int size)
 	{
-		int matrix[][] = new int[size][size];		// 2Â÷¿ø ¹è¿­ ¼±¾ğ
-		
+		int matrix[][] = new int[size][size];		// 2ì°¨ì› ë°°ì—´ ì„ ì–¸
+
 		for(int col = 0; col<matrix.length;col++)
 		{
 			for(int row = 0; row<matrix.length;row++)
 			{
-				if(col % 2==0)								// 0, 2, 4,...¹øÂ° column¿¡ ´ëÇØ¼±...
-					matrix[col][row] = row + col * size;	// 1¹øÀÇ 2Â÷¿ø¹è¿­Ã³·³ ÃÊ±âÈ­ 
-				else 										// 1, 3, 5,...¹øÂ° column¿¡ ´ëÇØ¼± 
-					matrix[col][row] = (size - row - 1) + col * size;	// °Å²Ù·Î ÃÊ±âÈ­. Å«¼öºÎÅÍ ÃÊ±âÈ­
+				if(col % 2==0)								// 0, 2, 4,...ë²ˆì§¸ columnì— ëŒ€í•´ì„ ...
+					matrix[col][row] = row + col * size;	// 1ë²ˆì˜ 2ì°¨ì›ë°°ì—´ì²˜ëŸ¼ ì´ˆê¸°í™”
+				else 										// 1, 3, 5,...ë²ˆì§¸ columnì— ëŒ€í•´ì„ 
+					matrix[col][row] = (size - row - 1) + col * size;	// ê±°ê¾¸ë¡œ ì´ˆê¸°í™”. í°ìˆ˜ë¶€í„° ì´ˆê¸°í™”
 			}
 		}
-		
+
 		for(int col = 0 ; col<matrix.length;col++)
 		{
 			for(int row = 0; row<matrix[0].length;row++)
-				System.out.print(String.format("%3d", matrix[col][row]));		// Ãâ·Â
+				System.out.print(String.format("%3d", matrix[col][row]));		// ì¶œë ¥
 			System.out.println();
 		}
-		
+
 	}
-	//¹®Á¦3
+	//ë¬¸ì œ3
 	static void zigzag_NoArray(int size)
 	{
-		int element = 0;			// ¹è¿­ÀÇ ¿ø¼Ò ¿ªÇÒÀ» ÇÏ´Â º¯¼ö. ½ÇÁ¦ ¿ø¼Ò´Â ¾Æ´Ï´Ù
-		
+		int element = 0;			// ë°°ì—´ì˜ ì›ì†Œ ì—­í• ì„ í•˜ëŠ” ë³€ìˆ˜. ì‹¤ì œ ì›ì†ŒëŠ” ì•„ë‹ˆë‹¤
+
 		for(int col = 0 ; col<size;col++)
 		{
-			int temp = element;		// È¦¼ö¹øÂ° column¿¡¼­ element ´ë½Å ¾²±â À§ÇÑ temp
-			
+			int temp = element;		// í™€ìˆ˜ë²ˆì§¸ columnì—ì„œ element ëŒ€ì‹  ì“°ê¸° ìœ„í•œ temp
+
 			for(int row = 0; row < size;row++)
 			{
-				if(col % 2 ==0)		// Â¦¼ö¹øÂ° column¿¡¼± element°¡ ÀÌµ¿ÇÒ¶§¸¶´Ù Áõ°¡ÇÏ¸é µÊ
+				if(col % 2 ==0)		// ì§ìˆ˜ë²ˆì§¸ columnì—ì„  elementê°€ ì´ë™í• ë•Œë§ˆë‹¤ ì¦ê°€í•˜ë©´ ë¨
 					System.out.print(String.format("%3d",element));
 				else
-				{	// È¦¼ö¹øÂ° column¿¡¼± ÀÌµ¿ÇÒ¶§¸¶´Ù temp¸¦ °¨¼Ò½ÃÅ´. ±×·¯¸é ¿À¸¥ÂÊºÎÅÍ Å«¼ö°¡ Ãâ·ÂµÈ´Ù
-					System.out.print(String.format("%3d",(size-1)+temp));	
+				{	// í™€ìˆ˜ë²ˆì§¸ columnì—ì„  ì´ë™í• ë•Œë§ˆë‹¤ tempë¥¼ ê°ì†Œì‹œí‚´. ê·¸ëŸ¬ë©´ ì˜¤ë¥¸ìª½ë¶€í„° í°ìˆ˜ê°€ ì¶œë ¥ëœë‹¤
+					System.out.print(String.format("%3d",(size-1)+temp));
 					temp --;
 				}
-				element++;		// ¿òÁ÷ÀÏ¶§¸¶´Ù 1¾¿ Áõ°¡½ÃÅ´. 
+				element++;		// ì›€ì§ì¼ë•Œë§ˆë‹¤ 1ì”© ì¦ê°€ì‹œí‚´.
 			}
 			System.out.println();
 		}
 	}
-	
-	// ¹®Á¦4
+
+	// ë¬¸ì œ4
 	static void spiral_matrix(int size)
 	{
-		int matrix[][] = new int[size][size];			// 2Â÷¿ø ¹è¿­ ¼±¾ğ
-		
-		int count = 0;		// ÀÌµ¿ÇÒ´ë¸¶´Ù ÇÏ³ª¾¿ Áõ°¡µÇ¾î ¹è¿­ÀÇ ¿ø¼Ò°¡ µÊ
+		int matrix[][] = new int[size][size];			// 2ì°¨ì› ë°°ì—´ ì„ ì–¸
+
+		int count = 0;		// ì´ë™í• ëŒ€ë§ˆë‹¤ í•˜ë‚˜ì”© ì¦ê°€ë˜ì–´ ë°°ì—´ì˜ ì›ì†Œê°€ ë¨
 		int col, row;
-		
+
 		for(col = 0; col < (size/2)+1;col++)
 		{
 			for(row = col; row < size - col; row++)
-				matrix[col][row] = count++;				// ¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊÀ¸·Î °ªÀ» ³ÖÀ½
-			
+				matrix[col][row] = count++;				// ì™¼ìª½ì—ì„œ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ê°’ì„ ë„£ìŒ
+
 			for(row = col+1;row<size-col;row++)
-				matrix[row][size-col-1]= count++;		// À§ÂÊ¿¡¼­ ¾Æ·¡ÂÊÀ¸·Î °ªÀ» ³ÖÀ½
-			
-			for(row = size - col -2; row>= col;row--)	// ¿À¸¥ÂÊ¿¡¼­ ¿ŞÂÊÀ¸·Î °ªÀ» ³ÖÀ½
+				matrix[row][size-col-1]= count++;		// ìœ„ìª½ì—ì„œ ì•„ë˜ìª½ìœ¼ë¡œ ê°’ì„ ë„£ìŒ
+
+			for(row = size - col -2; row>= col;row--)	// ì˜¤ë¥¸ìª½ì—ì„œ ì™¼ìª½ìœ¼ë¡œ ê°’ì„ ë„£ìŒ
 				matrix[size-col-1][row] = count++;
-			
-			for(row = size - col - 2; row>=col+1;row--)	// ¾Æ·¡ÂÊ¿¡¼­ À§ÂÊÀ¸·Î °ªÀ» ³ÖÀ½
+
+			for(row = size - col - 2; row>=col+1;row--)	// ì•„ë˜ìª½ì—ì„œ ìœ„ìª½ìœ¼ë¡œ ê°’ì„ ë„£ìŒ
 				matrix[row][col] = count++;
-				
+
 		}
-		
-		
+
+
 		for(int new_col = 0 ; new_col<matrix.length;new_col++)
 		{
 			for(int new_row = 0; new_row<matrix[0].length;new_row++)
-				System.out.print(String.format("%3d", matrix[new_col][new_row]));	// ¹è¿­ Ãâ·Â
+				System.out.print(String.format("%3d", matrix[new_col][new_row]));	// ë°°ì—´ ì¶œë ¥
 			System.out.println();
 		}
 	}
-		
-	// ÁÖ¾îÁø À§Ä¡¿¡¼­ °¡ÀåÀÚ¸®±îÁö ¶³¾îÁ®ÀÖ´Â ÃÖ¼Ò°Å¸®¸¦ ±¸ÇÏ´Â ÇÔ¼ö
-		static int min(int x, int y, int z ,int w)
-		{
-			int min = x;
-			int arr[] = {x,y,z,w};
-			for(int i = 0; i< arr.length;i++)
-			{
-				if(arr[i]<min)
-					min=arr[i];
-			}
-			
-			return min;
-	 	}
-		
-		// °á±¹ 2Â÷¿ø¹è¿­Àº Å« ¤±¾È¿¡ ÀÛÀº ¤±°¡ µé¾îÀÕ´Â ¸ğ½ÀÀÌ´Ù
-		static void spiral_NoArray(int size)
-		{
-			int element;
-			
-			// ±ÔÄ¢1
-			// row >= colÀÏ¶§, (row,col)À§Ä¡ÀÇ ¿ø¼Ò´Â (row+col)ÀÌ°í
-			// row < colÀÏ¶§, ¿ø¼Ò´Â (size-1)*4-(row+col)ÀÌ´Ù. ÀÌ‹š size´Â Çà·ÄÀÇ Å©±âÀÌ´Ù.
-			// Á¦ÀÏ ¹Ù±ùÀÇ ¤±¾È¿¡¼­´Â ÀÌ°ÍÀÌ Àß µé¾î¸ÂÀ¸³ª µÎ¹ø¤Š ¤±ºÎÅÍ´Â ¼º¸³ÇÏÁö ¾Ê´Â´Ù. 
-			for(int col = 0; col<size;col++)
-			{
-				for(int row =0 ;row<size;row++)
-				{
-					// positionÀº (row,col)ÀÇ ¿ä¼Ò°¡ °¡ÀåÀÚ¸®¿¡¼­ ¶³¾îÁ®ÀÖ´Â Á¤µµ¸¦ ³ªÅ¸³½´Ù
-					// positionÀÌ ÇÊ¿äÇÑ ÀÌÀ¯´Â ¾ÈÂÊ(¼ıÀÚ20)ºÎÅÍ´Â ±ÔÄ¢1ÀÌ ¸ÂÁö ¾Ê±â ‹š¹®			
 
-					int position = min(row,col,size-1-col, size-1-row);
-					if(row>=col)
-						// 2 * positionÀ» »©ÁÖ¸é ±ÔÄ¢1¿¡ ºÎÇÕµÊ
-						element = row + col - 2*position;
-					else
-						// 2 * positionÀ» »©ÁÖ¸é ±ÔÄ¢1¿¡ ºÎÇÕµÊ
-						element = (size-1-2*position) * 4 - (col+row-2*position);
-					
-					// À§ °úÁ¤À» ³¡³»¸é ¤±¸¶´Ù 0ºÎÅÍ ½ÃÀÛÇÏ°Ô µÊ. Ã¹¹øÂ° ¤±¿¡´Â 0~19, µÎ¹øÂ° ¤±¿¡´Â 0~11...
-					// µû¶ó¼­ Æ¯Á¤°ªÀ» ´õÇØÁà¾ß ¿¬¼ÓµÈ ¼ıÀÚµéÀÌ ³ª¼±ÇüÀ¸·Î ³ª¿­µÊ
-					// ±× Æ¯Á¤°ªÀÌ °ğ 4*(position * size - position^2)
-					element += 4 * (position * size-(position*position));
-					System.out.print(String.format("%3d",element));
-				}
-				System.out.println();
-			}
+	// ì£¼ì–´ì§„ ìœ„ì¹˜ì—ì„œ ê°€ì¥ìë¦¬ê¹Œì§€ ë–¨ì–´ì ¸ìˆëŠ” ìµœì†Œê±°ë¦¬ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜
+	static int min(int x, int y, int z ,int w)
+	{
+		int min = x;
+		int arr[] = {x,y,z,w};
+		for(int i = 0; i< arr.length;i++)
+		{
+			if(arr[i]<min)
+				min=arr[i];
 		}
-		
+
+		return min;
+	}
+
+	// ê²°êµ­ 2ì°¨ì›ë°°ì—´ì€ í° ã…ì•ˆì— ì‘ì€ ã…ê°€ ë“¤ì–´ì‡ëŠ” ëª¨ìŠµì´ë‹¤
+	static void spiral_NoArray(int size)
+	{
+		int element;
+
+		// ê·œì¹™1
+		// row >= colì¼ë•Œ, (row,col)ìœ„ì¹˜ì˜ ì›ì†ŒëŠ” (row+col)ì´ê³ 
+		// row < colì¼ë•Œ, ì›ì†ŒëŠ” (size-1)*4-(row+col)ì´ë‹¤. ì´Â‹Âš sizeëŠ” í–‰ë ¬ì˜ í¬ê¸°ì´ë‹¤.
+		// ì œì¼ ë°”ê¹¥ì˜ ã…ì•ˆì—ì„œëŠ” ì´ê²ƒì´ ì˜ ë“¤ì–´ë§ìœ¼ë‚˜ ë‘ë²ˆÂŠ ã…ë¶€í„°ëŠ” ì„±ë¦½í•˜ì§€ ì•ŠëŠ”ë‹¤.
+		for(int col = 0; col<size;col++)
+		{
+			for(int row =0 ;row<size;row++)
+			{
+				// positionì€ (row,col)ì˜ ìš”ì†Œê°€ ê°€ì¥ìë¦¬ì—ì„œ ë–¨ì–´ì ¸ìˆëŠ” ì •ë„ë¥¼ ë‚˜íƒ€ë‚¸ë‹¤
+				// positionì´ í•„ìš”í•œ ì´ìœ ëŠ” ì•ˆìª½(ìˆ«ì20)ë¶€í„°ëŠ” ê·œì¹™1ì´ ë§ì§€ ì•Šê¸° Â‹Âšë¬¸
+
+				int position = min(row,col,size-1-col, size-1-row);
+				if(row>=col)
+					// 2 * positionì„ ë¹¼ì£¼ë©´ ê·œì¹™1ì— ë¶€í•©ë¨
+					element = row + col - 2*position;
+				else
+					// 2 * positionì„ ë¹¼ì£¼ë©´ ê·œì¹™1ì— ë¶€í•©ë¨
+					element = (size-1-2*position) * 4 - (col+row-2*position);
+
+				// ìœ„ ê³¼ì •ì„ ëë‚´ë©´ ã…ë§ˆë‹¤ 0ë¶€í„° ì‹œì‘í•˜ê²Œ ë¨. ì²«ë²ˆì§¸ ã…ì—ëŠ” 0~19, ë‘ë²ˆì§¸ ã…ì—ëŠ” 0~11...
+				// ë”°ë¼ì„œ íŠ¹ì •ê°’ì„ ë”í•´ì¤˜ì•¼ ì—°ì†ëœ ìˆ«ìë“¤ì´ ë‚˜ì„ í˜•ìœ¼ë¡œ ë‚˜ì—´ë¨
+				// ê·¸ íŠ¹ì •ê°’ì´ ê³§ 4*(position * size - position^2)
+				element += 4 * (position * size-(position*position));
+				System.out.print(String.format("%3d",element));
+			}
+			System.out.println();
+		}
+	}
+
 	public static void main(String[] args)
 	{
-		System.out.print("¼ö¸¦ ÀÔ·ÂÇÏ½Ã¿À: ");
+		System.out.print("ìˆ˜ë¥¼ ì…ë ¥í•˜ì‹œì˜¤: ");
 		Scanner sc = new Scanner(System.in);
 		int size = sc.nextInt();
-		
+
 		make_matrix(size);
 		System.out.println();
 		zigzag_matrix(size);
@@ -170,5 +170,5 @@ public class week4_ZigzagSpiralMatrix
 		System.out.println();
 		spiral_NoArray(size);
 	}
-	
+
 }

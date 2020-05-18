@@ -2,26 +2,26 @@ package Assignment;
 import java.util.Scanner;
 
 
-// Ãß»óÅ¬·¡½º Calc
-// a,b,setvalue()´Â ÆÄ»ıÅ¬·¡½º ¸ğµÎ¿¡¼­ °°Àº ±â´ÉÀ» ¼öÇà
-// calculate()´Â ÆÄ»ıÅ¬·¡½º¸¶´Ù ´Ù¸¥ ¿¬»êÀ» ¼öÇàÇÏ¹Ç·Î Ãß»ó¸Ş¼Òµå·Î ¼±¾ğ
+// ì¶”ìƒí´ë˜ìŠ¤ Calc
+// a,b,setvalue()ëŠ” íŒŒìƒí´ë˜ìŠ¤ ëª¨ë‘ì—ì„œ ê°™ì€ ê¸°ëŠ¥ì„ ìˆ˜í–‰
+// calculate()ëŠ” íŒŒìƒí´ë˜ìŠ¤ë§ˆë‹¤ ë‹¤ë¥¸ ì—°ì‚°ì„ ìˆ˜í–‰í•˜ë¯€ë¡œ ì¶”ìƒë©”ì†Œë“œë¡œ ì„ ì–¸
 abstract class Calc
 {
 	protected int a;
 	protected int b;
-	
+
 	protected void setValue(int a,int b)
 	{
 		this.a = a;
 		this.b = b;
 	}
-	
+
 	abstract protected int calculate();
 }
 
-// 4°³ÀÇ ÆÄ»ıÅ¬·¡½º Add, Sub, Mul, Div
-// Calc¸¦ »ó¼Ó¹Ş´Â´Ù
-// Ãß»ó¸Ş¼Òµå calculate()¸¦ ¿À¹ö¶óÀÌµùÇÏ¿© ±¸Ã¼È­
+// 4ê°œì˜ íŒŒìƒí´ë˜ìŠ¤ Add, Sub, Mul, Div
+// Calcë¥¼ ìƒì†ë°›ëŠ”ë‹¤
+// ì¶”ìƒë©”ì†Œë“œ calculate()ë¥¼ ì˜¤ë²„ë¼ì´ë”©í•˜ì—¬ êµ¬ì²´í™”
 class Add extends Calc
 {
 
@@ -64,40 +64,40 @@ public class week6_practice
 {
 	public static void main(String[] args)
 	{
-		int operand1, operand2;		// ÀÔ·Â¹ŞÀ» ÇÇ¿¬»êÀÚ
-		char operator;				// ÀÔ·Â¹ŞÀ» ¿¬»êÀÚ
+		int operand1, operand2;		// ì…ë ¥ë°›ì„ í”¼ì—°ì‚°ì
+		char operator;				// ì…ë ¥ë°›ì„ ì—°ì‚°ì
 		Scanner scan = new Scanner(System.in);
-		
-		
-		// ¿¬»êÀÚ, ÇÇ¿¬»êÀÚ ÀÔ·Â
-		System.out.print("µÎ Á¤¼ö¿Í ¿¬»êÀÚ¸¦ ÀÔ·ÂÇÏ½Ã¿À >> ");
+
+
+		// ì—°ì‚°ì, í”¼ì—°ì‚°ì ì…ë ¥
+		System.out.print("ë‘ ì •ìˆ˜ì™€ ì—°ì‚°ìë¥¼ ì…ë ¥í•˜ì‹œì˜¤ >> ");
 		operand1 = scan.nextInt();
 		operand2 = scan.nextInt();
 		operator = scan.next().charAt(0);
 		Calc operation;
-		
-		
-		// ÀÔ·ÂµÈ ¿¬»êÀÚ¿¡ µû¶ó ¼­·Î´Ù¸¥ case
+
+
+		// ì…ë ¥ëœ ì—°ì‚°ìì— ë”°ë¼ ì„œë¡œë‹¤ë¥¸ case
 		switch(operator)
 		{
 			case '+':
-				operation = new Add();	// case¸¶´Ù °´Ã¼¸¦ ´Ù¸£°Ô »ı¼ºÇØ ¿¬»êÀ» ¼öÇà
+				operation = new Add();	// caseë§ˆë‹¤ ê°ì²´ë¥¼ ë‹¤ë¥´ê²Œ ìƒì„±í•´ ì—°ì‚°ì„ ìˆ˜í–‰
 				operation.setValue(operand1, operand2);
 				System.out.println(operation.calculate());
 				break;
-				
+
 			case '-':
 				operation = new Sub();
 				operation.setValue(operand1, operand2);
 				System.out.println(operation.calculate());
 				break;
-				
+
 			case '*':
 				operation = new Mul();
 				operation.setValue(operand1, operand2);
 				System.out.println(operation.calculate());
 				break;
-			
+
 			case '/':
 				operation = new Div();
 				operation.setValue(operand1, operand2);

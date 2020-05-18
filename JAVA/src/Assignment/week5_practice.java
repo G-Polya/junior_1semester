@@ -1,50 +1,50 @@
 package Assignment;
 class ArrayUtil
 {
-	
-	
+
+
 	public static int[] concat(int[] a, int[] b)
 	{
-		// ¹è¿­ a,bÀÇ ¿ø¼Ò¸¦ ÀúÀåÇÒ ÀÓ½Ã ¹è¿­ temp. 
-		// a,bÀÇ ¸ğµç¿ø¼Ò°¡ µé¾î°¡¾ßÇÏ¹Ç·Î temp.length´Â a.length+b.lengthÀÌ´Ù. 
+		// ë°°ì—´ a,bì˜ ì›ì†Œë¥¼ ì €ì¥í•  ì„ì‹œ ë°°ì—´ temp.
+		// a,bì˜ ëª¨ë“ ì›ì†Œê°€ ë“¤ì–´ê°€ì•¼í•˜ë¯€ë¡œ temp.lengthëŠ” a.length+b.lengthì´ë‹¤.
 		int temp[] = new int[a.length+b.length];
-		
-		// ¹è¿­ aÀÇ ¿ø¼Ò ÀúÀå.
+
+		// ë°°ì—´ aì˜ ì›ì†Œ ì €ì¥.
 		for(int i = 0; i < a.length;i++)
 			temp[i] = a[i];
-		
-		
-		// aÀÇ ¿ø¼Ò°¡ ÀúÀåµÈ ÈÄºÎÅÍ ¹è¿­ bÀÇ ¿ø¼Ò ÀúÀå
+
+
+		// aì˜ ì›ì†Œê°€ ì €ì¥ëœ í›„ë¶€í„° ë°°ì—´ bì˜ ì›ì†Œ ì €ì¥
 		for (int i = a.length; i<a.length+b.length;i++)
 			temp[i] = b[i-a.length];
-		
+
 		return temp;
-		
+
 	}
-	
-	// ½º¿Ò
+
+	// ìŠ¤ì™‘
 	public static void swap(int[] array, int i1, int i2)
 	{
 		int temp = array[i1];
 		array[i1] = array[i2];
 		array[i2] = temp;
 	}
-	
+
 
 	// bubble sort
 	public static void bubbleSort(int arr[], int size)
 	{
 		if(size == 1)
 			return;
-		
-		for(int i = 0; i< size-1;i++)	// 0ºÎÅÍ (arr.length-1)±îÁö¿¡ ¹İº¹
-			if(arr[i] > arr[i+1])		// ¾ÕÀÇ ¿ø¼Ò°¡ µÚÀÇ ¿ø¼Òº¸´Ù ÀÛÀ¸¸é
-				swap(arr, i, i+1);		// ¼­·Î ½º¿ÒÇÑ´Ù.
-		bubbleSort(arr,size-1);			// Àç±ÍÀûÀ¸·Î
-	}
-	
 
-	// array Ãâ·Â
+		for(int i = 0; i< size-1;i++)	// 0ë¶€í„° (arr.length-1)ê¹Œì§€ì— ë°˜ë³µ
+			if(arr[i] > arr[i+1])		// ì•ì˜ ì›ì†Œê°€ ë’¤ì˜ ì›ì†Œë³´ë‹¤ ì‘ìœ¼ë©´
+				swap(arr, i, i+1);		// ì„œë¡œ ìŠ¤ì™‘í•œë‹¤.
+		bubbleSort(arr,size-1);			// ì¬ê·€ì ìœ¼ë¡œ
+	}
+
+
+	// array ì¶œë ¥
 	public static void print(int[] a)
 	{
 		System.out.print("[ ");
@@ -53,7 +53,7 @@ class ArrayUtil
 			System.out.print(a[i]+" ");
 		}
 		System.out.println("]");
-			
+
 	}
 }
 

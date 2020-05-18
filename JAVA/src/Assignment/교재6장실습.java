@@ -3,44 +3,44 @@ package Assignment;
 import java.util.StringTokenizer;
 import java.util.Scanner;
 
-public class ±³Àç6Àå½Ç½À 
+public class êµì¬6ì¥ì‹¤ìŠµ
 {
-	
-	public static void main(String[] args)
-    {
-        Scanner sc = new Scanner(System.in);			// Scanner °´Ã¼ »ı¼º
-        String input_str = "";		// input_str ÃÊ±âÈ­
 
-        System.out.println("Input($·Î ÀÔ·Â Á¾·á) >> ");
-        while(true)
-        {
-            String input = sc.nextLine();	// ¹®ÀÚ¿­ ÇÑÁÙ¾¿ ÀÔ·Â
-            if(input.contentEquals("$"))	// while¹® Á¾·á¸¦ À§ÇÑ flag $	
-                break;
-            else
-                input_str = input_str.concat(input+"\n");	//¿Ï¼ºµÈ ¹®ÀÚ¿­
-            
-        }
-        
-        StringTokenizer st = new StringTokenizer(input_str, " ={};\t\r\n,");	// input_strÀ» StringTokenizer·Î ÅäÅ«È­
-        int index = 0, temp = 0;
-        
-        String[] tokens = new String[st.countTokens()]; // ÅäÅ«µéÀÌ µé¾î°¡´Â ¹è¿­ tokens
-        
-        System.out.println("Output >> ");
-        while(st.hasMoreTokens())
-        	tokens[index++] = st.nextToken();		// ¹è¿­ ÃÊ±âÈ­.. ÀÌÁ¦ tokens¿¡´Â input_strÀ» ÅäÅ«È­ÇÑ °ªµéÀÌ µé¾î°¨
-        
-        for(int i = 0; i< tokens.length;i++)
-        {
-        	try
-        	{
-        		temp = Integer.parseInt(tokens[i]);	// ÅäÅ« Áß¿¡¼­ Á¤¼ö("1", "6")´Â º¯È¯ÀÌ µÇÁö¸¸ ¹®ÀÚ¿­("Example", "Example2")´Â º¯È¯ÀÌ ¾ÈµÅ¼­ NumberFormatException ¹ß»ı
-        	}
-        	catch(NumberFormatException e)			
-        	{
-        		System.out.println(tokens[i]);		// ¼ıÀÚ ¸®ÅÍ·²À» Á¦¿ÜÇÑ °ªµé¸¸ Ãâ·Â
-        	}
-        }
-    }
+	public static void main(String[] args)
+	{
+		Scanner sc = new Scanner(System.in);			// Scanner ê°ì²´ ìƒì„±
+		String input_str = "";		// input_str ì´ˆê¸°í™”
+
+		System.out.println("Input($ë¡œ ì…ë ¥ ì¢…ë£Œ) >> ");
+		while(true)
+		{
+			String input = sc.nextLine();	// ë¬¸ìì—´ í•œì¤„ì”© ì…ë ¥
+			if(input.contentEquals("$"))	// whileë¬¸ ì¢…ë£Œë¥¼ ìœ„í•œ flag $
+				break;
+			else
+				input_str = input_str.concat(input+"\n");	//ì™„ì„±ëœ ë¬¸ìì—´
+
+		}
+
+		StringTokenizer st = new StringTokenizer(input_str, " ={};\t\r\n,");	// input_strì„ StringTokenizerë¡œ í† í°í™”
+		int index = 0, temp = 0;
+
+		String[] tokens = new String[st.countTokens()]; // í† í°ë“¤ì´ ë“¤ì–´ê°€ëŠ” ë°°ì—´ tokens
+
+		System.out.println("Output >> ");
+		while(st.hasMoreTokens())
+			tokens[index++] = st.nextToken();		// ë°°ì—´ ì´ˆê¸°í™”.. ì´ì œ tokensì—ëŠ” input_strì„ í† í°í™”í•œ ê°’ë“¤ì´ ë“¤ì–´ê°
+
+		for(int i = 0; i< tokens.length;i++)
+		{
+			try
+			{
+				temp = Integer.parseInt(tokens[i]);	// í† í° ì¤‘ì—ì„œ ì •ìˆ˜("1", "6")ëŠ” ë³€í™˜ì´ ë˜ì§€ë§Œ ë¬¸ìì—´("Example", "Example2")ëŠ” ë³€í™˜ì´ ì•ˆë¼ì„œ NumberFormatException ë°œìƒ
+			}
+			catch(NumberFormatException e)
+			{
+				System.out.println(tokens[i]);		// ìˆ«ì ë¦¬í„°ëŸ´ì„ ì œì™¸í•œ ê°’ë“¤ë§Œ ì¶œë ¥
+			}
+		}
+	}
 }

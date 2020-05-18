@@ -6,87 +6,87 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class Assignment_chapter7_11_2 
+public class Assignment_chapter7_11_2
 {
-	   public static void main(String[] args)
-	    {
-	    	System.out.println("**** ¼öµµ ¸ÂÃß±â °ÔÀÓÀ» ½ÃÀÛÇÕ´Ï´Ù. ****");
-	    	HashMap<String, String> nations = new HashMap<String, String>();
+	public static void main(String[] args)
+	{
+		System.out.println("**** ìˆ˜ë„ ë§ì¶”ê¸° ê²Œì„ì„ ì‹œì‘í•©ë‹ˆë‹¤. ****");
+		HashMap<String, String> nations = new HashMap<String, String>();
 
-	    	nations.put("¸ß½ÃÄÚ","¸ß½ÃÄÚ½ÃÆ¼");
-	    	nations.put("½ºÆäÀÎ","¸®½ºº»");
-	    	nations.put("ÇÁ¶û½º","ÆÄ¸®");
-	    	nations.put("¿µ±¹","·±´ø");
-	    	nations.put("±×¸®½º","¾ÆÅ×³×");
-	    	nations.put("µ¶ÀÏ","º£¸¦¸°");
-	    	nations.put("ÀÏº»","µ¿°æ");
-	    	nations.put("Áß±¹","º£ÀÌÂ¡");
-	    	nations.put("·¯½Ã¾Æ","¸ğ½ºÅ©¹Ù");
-	    	
-	    	Scanner scanner = new Scanner(System.in);
-	    	boolean flag = true;
-	    	while(flag)
-	    	{
-	    		try
-	    		{
-	    			System.out.print("ÀÔ·Â:1, ÄûÁî:2, Á¾·á:3 >> ");
-	    	    	
-	        		int menu = scanner.nextInt();
-	        		switch(menu)
-	        		{
-	        		case 1:
-	        			int current_size = nations.size(); // ÇöÀç HashMap¿¡ µé¾îÀÖ´Â ³ª¶ó °³¼ö
-	        			System.out.println("ÇöÀç "+current_size+"°³ ³ª¶ó¿Í ¼öµµ°¡ ÀÔ·ÂµÇ¾î ÀÖ½À´Ï´Ù.");
-	        			while(true)
-	        			{
-	        				current_size++;	
-	        				System.out.print("³ª¶ó¿Í ¼öµµ ÀÔ·Â"+current_size+">> ");	// ³ª¶ó¿Í ¼öµµ ÀÔ·Â
-	        				String nation = scanner.next();
-	        				if(nation.equals("±×¸¸"))
-	        					break;
-	        				String capital = scanner.next();
-	        				
-	        				for(String key : nations.keySet())
-	        					if(nation.equals(key))		// ÀÔ·ÂÇÑ ³ª¶ó°¡ ÀÌ¹Ì ÀÖ´Ù
-	        					{
-	        						System.out.println(nation+"´Â ÀÌ¹Ì ÀÖ½À´Ï´Ù!");
-	        			    		current_size--;
-	        					}
-	        				
-	        				nations.put(nation, capital);
-	        			}
-	        			break;
-	        		case 2:
-	        			List keys = new ArrayList(nations.keySet());		// key·Î¸¸ ÀÌ·ç¾îÁø List(³ª¶óµé·Î¸¸ ÀÌ·ç¾îÁü List)
-	        			while(true)
-	        			{
-	        				Collections.shuffle(keys);		// ·£´ıÇÏ°Ô ³ª¿À±â À§ÇØ¼­ ¼¯¾îÁÜ
-	        				Object key = keys.get(0);
-	            			System.out.print(key+"ÀÇ ¼öµµ´Â? ");
-	            			String answer = scanner.next();
-	            			if(answer.equals("±×¸¸"))
-	            				break;
-	            			if(answer.equals(nations.get(key)))
-	            				System.out.println("Á¤´ä!");
-	            			else
-	            				System.out.println("¾Æ´Õ´Ï´Ù");		
-	        			}
-	        			break;
-	        		case 3:
-	        			System.out.println("Á¾·áÇÕ´Ï´Ù");
-	        			flag = false;
-	        			break;
-	        			
-	        		default:
-	        			System.out.println("Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù. ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù");
-	        		}
+		nations.put("ë©•ì‹œì½”","ë©•ì‹œì½”ì‹œí‹°");
+		nations.put("ìŠ¤í˜ì¸","ë¦¬ìŠ¤ë³¸");
+		nations.put("í”„ë‘ìŠ¤","íŒŒë¦¬");
+		nations.put("ì˜êµ­","ëŸ°ë˜");
+		nations.put("ê·¸ë¦¬ìŠ¤","ì•„í…Œë„¤");
+		nations.put("ë…ì¼","ë² ë¥¼ë¦°");
+		nations.put("ì¼ë³¸","ë™ê²½");
+		nations.put("ì¤‘êµ­","ë² ì´ì§•");
+		nations.put("ëŸ¬ì‹œì•„","ëª¨ìŠ¤í¬ë°”");
 
-	    		}
-	    		catch(IndexOutOfBoundsException e)	// ¸¸¾à HashMap¿¡ ¿ø¼Ò°¡ ¾ø´Ù¸é ¿¹¿ÜÃ³¸®ÇÑ´Ù.
-	    		{
-	    			System.out.println("µé¾îÀÖ´Â ³ª¶ó°¡ ¾ø½À´Ï´Ù. ¸Ş´º·Î µ¹¾Æ°©´Ï´Ù");
-	    		}
-	    	}
-	    	
-	    }
+		Scanner scanner = new Scanner(System.in);
+		boolean flag = true;
+		while(flag)
+		{
+			try
+			{
+				System.out.print("ì…ë ¥:1, í€´ì¦ˆ:2, ì¢…ë£Œ:3 >> ");
+
+				int menu = scanner.nextInt();
+				switch(menu)
+				{
+					case 1:
+						int current_size = nations.size(); // í˜„ì¬ HashMapì— ë“¤ì–´ìˆëŠ” ë‚˜ë¼ ê°œìˆ˜
+						System.out.println("í˜„ì¬ "+current_size+"ê°œ ë‚˜ë¼ì™€ ìˆ˜ë„ê°€ ì…ë ¥ë˜ì–´ ìˆìŠµë‹ˆë‹¤.");
+						while(true)
+						{
+							current_size++;
+							System.out.print("ë‚˜ë¼ì™€ ìˆ˜ë„ ì…ë ¥"+current_size+">> ");	// ë‚˜ë¼ì™€ ìˆ˜ë„ ì…ë ¥
+							String nation = scanner.next();
+							if(nation.equals("ê·¸ë§Œ"))
+								break;
+							String capital = scanner.next();
+
+							for(String key : nations.keySet())
+								if(nation.equals(key))		// ì…ë ¥í•œ ë‚˜ë¼ê°€ ì´ë¯¸ ìˆë‹¤
+								{
+									System.out.println(nation+"ëŠ” ì´ë¯¸ ìˆìŠµë‹ˆë‹¤!");
+									current_size--;
+								}
+
+							nations.put(nation, capital);
+						}
+						break;
+					case 2:
+						List keys = new ArrayList(nations.keySet());		// keyë¡œë§Œ ì´ë£¨ì–´ì§„ List(ë‚˜ë¼ë“¤ë¡œë§Œ ì´ë£¨ì–´ì§ List)
+						while(true)
+						{
+							Collections.shuffle(keys);		// ëœë¤í•˜ê²Œ ë‚˜ì˜¤ê¸° ìœ„í•´ì„œ ì„ì–´ì¤Œ
+							Object key = keys.get(0);
+							System.out.print(key+"ì˜ ìˆ˜ë„ëŠ”? ");
+							String answer = scanner.next();
+							if(answer.equals("ê·¸ë§Œ"))
+								break;
+							if(answer.equals(nations.get(key)))
+								System.out.println("ì •ë‹µ!");
+							else
+								System.out.println("ì•„ë‹™ë‹ˆë‹¤");
+						}
+						break;
+					case 3:
+						System.out.println("ì¢…ë£Œí•©ë‹ˆë‹¤");
+						flag = false;
+						break;
+
+					default:
+						System.out.println("ì˜ëª» ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤. ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
+				}
+
+			}
+			catch(IndexOutOfBoundsException e)	// ë§Œì•½ HashMapì— ì›ì†Œê°€ ì—†ë‹¤ë©´ ì˜ˆì™¸ì²˜ë¦¬í•œë‹¤.
+			{
+				System.out.println("ë“¤ì–´ìˆëŠ” ë‚˜ë¼ê°€ ì—†ìŠµë‹ˆë‹¤. ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤");
+			}
+		}
+
+	}
 }

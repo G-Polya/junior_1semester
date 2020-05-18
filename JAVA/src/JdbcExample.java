@@ -1,4 +1,3 @@
-
 import java.rmi.server.ExportException;
 import java.sql.*;
 
@@ -6,22 +5,22 @@ import java.sql.*;
 public class JdbcExample
 {
 	public static void main(String[] args)
-    {
+	{
 		Connection connection = null;
 		Statement statement = null;
-		
+
 		try
 		{
-			Class.forName("org.mariadb.jdbc.Driver");		// µå¶óÀÌ¹ö ·Îµå
-			
-			connection =  DriverManager.getConnection("jdbc:mariadb://localhost:3306/test", "testuser", "1234");	// DB¿¡ ¿¬°á. mysql:µ¥ÀÌÅÍº£ÀÌ½º ÀÌ¸§, root:»ç¿ëÀÚÀÌ¸§, skyss123:ºñ¹Ğ¹øÈ£
-	
+			Class.forName("org.mariadb.jdbc.Driver");		// ë“œë¼ì´ë²„ ë¡œë“œ
+
+			connection =  DriverManager.getConnection("jdbc:mariadb://localhost:3306/test", "testuser", "1234");	// DBì— ì—°ê²°. mysql:ë°ì´í„°ë² ì´ìŠ¤ ì´ë¦„, root:ì‚¬ìš©ìì´ë¦„, skyss123:ë¹„ë°€ë²ˆí˜¸
+
 			if(connection != null)
-				System.out.println("DBÁ¢¼Ó ¼º°ø");
-			
+				System.out.println("DBì ‘ì† ì„±ê³µ");
+
 			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("select * from student;");		// Äõ¸®¹®. student Å×ÀÌºíÀÇ ¸ğµç Á¤º¸ °¡Á®¿À±â 
-			System.out.println(" ¹øÈ£ ÀÌ¸§");
+			ResultSet resultSet = statement.executeQuery("select * from student;");		// ì¿¼ë¦¬ë¬¸. student í…Œì´ë¸”ì˜ ëª¨ë“  ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+			System.out.println(" ë²ˆí˜¸ ì´ë¦„");
 			System.out.println("---------");
 			while(resultSet.next())
 			{
@@ -32,12 +31,12 @@ public class JdbcExample
 		}
 		catch(ClassNotFoundException e)
 		{
-			System.out.println("µå¶óÀÌ¹ö ·Îµå ½ÇÆĞ");
+			System.out.println("ë“œë¼ì´ë²„ ë¡œë“œ ì‹¤íŒ¨");
 		}
 		catch(SQLException e)
 		{
-			System.out.println("DB Á¢¼Ó ½ÇÆĞ");
+			System.out.println("DB ì ‘ì† ì‹¤íŒ¨");
 			e.printStackTrace();
 		}
-    }
+	}
 }

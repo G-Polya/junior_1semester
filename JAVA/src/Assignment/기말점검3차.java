@@ -16,8 +16,8 @@ class Create_Database_Table
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs, rs2;
-	
-	// µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á
+
+	// ë°ì´í„°ë² ì´ìŠ¤ ì—°ê²°
 	public Create_Database_Table()
 	{
 		try
@@ -30,8 +30,8 @@ class Create_Database_Table
 			System.out.println("DB connect eror : "+ e);
 		}
 	}
-	
-	// µ¥ÀÌÅÍº£ÀÌ½º°¡ ÀÖ´ÂÁö È®ÀÎÇÏ°í, ¾øÀ¸¸é µ¥ÀÌÅÍº£ÀÌ½º »ı¼º ÈÄ µ¥ÀÌÅÍº£ÀÌ½º ÀüÈ¯
+
+	// ë°ì´í„°ë² ì´ìŠ¤ê°€ ìˆëŠ”ì§€ í™•ì¸í•˜ê³ , ì—†ìœ¼ë©´ ë°ì´í„°ë² ì´ìŠ¤ ìƒì„± í›„ ë°ì´í„°ë² ì´ìŠ¤ ì „í™˜
 	public void CreateOrChangeDatabase(String dbName)
 	{
 		try
@@ -40,18 +40,18 @@ class Create_Database_Table
 			pstmt = conn.prepareStatement(dbSql);
 			pstmt.setString(1, dbName);
 			rs = pstmt.executeQuery();
-			
-			// µ¥ÀÌÅÍº£ÀÌ½º°¡ ¾ø´Ù¸é µ¥ÀÌÅÍº£ÀÌ½º »ı¼º
+
+			// ë°ì´í„°ë² ì´ìŠ¤ê°€ ì—†ë‹¤ë©´ ë°ì´í„°ë² ì´ìŠ¤ ìƒì„±
 			if(!rs.next())
 			{
 				Statement stmt = conn.createStatement();
 				String sql = "create database "+dbName;
 				boolean re = stmt.execute(sql);
 				if(!re)
-					System.out.println("µ¥ÀÌÅÍº£ÀÌ½º »ı¼º ½ÇÆĞ");
+					System.out.println("ë°ì´í„°ë² ì´ìŠ¤ ìƒì„± ì‹¤íŒ¨");
 				stmt.close();
 			}
-			// µ¥ÀÌÅÍº£ÀÌ½º¸¦ ÀüÈ¯ (use database)
+			// ë°ì´í„°ë² ì´ìŠ¤ë¥¼ ì „í™˜ (use database)
 			conn.setCatalog(dbName);
 		}
 		catch(Exception e)
@@ -71,42 +71,42 @@ class Create_Database_Table
 			}
 			catch(Exception e)
 			{
-				
+
 			}
 		}
 	}
-	
-	// Å×ÀÌºíÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ°í ¾øÀ¸¸é »ı¼º
+
+	// í…Œì´ë¸”ì´ ìˆëŠ”ì§€ í™•ì¸í•˜ê³  ì—†ìœ¼ë©´ ìƒì„±
 	public void CreateTable(String dbName, String tName)
 	{
 		try
 		{
-			//µ¥ÀÌÅÍº£ÀÌ½º »ı¼º ¹× ÀüÈ¯
+			//ë°ì´í„°ë² ì´ìŠ¤ ìƒì„± ë° ì „í™˜
 			CreateOrChangeDatabase(dbName);
-			
-			//information_schecma.tables·Î Å×ÀÌºíÀÇ Á¸ÀçÀ¯¹« È®ÀÎ
+
+			//information_schecma.tablesë¡œ í…Œì´ë¸”ì˜ ì¡´ì¬ìœ ë¬´ í™•ì¸
 			String tableSql = "SELECT table_name FROM information_schema.tables where table_schema = ? and table_name = ?";
 			pstmt = conn.prepareStatement(tableSql);
 			pstmt.setString(1,  dbName);
 			pstmt.setString(2,  tName);
 			rs = pstmt.executeQuery();
-			
-			// Å×ÀÌºíÀÌ ¾ø´Ù¸é Å×ÀÌºí »ı¼º
+
+			// í…Œì´ë¸”ì´ ì—†ë‹¤ë©´ í…Œì´ë¸” ìƒì„±
 			if(!rs.next())
 			{
 				Statement stmt = conn.createStatement();
 				String sql = "create table "+ tName
-											+"("
-											+"no int primary key,"
-											+"name varchar(10),"
-											+"attendance int,"
-											+"assignment int,"
-											+"mid_term int,"
-											+"final_term int,"
-											+"sum int,"
-											+"ranking int"
-											+")";
-				
+						+"("
+						+"no int primary key,"
+						+"name varchar(10),"
+						+"attendance int,"
+						+"assignment int,"
+						+"mid_term int,"
+						+"final_term int,"
+						+"sum int,"
+						+"ranking int"
+						+")";
+
 				rs2 = stmt.executeQuery(sql);
 				stmt.close();
 				System.out.println(rs2);
@@ -127,14 +127,14 @@ class Create_Database_Table
 
 				if(conn!=null)pstmt.close();
 
-			} 
-			catch (Exception e) 
+			}
+			catch (Exception e)
 			{
 
 			}
 		}
 	}
-	
+
 	public void insert_toTable(String dbName, String tName, String no, String name, int attend, int assign, int _mid, int _final,int sum, int ranking)
 	{
 		try
@@ -142,7 +142,7 @@ class Create_Database_Table
 			CreateTable(dbName, tName);
 			String insertSql = "insert into "+tName+" value (?,?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(insertSql);
-			
+
 			pstmt.setString(1, no);
 			pstmt.setString(2,  name);
 			pstmt.setInt(3, attend);
@@ -151,9 +151,9 @@ class Create_Database_Table
 			pstmt.setInt(6, _final);
 			pstmt.setInt(7, sum);
 			pstmt.setInt(8,  ranking);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 		}
 		catch(Exception e)
 		{
@@ -171,21 +171,21 @@ class Create_Database_Table
 			}
 			catch(Exception e)
 			{
-				
+
 			}
 		}
 	}
 }
 
-public class ±â¸»Á¡°Ë3Â÷ 
+public class ê¸°ë§ì ê²€3ì°¨
 {
 	public static Scanner readCSV(String filename)
 	{
 		Scanner inputTxt = null;
 		try
 		{
-			inputTxt = new Scanner(new FileReader(filename)).useDelimiter("\n");	// °³Çà¹®ÀÚ·Î ±¸ºĞµÉ°Í
-			
+			inputTxt = new Scanner(new FileReader(filename)).useDelimiter("\n");	// ê°œí–‰ë¬¸ìë¡œ êµ¬ë¶„ë ê²ƒ
+
 		}
 		catch(IOException e)
 		{
@@ -193,127 +193,127 @@ public class ±â¸»Á¡°Ë3Â÷
 		}
 		return inputTxt;
 	}
-	
-	// ÇĞ¹ø, ¼º¸í, Ãâ¼®, °úÁ¦, Áß°£, ±â¸»À» ÀÔ·Â¹Ş¾Æ csvÆÄÀÏ·Î ÀúÀåÇÏ´Â ¸Ş¼Òµå
-		public static void make_outputCSV(List<List<String>> table, String title, String filepath)
-		{
-			//int resultCount = 0;
-			try
-			{
-				BufferedWriter fw = new BufferedWriter(new FileWriter(filepath+"\\"+title+".csv", true));// Á¤º¸°¡ ÀúÀåµÉ BufferedWriter °´Ã¼
-				
-				// Ã¹ row´Â ÇĞ¹ø, ÀÌ¸§, Ãâ¼®, Áß°£, ±â¸», ÇÕ°è, µî¼ö
-				fw.write("ÇĞ¹ø,ÀÌ¸§,Ãâ¼®,°úÁ¦,Áß°£,±â¸»,ÇÕ°è,µî¼ö");
-				fw.newLine();
-				
-				for (List<String> student : table)
-				{
-					fw.write(student.get(0)+","+student.get(1) +","+student.get(2)+","+student.get(3)+","+student.get(4)+","+student.get(5)+","+student.get(6)+","+student.get(7)); // Á¤º¸ ÀúÀå
-					fw.newLine();
-					//resultCount++;
-				}
-			
-				fw.flush();
-				fw.close();
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		// ¼±ÅÃÁ¤·Ä, µî¼ö¸¦ Á¤ÇÒ¶§ »ç¿ëµÊ
-		private static void selectionSort(int[] input, int length)
-		{
-			int max;
-			int tmp;
-			for(int i =0; i<length-1;i++)
-			{
-				max = i;
-				for(int j = i +1 ; j<length;j++)
-				{
-					if(input[j] > input[max])
-						max = j;
-				}
-				tmp = input[i];
-				input[i] = input[max];
-				input[max] = tmp;
-			}
-		}
-		
-		// µî¼ö¸¦ ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå
-		// ÇÕ°è¸¦ ÀÔ·ÂÀ¸·Î ¹Ş¾Æ ±× ÇÕ°è¿Í µî¼ö·Î ÀÌ·ç¾îÁø HashMapÀ» ¹İÈ¯ÇÑ´Ù.
-		public static HashMap<String, Integer> win_number(String[] sums)
-		{
-			// ¸ÕÀú ÇÕ°è¸¦ ÀÔ·Â¹Ş¾Æ¼­ Á¤·ÄÇØÁØ´Ù. 
-			int[] input = new int[sums.length];
-			for(int i = 0; i < sums.length;i++)
-				input[i] = Integer.parseInt(sums[i]);
-			selectionSort(input, input.length);
-			
-			// intÇüÀÎ ÇÕ°èµéÀ» StringÀ¸·Î ¹Ù²ãÁÖ´Â °úÁ¤ÀÌ´Ù. 
-			String[] temp = new String[input.length];
-			for(int i = 0; i< input.length;i++)
-				temp[i] = Integer.toString(input[i]);
-			
-			
-			// ÇØ½Ã¸Ê °´Ã¼¸¦ »ı¼ºÇØ¼­ ÇÕ°è¿¡ ÇØ´çÇÏ´Â µî¼ö¸¦ ÀÔ·ÂÇÑ´Ù.
-			// Á¤·ÄµÇ¾î ÀÖÀ¸¹Ç·Î Å« ¼öºÎÅÍ ÀÛÀº µî¼ö¸¦ value·Î °¡Áü
-			HashMap<String, Integer> wins = new HashMap<String, Integer>();	 
-			for(int i = 0; i< input.length;i++)
-			{
-				wins.put(temp[i], i+1);
-			}
-			
 
-			return wins;
-			
-			
+	// í•™ë²ˆ, ì„±ëª…, ì¶œì„, ê³¼ì œ, ì¤‘ê°„, ê¸°ë§ì„ ì…ë ¥ë°›ì•„ csvíŒŒì¼ë¡œ ì €ì¥í•˜ëŠ” ë©”ì†Œë“œ
+	public static void make_outputCSV(List<List<String>> table, String title, String filepath)
+	{
+		//int resultCount = 0;
+		try
+		{
+			BufferedWriter fw = new BufferedWriter(new FileWriter(filepath+"\\"+title+".csv", true));// ì •ë³´ê°€ ì €ì¥ë  BufferedWriter ê°ì²´
+
+			// ì²« rowëŠ” í•™ë²ˆ, ì´ë¦„, ì¶œì„, ì¤‘ê°„, ê¸°ë§, í•©ê³„, ë“±ìˆ˜
+			fw.write("í•™ë²ˆ,ì´ë¦„,ì¶œì„,ê³¼ì œ,ì¤‘ê°„,ê¸°ë§,í•©ê³„,ë“±ìˆ˜");
+			fw.newLine();
+
+			for (List<String> student : table)
+			{
+				fw.write(student.get(0)+","+student.get(1) +","+student.get(2)+","+student.get(3)+","+student.get(4)+","+student.get(5)+","+student.get(6)+","+student.get(7)); // ì •ë³´ ì €ì¥
+				fw.newLine();
+				//resultCount++;
+			}
+
+			fw.flush();
+			fw.close();
 		}
-	
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	// ì„ íƒì •ë ¬, ë“±ìˆ˜ë¥¼ ì •í• ë•Œ ì‚¬ìš©ë¨
+	private static void selectionSort(int[] input, int length)
+	{
+		int max;
+		int tmp;
+		for(int i =0; i<length-1;i++)
+		{
+			max = i;
+			for(int j = i +1 ; j<length;j++)
+			{
+				if(input[j] > input[max])
+					max = j;
+			}
+			tmp = input[i];
+			input[i] = input[max];
+			input[max] = tmp;
+		}
+	}
+
+	// ë“±ìˆ˜ë¥¼ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ
+	// í•©ê³„ë¥¼ ì…ë ¥ìœ¼ë¡œ ë°›ì•„ ê·¸ í•©ê³„ì™€ ë“±ìˆ˜ë¡œ ì´ë£¨ì–´ì§„ HashMapì„ ë°˜í™˜í•œë‹¤.
+	public static HashMap<String, Integer> win_number(String[] sums)
+	{
+		// ë¨¼ì € í•©ê³„ë¥¼ ì…ë ¥ë°›ì•„ì„œ ì •ë ¬í•´ì¤€ë‹¤.
+		int[] input = new int[sums.length];
+		for(int i = 0; i < sums.length;i++)
+			input[i] = Integer.parseInt(sums[i]);
+		selectionSort(input, input.length);
+
+		// intí˜•ì¸ í•©ê³„ë“¤ì„ Stringìœ¼ë¡œ ë°”ê¿”ì£¼ëŠ” ê³¼ì •ì´ë‹¤.
+		String[] temp = new String[input.length];
+		for(int i = 0; i< input.length;i++)
+			temp[i] = Integer.toString(input[i]);
+
+
+		// í•´ì‹œë§µ ê°ì²´ë¥¼ ìƒì„±í•´ì„œ í•©ê³„ì— í•´ë‹¹í•˜ëŠ” ë“±ìˆ˜ë¥¼ ì…ë ¥í•œë‹¤.
+		// ì •ë ¬ë˜ì–´ ìˆìœ¼ë¯€ë¡œ í° ìˆ˜ë¶€í„° ì‘ì€ ë“±ìˆ˜ë¥¼ valueë¡œ ê°€ì§
+		HashMap<String, Integer> wins = new HashMap<String, Integer>();
+		for(int i = 0; i< input.length;i++)
+		{
+			wins.put(temp[i], i+1);
+		}
+
+
+		return wins;
+
+
+	}
+
 	public static void main(String[] args)
 	{
 		Create_Database_Table db = new Create_Database_Table();
 		String inputFile = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment\\inputFile.csv";
-		
-		Scanner inputScanner = readCSV(inputFile);		// inputFile.csv ÀĞ¾î¿À±â
-		
-		List<String> temp = new ArrayList<String>();	// inputFileÀÇ Á¤º¸¸¦ ´ãÀ» °´Ã¼
+
+		Scanner inputScanner = readCSV(inputFile);		// inputFile.csv ì½ì–´ì˜¤ê¸°
+
+		List<String> temp = new ArrayList<String>();	// inputFileì˜ ì •ë³´ë¥¼ ë‹´ì„ ê°ì²´
 		while(inputScanner.hasNext())
 		{
-			temp.add(inputScanner.next());	
+			temp.add(inputScanner.next());
 		}
-		
-		// ÇÕ°è¸¦ ÀúÀåÇÏ±â À§ÇÑ °úÁ¤
+
+		// í•©ê³„ë¥¼ ì €ì¥í•˜ê¸° ìœ„í•œ ê³¼ì •
 		List<String[]> temp_table = new ArrayList<String[]>();
-		
+
 		for(int i = 1; i < temp.size();i++)
 		{
-			String[] data = temp.get(i).split(",");		// ,¸¦ ±âÁØÀ¸·Î ³ª´®
-			data[5] = data[5].replaceAll("(\r\n|\r|\n|\n\r)", "");	// °³ÇàÀÌ ÀÌ·ç¾îÁö´Â °÷¿¡¼­  ±¸ºĞÀÌ ¾Ö¸ÅÇØÁö´Â °æ¿ì°¡ ÀÖÀ½
-			
+			String[] data = temp.get(i).split(",");		// ,ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ë‚˜ëˆ”
+			data[5] = data[5].replaceAll("(\r\n|\r|\n|\n\r)", "");	// ê°œí–‰ì´ ì´ë£¨ì–´ì§€ëŠ” ê³³ì—ì„œ  êµ¬ë¶„ì´ ì• ë§¤í•´ì§€ëŠ” ê²½ìš°ê°€ ìˆìŒ
+
 			String sum = Integer.toString(Integer.parseInt(data[2]) + Integer.parseInt(data[3]) + Integer.parseInt(data[4])+ Integer.parseInt(data[5]));
-			
-			
-			String[] output = {data[0],data[1],data[2],data[3],data[4],data[5], sum};	// row 1°³ = outputÀÌ´Ù. ÇĞ¹ø, ¼º¸í, Ãâ¼®, °úÁ¦, Áß°£, ±â¸», ÇÕ°è·Î ±¸¼ºµÊ
-			temp_table.add(output);		// ±× rowµéÀ» ÀúÀå
+
+
+			String[] output = {data[0],data[1],data[2],data[3],data[4],data[5], sum};	// row 1ê°œ = outputì´ë‹¤. í•™ë²ˆ, ì„±ëª…, ì¶œì„, ê³¼ì œ, ì¤‘ê°„, ê¸°ë§, í•©ê³„ë¡œ êµ¬ì„±ë¨
+			temp_table.add(output);		// ê·¸ rowë“¤ì„ ì €ì¥
 		}
-		
-		
-		String[] sums = new String[temp_table.size()];	// ÇÕ°èµé¸¸À¸·Î ±¸¼ºµÈ ¹è¿­
+
+
+		String[] sums = new String[temp_table.size()];	// í•©ê³„ë“¤ë§Œìœ¼ë¡œ êµ¬ì„±ëœ ë°°ì—´
 		for(int i = 0; i < temp_table.size();i++)
 		{
 			sums[i] = temp_table.get(i)[6];
 		}
-		
-		
-		HashMap<String, Integer> wins = win_number(sums);	// ÇÕ°è¿Í µî¼ö°¡ °°ÀÌ ÀÖ´Â ÇØ½Ã¸ÊÀ» »ı¼º
-		
-		
+
+
+		HashMap<String, Integer> wins = win_number(sums);	// í•©ê³„ì™€ ë“±ìˆ˜ê°€ ê°™ì´ ìˆëŠ” í•´ì‹œë§µì„ ìƒì„±
+
+
 		List<List<String>> output_table = new ArrayList<List<String>>();
 		for(int i = 0; i< temp_table.size();i++)
 		{
-			List<String> output = new ArrayList<String>();	// tableÀ» ÀÌ·ç´Â row 
+			List<String> output = new ArrayList<String>();	// tableì„ ì´ë£¨ëŠ” row
 			String no = temp_table.get(i)[0];
 			String name = temp_table.get(i)[1];
 			int attend = Integer.parseInt(temp_table.get(i)[2]);
@@ -322,22 +322,22 @@ public class ±â¸»Á¡°Ë3Â÷
 			int final_term = Integer.parseInt(temp_table.get(i)[5]);
 			int sum = Integer.parseInt(temp_table.get(i)[6]);
 			int ranking = wins.get(temp_table.get(i)[6]);
-			
-			output.add(no);	// ÇĞ¹ø
-			output.add(name);	// ¼º¸í
-			output.add(Integer.toString(attend));	// Ãâ¼®
-			output.add(Integer.toString(assign));	// °úÁ¦
-			output.add(Integer.toString(mid_term));	// Áß°£
-			output.add(Integer.toString(final_term));	// ±â¸»
-			output.add(Integer.toString(sum));	// ÇÕ°è
-			output.add(Integer.toString(ranking));	// µî¼ö. ÇÕ°è¿¡ ÇØ´çÇÏ´Â µî¼ö¸¦ outputÀÇ ¸¶Áö¸· ¿ø¼Ò·Î ÀúÀåÇÑ´Ù. 
-			
-			output_table.add(output);	// table¿¡ row¸¦ ÀúÀå
+
+			output.add(no);	// í•™ë²ˆ
+			output.add(name);	// ì„±ëª…
+			output.add(Integer.toString(attend));	// ì¶œì„
+			output.add(Integer.toString(assign));	// ê³¼ì œ
+			output.add(Integer.toString(mid_term));	// ì¤‘ê°„
+			output.add(Integer.toString(final_term));	// ê¸°ë§
+			output.add(Integer.toString(sum));	// í•©ê³„
+			output.add(Integer.toString(ranking));	// ë“±ìˆ˜. í•©ê³„ì— í•´ë‹¹í•˜ëŠ” ë“±ìˆ˜ë¥¼ outputì˜ ë§ˆì§€ë§‰ ì›ì†Œë¡œ ì €ì¥í•œë‹¤.
+
+			output_table.add(output);	// tableì— rowë¥¼ ì €ì¥
 			db.insert_toTable("test", "student", no, name, attend, assign, mid_term, final_term,sum,ranking);
 		}
-		
+
 		make_outputCSV(output_table,"outputFile","C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment");
-		
+
 //		String no = "2016112158";
 //		String name = "kim";
 //		int attend = 10;

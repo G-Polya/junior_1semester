@@ -7,11 +7,11 @@ class Nation
 	private String country;
 	private String capital;
 
-	//±âº» »ý¼ºÀÚ
+	//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Nation()
 	{}
 	
-	// »ý¼ºÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	Nation(String country, String capital)
 	{
 		this.country = country;
@@ -40,15 +40,15 @@ public class Assginment_chapter7_11_1
 	public static void main(String[] args)
 	{
 		Vector<Nation> nations= new Vector<Nation>();
-		nations.add(new Nation("¸ß½ÃÄÚ","¸ß½ÃÄÚ½ÃÆ¼"));
-		nations.add(new Nation("½ºÆäÀÎ","¸®½ºº»"));
-		nations.add(new Nation("ÇÁ¶û½º","ÆÄ¸®"));
-		nations.add(new Nation("¿µ±¹","·±´ø"));
-		nations.add(new Nation("±×¸®½º","¾ÆÅ×³×"));
-		nations.add(new Nation("µ¶ÀÏ","º£¸¦¸°"));
-		nations.add(new Nation("ÀÏº»","µ¿°æ"));
-		nations.add(new Nation("Áß±¹","º£ÀÌÂ¡"));
-		nations.add(new Nation("·¯½Ã¾Æ","¸ð½ºÅ©¹Ù"));
+		nations.add(new Nation("ï¿½ß½ï¿½ï¿½ï¿½","ï¿½ß½ï¿½ï¿½Ú½ï¿½Æ¼"));
+		nations.add(new Nation("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
+		nations.add(new Nation("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½Ä¸ï¿½"));
+		nations.add(new Nation("ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½"));
+		nations.add(new Nation("ï¿½×¸ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½×³ï¿½"));
+		nations.add(new Nation("ï¿½ï¿½ï¿½ï¿½","ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
+		nations.add(new Nation("ï¿½Ïºï¿½","ï¿½ï¿½ï¿½ï¿½"));
+		nations.add(new Nation("ï¿½ß±ï¿½","ï¿½ï¿½ï¿½ï¿½Â¡"));
+		nations.add(new Nation("ï¿½ï¿½ï¿½Ã¾ï¿½","ï¿½ï¿½Å©ï¿½ï¿½"));
 		
 		Scanner scanner = new Scanner(System.in);
 		boolean flag = true;
@@ -56,19 +56,19 @@ public class Assginment_chapter7_11_1
 		{
 			try
 			{
-				System.out.print("ÀÔ·Â:1, ÄûÁî:2, Á¾·á:3 >> ");
+				System.out.print("ï¿½Ô·ï¿½:1, ï¿½ï¿½ï¿½ï¿½:2, ï¿½ï¿½ï¿½ï¿½:3 >> ");
 				int menu = scanner.nextInt();
 				switch(menu)
 				{
 				case 1:
-					int current_size = nations.size(); // ÇöÀç HashMap¿¡ µé¾îÀÖ´Â ³ª¶ó °³¼ö
-        			System.out.println("ÇöÀç "+current_size+"°³ ³ª¶ó¿Í ¼öµµ°¡ ÀÔ·ÂµÇ¾î ÀÖ½À´Ï´Ù.");
+					int current_size = nations.size(); // ï¿½ï¿½ï¿½ï¿½ HashMapï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        			System.out.println("ï¿½ï¿½ï¿½ï¿½ "+current_size+"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ÂµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
         			while(true)
         			{
         				current_size++;
-        				System.out.print("³ª¶ó¿Í ¼öµµ ÀÔ·Â"+current_size+">> ");	// ³ª¶ó¿Í ¼öµµ ÀÔ·Â
+        				System.out.print("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½"+current_size+">> ");	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½
         				String nation = scanner.next();
-        				if(nation.equals("±×¸¸"))
+        				if(nation.equals("ï¿½×¸ï¿½"))
         					break;
         				String capital = scanner.next();
         				
@@ -76,7 +76,7 @@ public class Assginment_chapter7_11_1
         				for(int i = 0; i<nations.size();i++)
         					if(nation.equals(nations.elementAt(i).getCountry()))
         					{
-        						System.out.println(nation+"´Â ÀÌ¹Ì ÀÖ½À´Ï´Ù!");
+        						System.out.println(nation+"ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½!");
         						current_size--;
         						nations.remove(i);
         					}
@@ -87,32 +87,32 @@ public class Assginment_chapter7_11_1
         			}
         			break;
 				case 2:
-					List keys = new ArrayList();	// key·Î¸¸ ÀÌ·ç¾îÁø List(³ª¶óµé·Î¸¸ ÀÌ·ç¾îÁü List)
+					List keys = new ArrayList();	// keyï¿½Î¸ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ List(ï¿½ï¿½ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ List)
 					for(int i = 0; i<nations.size();i++)
 						keys.add(nations.elementAt(i).getCountry());
 					while(true)
 					{
-						Collections.shuffle(keys);// ·£´ýÇÏ°Ô ³ª¿À±â À§ÇØ¼­ ¼¯¾îÁÜ
+						Collections.shuffle(keys);// ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						Object key = keys.get(0);
-            			System.out.print(key+"ÀÇ ¼öµµ´Â? ");
+            			System.out.print(key+"ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? ");
             			String answer = scanner.next();
             			
-            			if(answer.equals("±×¸¸"))
+            			if(answer.equals("ï¿½×¸ï¿½"))
             				break;
             			
-            			for(int i = 0; i<nations.size();i++)	// nationsÀÇ ¸ðµç ¿ø¼Ò¿¡ ´ëÇÏ¿©
+            			for(int i = 0; i<nations.size();i++)	// nationsï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò¿ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½
             			{
             				String temp_country = nations.elementAt(i).getCountry();	
-            				if(temp_country.equals(key))		// ÇØ´ç ÀÎµ¦½ºÀÇ country°¡ key¿Í °°´Ù.
+            				if(temp_country.equals(key))		// ï¿½Ø´ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ countryï¿½ï¿½ keyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
             				{
-            					if(answer.equals(nations.elementAt(i).getCapital())) // ±× keyÀÇ capitalÀÌ  ´äÀ¸·Î ÀÔ·ÂÇÑ °ªÀÌ´Ù.
+            					if(answer.equals(nations.elementAt(i).getCapital())) // ï¿½ï¿½ keyï¿½ï¿½ capitalï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
         						{
-            						System.out.println("Á¤´ä!");
+            						System.out.println("ï¿½ï¿½ï¿½ï¿½!");
             						continue;
         						}
             					else
             					{
-            						System.out.println("¾Æ´Õ´Ï´Ù!");
+            						System.out.println("ï¿½Æ´Õ´Ï´ï¿½!");
             						continue;
             					}
             				}
@@ -120,17 +120,17 @@ public class Assginment_chapter7_11_1
 					}
 					break;
 				case 3:
-					System.out.println("Á¾·áÇÕ´Ï´Ù");
+					System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½");
 					flag = false;
 					break;
 				default:
-					System.out.println("Àß¸ø ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù. ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù");
+					System.out.println("ï¿½ß¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½. ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½");
 						
 				}
 			}
 			catch(IndexOutOfBoundsException e)
 			{
-				System.out.println("µé¾îÀÖ´Â ³ª¶ó°¡ ¾ø½À´Ï´Ù. ¸Þ´º·Î µ¹¾Æ°©´Ï´Ù");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Þ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½Ï´ï¿½");
 			}
 		}
 	}

@@ -6,20 +6,20 @@ public class chapter6_problem8
 	public static void main(String[] args)
 	{
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("¹®ÀÚ¿­À» ÀÔ·ÂÇÏ¼¼¿ä. ºóÄ­ÀÌ ÀÖ¾îµµ µÇ°í ¿µ¾î ÇÑ±Û ¸ğµÎ µË´Ï´Ù");
+		System.out.println("ë¬¸ìì—´ì„ ì…ë ¥í•˜ì„¸ìš”. ë¹ˆì¹¸ì´ ìˆì–´ë„ ë˜ê³  ì˜ì–´ í•œê¸€ ëª¨ë‘ ë©ë‹ˆë‹¤");
 		String input_str = scanner.nextLine();
-		
+
 		int len = input_str.length();
-		
+
 		for(int i = 0; i<len;i++)
 		{
 			String first = input_str.substring(0,1);
 			String last = input_str.substring(1);
 			input_str = last + first;
-			
+
 			System.out.println(input_str);
 		}
-		
+
 	}
 
 }

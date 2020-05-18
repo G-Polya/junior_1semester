@@ -13,25 +13,25 @@ public class final_term_assignment_week5
 	{
 		try
 		{
-			// ÆÄÀÏ ÀĞ±â ÁØºñ
+			// íŒŒì¼ ì½ê¸° ì¤€ë¹„
 			String input = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\JAVA\\src\\Assignment\\input.txt";
-			Scanner inputTxt = new Scanner(new FileReader(input)); // ÆÄÀÏÀ» ÀĞ¾îµéÀÎ Scanner °´Ã¼
-			
-			// ÆÄÀÏ ¾²±â ÁØºñ
+			Scanner inputTxt = new Scanner(new FileReader(input)); // íŒŒì¼ì„ ì½ì–´ë“¤ì¸ Scanner ê°ì²´
+
+			// íŒŒì¼ ì“°ê¸° ì¤€ë¹„
 			String output = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\JAVA\\src\\Assignment\\output.txt";
-			FileWriter outputTxt = new FileWriter(output); // writerÇÒ ÆÄÀÏ °´Ã¼
-			
+			FileWriter outputTxt = new FileWriter(output); // writerí•  íŒŒì¼ ê°ì²´
+
 			for(int i = 0 ;i < 5;i++)
 			{
-				// input.txt¿¡¼­ ÀĞ¾îµéÀÎ µÎ ¼ö
+				// input.txtì—ì„œ ì½ì–´ë“¤ì¸ ë‘ ìˆ˜
 				double	a = inputTxt.nextDouble();
 				double	b = inputTxt.nextDouble();
-						
-					
+
+
 				String result = a + " + " + b + " = " + (a+b);
 				System.out.println(result);
 
-				// µÎ ¼öÀÇ ÇÕ(°á°ú)¸¦ output.txtÆÄÀÏ¿¡ ¾²±â
+				// ë‘ ìˆ˜ì˜ í•©(ê²°ê³¼)ë¥¼ output.txtíŒŒì¼ì— ì“°ê¸°
 				outputTxt.write(result+"\n");
 			}
 			outputTxt.close();
