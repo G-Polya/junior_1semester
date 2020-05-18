@@ -5,7 +5,7 @@ public class ByteAndInt
 	private static final int byteSize = 8;
 
 
-	public static String BitString(int value)// byte擊 檣熱煎 嫡朝等 謁 檜 熱陛 轎梱?
+	public static String BitString(int value)//
 	{
 		final int intSize = 32;
 
