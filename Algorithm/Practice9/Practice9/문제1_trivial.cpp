@@ -84,10 +84,17 @@ string make_myDNA(string refDNA)
 	int col = 5;
 	int row = refDNA.length() / col;
 
+<<<<<<< HEAD
 
 	//myDNA를 5씩 나눔. 20%확률을 위해 
 	string* temp_myDNA = new string[row];
 	for (int i = 0; i < row; i += col)
+=======
+	
+	//myDNA를 5씩 나눔. 20%확률을 위해 
+	string* temp_myDNA = new string[row];
+	for (int i = 0; i < row; i+=col)
+>>>>>>> 284c2b5bf8ec9af902bca8c583497ece97f76085
 	{
 		temp_myDNA[i] = refDNA.substr(i * col, col);
 	}
@@ -138,18 +145,30 @@ void make_shortRead(int length, int n, string refDNA, string directory)
 
 	string myDNA = make_myDNA(text);
 	uniform_int_distribution<int> dis(0, myDNA.length() - length);		// 시작위지를 랜덤으로 설정
+<<<<<<< HEAD
 
+=======
+>>>>>>> 284c2b5bf8ec9af902bca8c583497ece97f76085
 
+	
 	for (int i = 0; i < n; i++)
 	{
 		ofstream fout;
 		string short_Name = directory + "\\shortRead_" + to_string(i) + ".txt";	//shortRead디렉토리에 저장
 		fout.open(short_Name);
+<<<<<<< HEAD
 
 
 		string shortRead = myDNA.substr(dis(gen), length);	// 랜덤으로 뽑은 시작위치에서 length만큼의 서브스트링 반환
 
 
+=======
+		
+
+		string shortRead = myDNA.substr(dis(gen), length);	// 랜덤으로 뽑은 시작위치에서 length만큼의 서브스트링 반환
+
+		
+>>>>>>> 284c2b5bf8ec9af902bca8c583497ece97f76085
 		fout << shortRead;
 		fout.close();
 	}
@@ -304,7 +323,11 @@ int main()
 		information.close();
 
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 284c2b5bf8ec9af902bca8c583497ece97f76085
 
 
 	// test_case
