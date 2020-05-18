@@ -75,6 +75,22 @@ string concat(string strArr[], int size)
 	return result;
 }
 
+string make_myDNA(string refDNA)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> sample(0, 4);
+	int col = 5;
+	int row = refDNA.length() / col;
+
+	string myDNA;
+	for (int i = 0; i < row; i+=col)
+	{
+		string temp_myDNA = refDNA.substr(i * col, col);
+	}
+
+}
+
 void make_shortRead(int length, int n, string refDNA, string directory)
 {
 	ifstream fin;	// 佬扁 颇老 按眉 积己
