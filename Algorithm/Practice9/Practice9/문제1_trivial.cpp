@@ -17,20 +17,20 @@ using namespace std;
 vector<int> random_numbers(int length)
 {
 	int temp, x, y;
-	random_device rd;
-	mt19937 random_engine;
-	uniform_int_distribution<int> distribution(0, length);
+
+	mt19937 random_engine((unsigned int)time(NULL));	//메르센 트위스터 난수엔진
+	uniform_int_distribution<int> distribution(0, length);	// 균등분포
 
 	vector<int> random;
 	for (int i = 0; i < length; i++)
 		random.push_back(i);
 
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)		// shuffle과정
 	{
-		x = distribution(random_engine);
+		x = distribution(random_engine);	// 인덱스를 랜덤하게 추출
 		y = distribution(random_engine);
 
-		if (x != y)
+		if (x != y)		// 같지 않다면
 		{
 			temp = random[x];
 			random[x] = random[y];
@@ -38,8 +38,7 @@ vector<int> random_numbers(int length)
 		}
 	}
 
-
-
+	// random객체는 0~50000가 무작위적으로 셔플된 객체
 	return random;
 }
 
@@ -55,7 +54,6 @@ void make_refDNA(string filename, int length)
 
 	for (int i = 0; i < length; i++)
 	{
-		//uniform_int_distribution<int> distribution(0, 4);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
 
 		if (random[i] % 4 == 0)
 			fout << 'A';
@@ -220,12 +218,13 @@ int brute_force_matching(string refDNA, string shortRead, int threshold)
 }
 
 
-string trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
+tuple<string, string> trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
 {
 	try
 	{
 		//string before_myDNA = make_myDNA(refDNA);	// myDNA와 refDNA는 거의 비슷하다. 
-		string before_myDNA = make_myDNA(refDNA);
+		string after_myDNA = make_myDNA(refDNA);
+		string original = after_myDNA.substr(0, after_myDNA.length());
 
 		int number = 0;
 		for (auto& shortRead : shortReads)		// 각각의 shortRead에 대해서
@@ -234,9 +233,9 @@ string trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
 			cout << number << " 번째 shortRead는 " << index << "부터 나타남" << endl;
 			number++;
 			for (int i = index; i < index + shortRead.length(); i++)
-				before_myDNA[i] = shortRead[i - index];				// myDNA에서 index ~ (index+length)에 해당하는 부분을 shortRead로 바꿔준다.
+				after_myDNA[i] = shortRead[i - index];				// myDNA에서 index ~ (index+length)에 해당하는 부분을 shortRead로 바꿔준다.
 		}
-		return before_myDNA;
+		return make_tuple(original, after_myDNA);
 	}
 	catch (exception e)
 	{
@@ -282,7 +281,7 @@ int main()
 	cin >> k;
 	cout << "shortRead의 개수 n를 입력해주세요 >> ";
 	cin >> n;
-	make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
+	//make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
 
 	ifstream refDNA_in;
 	refDNA_in.open("referenceDNA.txt");
@@ -304,13 +303,14 @@ int main()
 
 
 	cout << "myDNA : " << endl;
-	string myDNA;
-
+	string after_DNA;
+	string original_myDNA;
+	tuple<string, string> myDNA;
 	for (int threshold = 5; threshold <= 20; threshold += 5)
 	{
-		ofstream myDNA_out;	// myDNA.txt를 입력하기 위한 파일스트림
-		string myDNA_name = to_string(k) + "_" + to_string(threshold) + "_myDNA.txt";
-		myDNA_out.open(myDNA_name, ios::app | ios::out);
+		ofstream afterDNA_out;	// myDNA.txt를 입력하기 위한 파일스트림
+		string after_myDNA_name = to_string(k) + "_" + to_string(threshold) + "_myDNA.txt";
+		afterDNA_out.open(after_myDNA_name, ios::app | ios::out);
 
 		ofstream information;	// 복원시간, 일치도, 불일치 개수를 입력하기 위한 파일 스트림
 		string information_name = to_string(k) + "_information.txt";
@@ -318,23 +318,30 @@ int main()
 
 
 		chrono::steady_clock::time_point start = chrono::steady_clock::now();
-		myDNA = trivial_Mapping(refDNA, shortReads, threshold);	// myDNA 생성
+		myDNA = trivial_Mapping(refDNA, shortReads, threshold);
 		chrono::steady_clock::time_point end = chrono::steady_clock::now();
 		auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start).count();
 		auto elapsed_minutes = chrono::duration_cast<chrono::minutes>(end - start).count();
 
-		myDNA_out << myDNA;	//myDNA를 파일에 입력. 
-		myDNA_out.close();
+		original_myDNA = get<0>(myDNA);
+		after_DNA = get<1>(myDNA);
+
+		afterDNA_out << after_DNA;	//myDNA를 파일에 입력. 
+		afterDNA_out.close();
 
 		// threshold에 따른 복원시간, 일치도, 불일치 개수를 파일에 입력
 		information << "threshold가 " << threshold << " 일 때 : " << endl;
 		information << "복원 시간 : " << elapsed_seconds << " 초 (" << elapsed_minutes << " 분)" << endl;
-		information << "refDNA의 길이 : " << refDNA.length() << " myDNA의 길이 : " << myDNA.length() << endl;
+		information << "refDNA의 길이 : " << refDNA.length() << " myDNA의 길이 : " << after_DNA.length() << endl;
 
-		double degree = get<0>(compare_degree(refDNA, myDNA));
-		int mismathces = get<1>(compare_degree(refDNA, myDNA));
-		information << "myDNA와 refDNA의 일치하는 정도 : " << get<0>(compare_degree(refDNA, myDNA)) << endl;
-		information << "불일치 개수 : " << get<1>(compare_degree(refDNA, myDNA)) << endl;
+		double degree = get<0>(compare_degree(refDNA, after_DNA));
+		int mismathces = get<1>(compare_degree(refDNA, after_DNA));
+		information << "복원후 myDNA와 refDNA의 일치하는 정도 : " << get<0>(compare_degree(refDNA, after_DNA)) << endl;
+		information << "복원후 myDNA와 복원전 myDNA가 일치하는 정도 : " << get<0>(compare_degree(after_DNA, original_myDNA)) << endl;
+		information << endl;
+		information << "복원후 myDNA와 refDNA불일치 개수 : " << get<1>(compare_degree(refDNA, after_DNA)) << endl;
+		information << "복원후 myDNA와 복원전 myDNA의 불일치개수 : " << get<1>(compare_degree(after_DNA, original_myDNA)) << endl;
+
 		information << "============================" << endl;
 
 		information.close();
