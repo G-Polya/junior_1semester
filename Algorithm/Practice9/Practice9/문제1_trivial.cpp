@@ -83,12 +83,45 @@ string make_myDNA(string refDNA)
 	int col = 5;
 	int row = refDNA.length() / col;
 
-	string myDNA;
+	
+	string* temp_myDNA = new string[row];
 	for (int i = 0; i < row; i+=col)
 	{
-		string temp_myDNA = refDNA.substr(i * col, col);
+		temp_myDNA[i] = refDNA.substr(i * col, col);
 	}
 
+	for (int i = 0; i < row; i++)			//splited_temp의 모든 원소. 즉 temp가 등분되어 만들어진 string에 대하여
+	{
+		int index = sample(gen);		// 20%확률로 랜덤하게 돌연변이가 일어날 인덱스 설정
+
+		if (temp_myDNA[i][index] == 'A')	// 돌연변이가 일어날 인덱스에 해당하는 문자가 A라면
+		{
+			char arr[3] = { 'G','C','T' };
+			temp_myDNA[i][index] = shuffle(arr, 3);	// G,C,T 중에서 하나로 바뀜
+		}
+		else if (temp_myDNA[i][index] == 'G')
+		{
+			char arr[3] = { 'A','C','T' };
+			temp_myDNA[i][index] = shuffle(arr, 3);
+
+		}
+		else if (temp_myDNA[i][index] == 'C')
+		{
+			char arr[3] = { 'A','G','T' };
+			temp_myDNA[i][index] = shuffle(arr, 3);
+
+		}
+		else if (temp_myDNA[i][index] == 'T')
+		{
+			char arr[3] = { 'A','G','C' };
+			temp_myDNA[i][index] = shuffle(arr, 3);
+
+		}
+	}
+
+	string myDNA = concat(temp_myDNA, row);
+
+	return myDNA;
 }
 
 void make_shortRead(int length, int n, string refDNA, string directory)
