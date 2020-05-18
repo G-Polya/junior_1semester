@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="temp.cpp" />
     <ClCompile Include="문제1_trivial.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
