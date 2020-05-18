@@ -11,7 +11,37 @@
 #include <iomanip>
 #include <algorithm>
 #include <chrono>
+#include <functional>
 using namespace std;
+
+vector<int> random_numbers(int length)
+{
+	int temp, x, y;
+	random_device rd;
+	mt19937 random_engine;
+	uniform_int_distribution<int> distribution(0, length);
+
+	vector<int> random;
+	for (int i = 0; i < length; i++)
+		random.push_back(i);
+
+	for (int i = 0; i < length; i++)
+	{
+		x = distribution(random_engine);
+		y = distribution(random_engine);
+
+		if (x != y)
+		{
+			temp = random[x];
+			random[x] = random[y];
+			random[y] = temp;
+		}
+	}
+
+
+
+	return random;
+}
 
 
 //referenceDNA를 생성하는 함수
@@ -20,21 +50,26 @@ void make_refDNA(string filename, int length)
 	ofstream fout;		//파일객체 생성
 	fout.open(filename);
 
-	random_device rd;		 //시드값을 얻기 위한 random_device 생성
+	vector<int> random = random_numbers(length);
+
 
 	for (int i = 0; i < length; i++)
 	{
 		//uniform_int_distribution<int> distribution(0, 4);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
-		int rad = rand() % 4;
-		if (rad % 4 == 0)
+
+		if (random[i] % 4 == 0)
 			fout << 'A';
-		else if (rad % 4 == 1)
+
+		else if (random[i] % 4 == 1)
 			fout << 'G';
-		else if (rad % 4 == 2)
+
+		else if (random[i] % 4 == 2)
 			fout << 'C';
-		else if (rad % 4 == 3)
+		else if (random[i] % 4 == 3)
 			fout << 'T';
 	}
+
+
 	fout.close();
 }
 
@@ -241,13 +276,13 @@ tuple<double, size_t> compare_degree(string refDNA, string myDNA)
 
 int main()
 {
-	//make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
+	//	make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
 	int k, n;
 	cout << "shortRead의 길이 k를 입력해주세요 >> ";
 	cin >> k;
 	cout << "shortRead의 개수 n를 입력해주세요 >> ";
 	cin >> n;
-	//make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
+	make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
 
 	ifstream refDNA_in;
 	refDNA_in.open("referenceDNA.txt");
@@ -294,6 +329,7 @@ int main()
 		// threshold에 따른 복원시간, 일치도, 불일치 개수를 파일에 입력
 		information << "threshold가 " << threshold << " 일 때 : " << endl;
 		information << "복원 시간 : " << elapsed_seconds << " 초 (" << elapsed_minutes << " 분)" << endl;
+		information << "refDNA의 길이 : " << refDNA.length() << " myDNA의 길이 : " << myDNA.length() << endl;
 
 		double degree = get<0>(compare_degree(refDNA, myDNA));
 		int mismathces = get<1>(compare_degree(refDNA, myDNA));
