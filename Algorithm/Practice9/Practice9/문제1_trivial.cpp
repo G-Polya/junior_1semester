@@ -1,4 +1,5 @@
 //2016112158 김희수
+//refDNA >> myDNA(스닙20%, 복원전) >> shortRead >> myDNA(복원)
 #include <iostream>
 #include <string>
 #include <random>
@@ -17,24 +18,23 @@ using namespace std;
 void make_refDNA(string filename, int length)
 {
 	ofstream fout;		//파일객체 생성
-	fout.open(filename, ios::app | ios::out);
+	fout.open(filename);
+
 	random_device rd;		 //시드값을 얻기 위한 random_device 생성
 
-	mt19937 gen(rd());	// random_deivce를 통해 난수 생성 엔진을 초기화, 메르센 트위스터 알고리즘. rand가 사용했던 선형합동방식보다 좋은 난수열 생성
-
-	uniform_int_distribution<int> distribution(0, 50000);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
 	for (int i = 0; i < length; i++)
 	{
-		if (distribution(gen) % 4 == 0)
+		//uniform_int_distribution<int> distribution(0, 4);	//0부터 99까지 균등하게 나타내는 난수열을 생성하기 위해 균등분포 정의
+		int rad = rand() % 4;
+		if (rad % 4 == 0)
 			fout << 'A';
-		else if (distribution(gen) % 4 == 1)
+		else if (rad % 4 == 1)
 			fout << 'G';
-		else if (distribution(gen) % 4 == 2)
-			fout << 'T';
-		else if (distribution(gen) % 4 == 3)
+		else if (rad % 4 == 2)
 			fout << 'C';
+		else if (rad % 4 == 3)
+			fout << 'T';
 	}
-
 	fout.close();
 }
 
@@ -75,80 +75,81 @@ string concat(string strArr[], int size)
 	return result;
 }
 
-void make_shortRead(int length, int n, string refDNA, string directory)
+// 
+string make_myDNA(string refDNA)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> sample(0, 4);
+	int col = 5;
+	int row = refDNA.length() / col;
+
+
+	string* temp_myDNA = new string[row];
+	for (int i = 0; i < row; i++)
+	{
+		temp_myDNA[i] = refDNA.substr(i * col, col);
+	}
+
+
+	for (int i = 0; i < row; i++)			//temp_myDNA의 모든 원소. 즉 refDNA가 등분되어 만들어진 string에 대하여
+	{
+		int index = sample(gen);		// 20%확률로 랜덤하게 돌연변이가 일어날 인덱스 설정
+
+		if (temp_myDNA[i][index] == 'A')	// 돌연변이가 일어날 인덱스에 해당하는 문자가 A라면. 
+		{
+			char arr[3] = { 'G','C','T' };
+			temp_myDNA[i][index] = shuffle(arr, 3);	// G,C,T 중에서 하나로 바뀜
+		}
+		else if (temp_myDNA[i][index] == 'G')
+		{
+			char arr[3] = { 'A','C','T' };
+			temp_myDNA[i][index] = shuffle(arr, 3);
+
+		}
+		else if (temp_myDNA[i][index] == 'C')
+		{
+			char arr[3] = { 'A','G','T' };
+			temp_myDNA[i][index] = shuffle(arr, 3);
+
+		}
+		else if (temp_myDNA[i][index] == 'T')
+		{
+			char arr[3] = { 'A','G','C' };
+			temp_myDNA[i][index] = shuffle(arr, 3);
+
+		}
+	}
+
+	string myDNA = concat(temp_myDNA, row);
+	return myDNA;
+}
+
+void make_shortRead(int k, int n, string refDNA_path, string directory)
 {
 	ifstream fin;	// 읽기 파일 객체 생성
-	fin.open(refDNA);
-	string text;
-	fin >> text;	// 읽어온 파일은 string객체에 저장
+	fin.open(refDNA_path);
+	string refDNA;
+	fin >> refDNA;	// 읽어온 파일은 string객체에 저장
 
 	random_device rd;	// 시드값을 얻기 위한 random_device 설정
 	mt19937 gen(rd());
 
-	uniform_int_distribution<int> dis(0, text.length() - length);		// 시작위지를 랜덤으로 설정
+	string myDNA = make_myDNA(refDNA);
+	uniform_int_distribution<int> start_point(0, myDNA.length() - k);		// 시작위지를 랜덤으로 설정
 
-	uniform_int_distribution<int> sample(0, 4);	//20%확률로 뽑아올 인덱스
 
 	for (int i = 0; i < n; i++)
 	{
 		ofstream fout;
 		string short_Name = directory + "\\shortRead_" + to_string(i) + ".txt";	//shortRead디렉토리에 저장
 		fout.open(short_Name);
-		//std::cout << dis(gen) << endl;
 
-		string temp = text.substr(dis(gen), length);	// 랜덤으로 뽑은 시작위치에서 length만큼의 서브스트링 반환
 
-		string* splited_temp = new string[length / 5];		// 20%확률로 돌연변이가 일어나기 위해 temp를 잘라서 만든 string배열
-		int size = length / 5;		// 예를 들어 length가 10이라면 splited_temp의 원소개수는 2개이다
+		string shortRead = myDNA.substr(start_point(gen), k);	// 랜덤으로 뽑은 시작위치에서 length만큼의 서브스트링 반환
 
-		for (int i = 0; i < size; i++)
-		{
-			splited_temp[i] = temp.substr(i * (length / size), length / size);	// splited_temp에는 temp를 등분한 string이 저장됨 
-		}
 
-		//std::cout << temp << " " << splited_temp[0] << " " << splited_temp[1] << endl;
-
-		for (int i = 0; i < size; i++)			//splited_temp의 모든 원소. 즉 temp가 등분되어 만들어진 string에 대하여
-		{
-			int index = sample(gen);		// 20%확률로 랜덤하게 돌연변이가 일어날 인덱스 설정
-
-			if (splited_temp[i][index] == 'A')	// 돌연변이가 일어날 인덱스에 해당하는 문자가 A라면
-			{
-				char arr[3] = { 'G','C','T' };
-				splited_temp[i][index] = shuffle(arr, 3);	// G,C,T 중에서 하나로 바뀜
-			}
-			else if (splited_temp[i][index] == 'G')
-			{
-				char arr[3] = { 'A','C','T' };
-				splited_temp[i][index] = shuffle(arr, 3);
-
-			}
-			else if (splited_temp[i][index] == 'C')
-			{
-				char arr[3] = { 'A','G','T' };
-				splited_temp[i][index] = shuffle(arr, 3);
-
-			}
-			else if (splited_temp[i][index] == 'T')
-			{
-				char arr[3] = { 'A','G','C' };
-				splited_temp[i][index] = shuffle(arr, 3);
-
-			}
-		}
-
-		string shortRead = concat(splited_temp, size);	//	돌연변이가 일어난 결과. shortRead
-
-		//string* splited_Read = new string[size];
-		//for (int i = 0; i < size; i++)
-		//{
-		//	splited_Read[i] = shortRead.substr(i * (length / size), length / size);
-		//}
-
-		//std::cout << shortRead << " " << splited_Read[0] << " " << splited_Read[1] << endl;
-		//
-		//std::cout << "============================" << endl;
-		fout << shortRead << endl;
+		fout << shortRead;
 		fout.close();
 	}
 
@@ -188,18 +189,19 @@ string trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
 {
 	try
 	{
-		string myDNA = refDNA;	// myDNA와 refDNA는 거의 비슷하다. 
+		//string before_myDNA = make_myDNA(refDNA);	// myDNA와 refDNA는 거의 비슷하다. 
+		string before_myDNA = make_myDNA(refDNA);
 
 		int number = 0;
 		for (auto& shortRead : shortReads)		// 각각의 shortRead에 대해서
 		{
 			int index = brute_force_matching(refDNA, shortRead, threshold);		// 가정 mismatch가 적은 인덱스를 가져온다. 
-			cout << number << " 번쨰 shortRead는 " << index << "부터 나타남" << endl;
+			cout << number << " 번째 shortRead는 " << index << "부터 나타남" << endl;
 			number++;
 			for (int i = index; i < index + shortRead.length(); i++)
-				myDNA[i] = shortRead[i - index];				// myDNA에서 index ~ (index+length)에 해당하는 부분을 shortRead로 바꿔준다.
+				before_myDNA[i] = shortRead[i - index];				// myDNA에서 index ~ (index+length)에 해당하는 부분을 shortRead로 바꿔준다.
 		}
-		return myDNA;
+		return before_myDNA;
 	}
 	catch (exception e)
 	{
@@ -210,12 +212,12 @@ string trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
 }
 
 // refDNA와 myDNA를 비교하여 일치하는 정도를 반환하는 함수
-tuple<double, int> compare_degree(string refDNA, string myDNA)
+tuple<double, size_t> compare_degree(string refDNA, string myDNA)
 {
 	double N = refDNA.size();
 	double M = myDNA.size();
 
-	int mismatches = 0;
+	size_t mismatches = 0;
 
 	for (int i = 0; i <= N - M; i++)
 	{
@@ -245,12 +247,12 @@ int main()
 	cin >> k;
 	cout << "shortRead의 개수 n를 입력해주세요 >> ";
 	cin >> n;
-	make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
+	//make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
 
-	ifstream inDNA;
-	inDNA.open("referenceDNA.txt");
+	ifstream refDNA_in;
+	refDNA_in.open("referenceDNA.txt");
 	string refDNA;
-	inDNA >> refDNA;
+	refDNA_in >> refDNA;
 
 	//myDNA를 만들 때 사용
 	vector<string> shortReads;		//shortRead들을 저장할 vector
@@ -269,7 +271,7 @@ int main()
 	cout << "myDNA : " << endl;
 	string myDNA;
 
-	for (int threshold = 15; threshold < 20; threshold++)
+	for (int threshold = 5; threshold <= 20; threshold += 5)
 	{
 		ofstream myDNA_out;	// myDNA.txt를 입력하기 위한 파일스트림
 		string myDNA_name = to_string(k) + "_" + to_string(threshold) + "_myDNA.txt";
@@ -305,9 +307,6 @@ int main()
 
 
 
-
-
-
 	// test_case
 	/*string refDNA = "GCATGGATTCTCTTTGGACGAAAGTTTCCCAGACTGAGCGCACCACCAATAGTAAAAGAA";
 	vector<string> shortReads = { "GCGTTGCTT","TTGTCTATGGCCG","CGAGAGATTCCTAGACT","CAGAGCGGACCACCA","AACAGTAGAACAA" };
@@ -319,6 +318,4 @@ int main()
 	cout << myDNA << endl;
 	cout << get_match_degree(refDNA, myDNA)<<" %" << endl;*/
 
-
-	return 0;
 }
