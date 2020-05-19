@@ -109,12 +109,12 @@ string concat(string strArr[], int size)
 }
 
 // 
-string make_myDNA(string refDNA)
+string make_myDNA(string refDNA, double probability)
 {
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<int> sample(0, 4);
-	int col = 5;
+	int col = 100 / probability;
 	int row = refDNA.length() / col;
 
 
@@ -158,7 +158,7 @@ string make_myDNA(string refDNA)
 	return myDNA;
 }
 
-void make_shortRead(int k, int n, string refDNA_path, string directory)
+void make_shortRead(int k, int n, string refDNA_path, string directory, double probability)
 {
 	ifstream fin;	// 읽기 파일 객체 생성
 	fin.open(refDNA_path);
@@ -168,7 +168,7 @@ void make_shortRead(int k, int n, string refDNA_path, string directory)
 	random_device rd;	// 시드값을 얻기 위한 random_device 설정
 	mt19937 gen(rd());
 
-	string myDNA = make_myDNA(refDNA);
+	string myDNA = make_myDNA(refDNA, probability);
 	uniform_int_distribution<int> start_point(0, myDNA.length() - k);		// 시작위지를 랜덤으로 설정
 
 
@@ -218,12 +218,12 @@ int brute_force_matching(string refDNA, string shortRead, int threshold)
 }
 
 
-tuple<string, string> trivial_Mapping(string refDNA, vector<string> shortReads, int threshold)
+tuple<string, string> trivial_Mapping(string refDNA, vector<string> shortReads, int threshold, double probablity)
 {
 	try
 	{
 		//string before_myDNA = make_myDNA(refDNA);	// myDNA와 refDNA는 거의 비슷하다. 
-		string after_myDNA = make_myDNA(refDNA);
+		string after_myDNA = make_myDNA(refDNA, probablity);
 		string original = after_myDNA.substr(0, after_myDNA.length());
 
 		int number = 0;
@@ -275,13 +275,13 @@ tuple<double, size_t> compare_degree(string refDNA, string myDNA)
 
 int main()
 {
-	//	make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
+	//make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
 	int k, n;
 	cout << "shortRead의 길이 k를 입력해주세요 >> ";
 	cin >> k;
 	cout << "shortRead의 개수 n를 입력해주세요 >> ";
 	cin >> n;
-	//make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead");	// shortRead들을 만들때 사용
+	make_shortRead(k, n, "referenceDNA.txt", to_string(k) + "_shortRead", 7);	// shortRead들을 만들때 사용, probability는 20%
 
 	ifstream refDNA_in;
 	refDNA_in.open("referenceDNA.txt");
@@ -318,7 +318,7 @@ int main()
 
 
 		chrono::steady_clock::time_point start = chrono::steady_clock::now();
-		myDNA = trivial_Mapping(refDNA, shortReads, threshold);
+		myDNA = trivial_Mapping(refDNA, shortReads, threshold, 20);
 		chrono::steady_clock::time_point end = chrono::steady_clock::now();
 		auto elapsed_seconds = chrono::duration_cast<chrono::seconds>(end - start).count();
 		auto elapsed_minutes = chrono::duration_cast<chrono::minutes>(end - start).count();
