@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-
+#include "DNA.h"
 using namespace std;
 
 void displaySolution(int path[]);
