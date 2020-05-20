@@ -1,4 +1,6 @@
 #pragma once
+
+// 인접행렬을 구현하기 위한 헤더
 #include <iostream>
 #include <vector>
 #include <string>
@@ -8,5 +10,7 @@ using namespace std;
 
 
 void show_matrix(bool** mat, int col, int row);
-void show_queue(queue<string> q);
-void make_adjacentMatrix(vector<string> spectrum);
+
+bool** make_adjacentMatrix(vector<string> spectrum);
+
+void show_matrix(bool mat[][8], int col, int row);

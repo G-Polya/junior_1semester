@@ -1,8 +1,9 @@
+
+// 인접행렬 구현
 #include <iostream>
 #include <vector>
 #include <string>
 #include <queue>
-#include <fstream>
 using namespace std;
 
 void show_matrix(bool** mat, int col, int row)
@@ -13,25 +14,21 @@ void show_matrix(bool** mat, int col, int row)
 			cout << mat[i][j] << " ";
 		cout << endl;
 	}
-
-
 }
 
-
-void show_queue(queue<string> q)
+void show_matrix(bool mat[][8], int col, int row)
 {
-	while (!q.empty())
+	for (int i = 0; i < row; i++)
 	{
-		cout << q.front() << " ";
-		q.pop();
+		for (int j = 0; j < row; j++)
+			cout << mat[i][j] << " ";
+		cout << endl;
 	}
-	cout << endl;
 }
 
 
 // 주어진 스트링들을 기반으로한 인접행렬을 생성한다
-
-void make_adjacentMatrix(vector<string> spectrum)
+bool** make_adjacentMatrix(vector<string> spectrum)
 {
 	int col = spectrum.size();
 	int row = spectrum.size();
@@ -42,7 +39,7 @@ void make_adjacentMatrix(vector<string> spectrum)
 
 	for (int i = 0; i < col; i++)
 	{
-		string one = spectrum[i];		// 기준
+		string one = spectrum[i];		// 기준이 되는 스트링
 		for (int j = 0; j < row; j++)
 		{
 			mat[i][j] = 0;
@@ -51,22 +48,22 @@ void make_adjacentMatrix(vector<string> spectrum)
 				mat[i][j] = 0;
 
 
-			string two = spectrum[j];	// 비교
+			string two = spectrum[j];	// 기준과 비교되는 대상스트링
 
-			if (one[one.length() - 2] == two[0] && one[one.length() - 1] == two[1])
+			if (one[one.length() - 2] == two[0] && one[one.length() - 1] == two[1])	//기준의 끝두글자와 비교대상의 앞두글자가 같으면 연결되어있다. 
 			{
 				mat[i][j] = 1;
 
 			}
 
-			//mat[j][i] = mat[i][j];
-			if (one == two)
+			
+			if (one == two)		// 자기자신이면 0
 				mat[i][j] = 0;
 
 		}
 	}
 
 
-	show_matrix(mat, col, row);
-
+	
+	return mat;
 }
