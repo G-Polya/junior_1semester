@@ -89,6 +89,6 @@ int main()
 
 	printAllHamiltonianPaths(g, start, visited, path, N);
 
-	
+	return 0;
 
 }
