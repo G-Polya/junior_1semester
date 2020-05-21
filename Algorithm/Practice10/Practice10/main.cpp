@@ -1,6 +1,7 @@
 // 2016112158 ±èÈñ¼ö
 #include "graph.h"
 #include "DNA.h"
+#include "Hamilton.h"
 #include <map>
 using namespace std;
 
