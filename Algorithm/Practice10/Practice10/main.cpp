@@ -34,106 +34,75 @@ string concat(string zero, list<string> queue)
 
 }
 
-void hamilton_path(vector<string> spectrum)
+class Node
 {
-	int row = spectrum.size();
-	int col = spectrum.size();
-	
-	string restored = "";
+public:
+	string DNA;
+	int number;
+	vector<Node> childs;
 
-	for (int i = 0; i < row; i++)
+	Node(string DNA, int number)
 	{
-		list<string> queue;
-		queue.push_back(spectrum[0]);
-		for (int j = 0; j < col; j++)
-		{
-
-		}
-		string selected = queue.front();
-		//cout << selected << endl;
-		string compete = spectrum[i];
+		this->DNA = DNA;
+		this->number = number;
 		
-		if (selected[selected.length() - 2] == compete[0] && selected[selected.length() - 1] == compete[1])
+	}
+
+	void has_child(Node dest)
+	{
+		
+		if (DNA[DNA.length() - 2] == dest.DNA[0] && DNA[DNA.length() - 1] == dest.DNA[1] && DNA !=dest.DNA)
 		{
-			
-			queue.push_back(compete);
-			for (auto iter = begin(queue); iter != end(queue); iter++)
-				cout << *iter << endl;
+			childs.push_back(dest);
+		}
+	}
 
-			restored = concat(restored, queue);
-			cout << "restored : " << restored << endl;
-			cout << endl;
+	string concat()
+	{
+		string result = DNA;
 
-			queue.pop_front();
-			
+		list<Node> temp_childs;
+		for (auto& child : childs)
+			temp_childs.push_back(child);
+
+		if (!temp_childs.empty())
+		{
+			result += temp_childs.front().DNA.substr(2, 1);
+			temp_childs.pop_front();
+		}
+
+		return result;
+	}
+
+	
+};
+
+void connect(vector<Node>& nodes)
+{
+	for (int i = 0; i < nodes.size(); i++)
+	{
+		for (int j = 0; j < nodes.size(); j++)
+		{
+			nodes[i].has_child(nodes[j]);
 		}
 	}
 }
 
 int main()
 {
+	vector<Node> nodes = { Node("ATG",0), Node("TGG",1), Node("TGC",2), Node("GTG",3), Node("GGC",4), Node("GCA",5), Node("GCG",6), Node("CGT",7) };
+	
 
+	connect(nodes);
 
-	vector<tuple<string, int>> spec =
-	{
-		make_tuple("ATG",0),
-		make_tuple("TGG",1),
-		make_tuple("TGC",2),
-		make_tuple("GTG",3),
-		make_tuple("GGC",4),
-		make_tuple("GCA",5),
-		make_tuple("GCG",6),
-		make_tuple("CGT",7),
-	};
+	cout << nodes[4].childs[1].DNA << endl;
 
-	vector<string> spectrum1 = { "ATG", "TGG", "TGC","GTG","GGC","GCA","GCG","CGT" };
+	cout << nodes[1].concat() << endl;
+
+	
+
 
 
 	
-	int** matrix = make_adjacentMatrix(spec);
-	
-	const int col = spec.size();
-	const int row = spec.size();
-	int graph[8][8];
-	for (int i = 0; i < row; i++)
-	{
-		for (int j = 0; j < col; j++)
-			graph[i][j] = matrix[i][j];
-	}
-
-
-	vector<vector<int>> mat = vector_Matrix(graph,col,row);
-	show_matrix(mat);
-	
-	vector<vector<int>> adjList = convert_toList(mat);
-	print_adjList(adjList);
-	cout << endl;
-	print_adjList(adjList, spec);
-	cout << endl;
-
-	
-	vector<Edge> edges = make_Edges(adjList);
-
-	for (int i = 0; i < edges.size(); i++)
-	{
-		cout << edges[i].getSrc() << ", " << edges[i].getDest() << endl;
-	}
-	cout << endl<<endl;
-
-	int start = 0;
-	int N = 8;
-	Graph g(edges, N);
-
-	vector<int> path;
-	path.push_back(start);
-
-	vector<bool> visited(N);
-	visited[start] = true;
-
-	printAllHamiltonianPaths(g, start, visited, path, N);
-	hamilton_path(spectrum1);
-	
-	cout << endl;
-
 
 }
