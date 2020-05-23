@@ -1,33 +1,74 @@
 // 2016112158 김희수
+#include <iostream>
+#include <vector>
+#include <string>
 #include "graph.h"
 #include "DNA.h"
 #include "Hamilton.h"
 #include <map>
+#include <list>
 using namespace std;
 
-//https://www.tutorialspoint.com/cplusplus-program-to-check-whether-a-hamiltonian-cycle-or-path-exists-in-a-given-graph
-//https://www.geeksforgeeks.org/hamiltonian-cycle-backtracking-6/
 
 // 1. 먼저 주어진 spectrum을 그래프로 만든다. 이때 그래프는 방향그래프이며 표현은 인접행렬이다.
 // 2. 주어진 그래프를 토대로 해밀턴 경로를 찾는다. 
 
-vector<vector<int>> convert(vector<vector<int>> a)
+string concat(string zero, list<string> queue)
 {
-	vector<vector<int>> adjList(a.size());
-	for (int i = 0; i < a.size(); i++)
+	string result;
+	if (zero == "")
 	{
+		result = "" + queue.front();
+		queue.pop_front();
+		result += queue.front().substr(2, 1);
 
-		for (int j = 0; j < a[i].size(); j++)
-		{
-			if (a[i][j] == 1)
-			{
-				adjList[i].push_back(j);
-			}
-		}
+		return result;
 	}
-	return adjList;
+	else
+	{
+		queue.pop_front();
+		result = zero + queue.front().substr(2, 1);
+		return result;
+	}
+
+
 }
 
+void hamilton_path(vector<string> spectrum)
+{
+	int row = spectrum.size();
+	int col = spectrum.size();
+	
+	string restored = "";
+
+	for (int i = 0; i < row; i++)
+	{
+		list<string> queue;
+		queue.push_back(spectrum[0]);
+		for (int j = 0; j < col; j++)
+		{
+
+		}
+		string selected = queue.front();
+		//cout << selected << endl;
+		string compete = spectrum[i];
+		
+		if (selected[selected.length() - 2] == compete[0] && selected[selected.length() - 1] == compete[1])
+		{
+			
+			queue.push_back(compete);
+			for (auto iter = begin(queue); iter != end(queue); iter++)
+				cout << *iter << endl;
+
+			restored = concat(restored, queue);
+			cout << "restored : " << restored << endl;
+			cout << endl;
+
+			queue.pop_front();
+			
+		}
+	}
+}
 
 int main()
 {
@@ -45,6 +86,7 @@ int main()
 		make_tuple("CGT",7),
 	};
 
+	vector<string> spectrum1 = { "ATG", "TGG", "TGC","GTG","GGC","GCA","GCG","CGT" };
 
 
 	
@@ -89,7 +131,9 @@ int main()
 	visited[start] = true;
 
 	printAllHamiltonianPaths(g, start, visited, path, N);
+	hamilton_path(spectrum1);
+	
+	cout << endl;
 
-	return 0;
 
 }
