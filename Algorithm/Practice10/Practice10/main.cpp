@@ -7,6 +7,7 @@
 #include "Hamilton.h"
 #include <map>
 #include <list>
+#include <algorithm>
 using namespace std;
 
 
@@ -88,18 +89,36 @@ void connect(vector<Node>& nodes)
 	}
 }
 
+bool not_in(list<int> node, )
+
+list<int> find_path(map<int, list<int>> graph, int start, int end, list<int> path)
+{
+	list<int> nothing;
+	list<int> merged;
+	merged.insert(merged.end(), path.begin(), path.end());
+	merged.insert(merged.end(), start);
+	if (start == end)
+		return merged;
+
+	
+	if (graph.find(start) == m.end())
+		return nothing;
+
+	list<int> paths;
+	for (auto& node : graph.find(start)->second)
+	{
+		if 
+	}
+}
+
 int main()
 {
 	vector<Node> nodes = { Node("ATG",0), Node("TGG",1), Node("TGC",2), Node("GTG",3), Node("GGC",4), Node("GCA",5), Node("GCG",6), Node("CGT",7) };
 	
 
-	connect(nodes);
-
-	cout << nodes[4].childs[1].DNA << endl;
-
-	cout << nodes[1].concat() << endl;
-
 	
+	map<int, list<int>> connection = { {1,{4,5}}, {2,{5}}, {3,{4}}, {4,{1,3,5}}, {5,{1,2,4}} };
+
 
 
 
