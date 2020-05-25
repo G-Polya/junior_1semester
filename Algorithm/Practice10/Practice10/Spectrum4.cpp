@@ -12,11 +12,11 @@ int main()
 {
 
 
-	vector<string> spectrum1 = { "ATG","TGG","TGC","GTG","GGC","GCA","GCG","CGT" };
-	Hamilton h1(spectrum1);
+	vector<string> spectrum1 = { "ATGC","TGCG","GCGG","CGGC","GGCT","GGCT","GCTG","CTGT","TGTA","GTAT","TATG","ATGG","TGGT","GGTG" };
 	
 	int overlap = spectrum1[0].length() - 1;
-	int** matrix_h1 = (int**)make_adjacentMatrix(spectrum1,overlap);
+	Hamilton h1(spectrum1);
+	int** matrix_h1 = (int**)make_adjacentMatrix(spectrum1, overlap);
 	int size = spectrum1.size();
 	
 	int* visited = new int[size];

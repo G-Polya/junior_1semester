@@ -4,6 +4,7 @@
 void Hamilton::DFS_start(int* visited, int** adjMat,int overlap)
 {
 	vector<string> restored_DNAs;
+	int length = spectrum[0].length();
 	int size = spectrum.size();
 	for (int i = 0; i < size; i++)
 	{
@@ -11,9 +12,10 @@ void Hamilton::DFS_start(int* visited, int** adjMat,int overlap)
 		start_string = spectrum[i];
 		DFS(i, visited, adjMat,overlap);
 
-		int index = not_visited_index(visited);
-		start_string += spectrum[index].substr(spectrum[0].length() - 1, 1);
-		cout << start_string << endl;
+		int index = not_visited_index(visited,size);
+		string temp = spectrum[index];
+		start_string += spectrum[index].substr(overlap, length-overlap);
+		cout <<"끝으로 이동 >> " <<start_string << endl;
 		restored_DNAs.push_back(start_string);
 
 
@@ -53,7 +55,7 @@ void Hamilton::DFS(int node, int* visited, int** adjMat,int overlap)
 	
 			cout << node << "에서 " << i << " 로 이동 >> " ;
 			int length = spectrum[i].length();
-			start_string = start_string + spectrum[i].substr(overlap, 1);
+			start_string = start_string + spectrum[i].substr(overlap, length-overlap);
 			cout << start_string << endl;
 			DFS(i,visited,adjMat,overlap);	
 		}

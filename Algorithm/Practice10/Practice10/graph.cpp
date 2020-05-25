@@ -44,17 +44,17 @@ bool all_false(int* row, int spectrum_size)
 	return true;
 }
 
-int not_visited_index(int* visited)
+int not_visited_index(int* visited, int size)
 {
-	int size = sizeof(visited) / sizeof(int);
-	for (int i = 0; size; i++)
+	
+	for (int i = 0;i < size-1; i++)
 	{
 		if (visited[i] == 0)
 			return i;
 	}
 }
 
-int** make_adjacentMatrix(vector<string> spec)
+int** make_adjacentMatrix(vector<string> spec, int overlap)
 {
 	int row = spec.size();
 	int col = spec.size();
@@ -74,8 +74,8 @@ int** make_adjacentMatrix(vector<string> spec)
 				mat[i][j] = 0;
 
 			string two = spec[j];
-
-			if (one.substr(one.length()-2,2) == two.substr(0,2))	//기준의 끝두글자와 비교대상의 앞두글자가 같으면 연결되어있다. 
+			int length = one.length();
+			if (one.substr(length-overlap,overlap) == two.substr(0,overlap))	//기준의 끝두글자와 비교대상의 앞두글자가 같으면 연결되어있다. 
 			{
 				mat[i][j] = 1;
 			}
