@@ -1,59 +1,52 @@
 #include "Hamilton.h"
 #include "graph.h"
 
-void printAllHamiltonianPaths(Graph const& g, int v, vector<bool>visited, vector<int>& path, int N)
+void Hamilton::DFS_start(int* visited, int** adjMat)
 {
-	// if all the vertices are visited, then
-	// Hamiltonian path exists
-	if (path.size() == N)
+	vector<string> restored_DNA;
+	int size = spectrum.size();
+	for (int i = 0; i < size; i++)
 	{
-		// print Hamiltonian path
-		for (int i : path)
-			cout << i << " ";
-		cout << endl;
+		cout << i << " 번째에서 시작" << endl;
+		start_string = spectrum[i];
+		DFS(i, visited, adjMat);
 
-		return;
-	}
-
-	// Check if every edge starting from vertex v leads
-	// to a solution or not
-	for (int w : g.adjList[v])
-	{
-		// process only unvisited vertices as Hamiltonian
-		// path visits each vertex exactly once
-		if (!visited[w])
+		if (check_visited(visited, size) && (start_string.length() == spectrum[i].length() + spectrum.size() - 1))
 		{
-			visited[w] = true;
-			path.push_back(w);
-
-			// check if adding vertex w to the path leads
-			// to solution or not
-			printAllHamiltonianPaths(g, w, visited, path, N);
-
-			// Backtrack
-			visited[w] = false;
-			path.pop_back();
+			cout << "푸시" << endl;
+			restored_DNA.push_back(start_string);
 		}
+		else
+			cout << "없음" << endl;
+
+		reset_visited(visited, size);
+
+		start_string = "";
+		cout << endl;
 	}
+
+	if (restored_DNA.size() != 0)
+	{
+		for (int i = 0; i < restored_DNA.size(); i++)
+			cout << "결과 : " << restored_DNA[i] << endl;
+		
+		cout << endl << endl;
+	}
+	else
+		cout << "no string" << endl;
 }
 
-vector<Edge> make_Edges(vector<vector<int>> adjList)
+void Hamilton::DFS(int node, int* visited, int** adjMat)
 {
-	int row = adjList.size();
-	vector<Edge> edges;
-
-	for (int i = 0; i < row; i++)
+	visited[node] = 1;
+	int size = spectrum.size();
+	for (int i = 0; i < size; i++)
 	{
-
-		for (int j = 0; j < adjList[i].size(); j++)
+		if ((visited[i] == 0) && ((adjMat[node][i] == 1)))
 		{
-			Edge edge;
-			edge.setSrc(i);
-			edge.setDest(adjList[i][j]);
-			edges.push_back(edge);
+			cout << node << "에서 " << i << " 로 이동" << endl;
+			start_string = start_string + spectrum[i].substr(spectrum[i].length()-1,1);
+			DFS(i,visited,adjMat);
 		}
-
 	}
-
-	return edges;
 }
