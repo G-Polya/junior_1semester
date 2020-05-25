@@ -87,3 +87,23 @@ int** make_adjacentMatrix(vector<string> spec)
 	
 	return mat;
 }
+
+string find_Max(vector<string> restored_DNAs)
+{
+	vector<int> lengths;
+	for (int i = 0; i < restored_DNAs.size(); i++)
+		lengths.push_back(restored_DNAs[i].length());
+
+	int max = lengths[0];
+
+	for (int i = 0; i < lengths.size(); i++)
+	{
+		if (lengths[i] > max)
+			max = lengths[i];
+	}
+
+	for (int i = 0; i < restored_DNAs.size(); i++)
+		if (restored_DNAs[i].length() == max)
+			return restored_DNAs[i];
+
+}

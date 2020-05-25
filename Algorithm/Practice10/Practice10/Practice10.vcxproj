@@ -19,13 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DNA.cpp" />
     <ClCompile Include="Hamilton.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="graph.cpp" />
+    <ClCompile Include="Spectrum3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DNA.h" />
     <ClInclude Include="Hamilton.h" />
     <ClInclude Include="graph.h" />
   </ItemGroup>

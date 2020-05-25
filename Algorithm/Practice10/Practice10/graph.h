@@ -1,12 +1,8 @@
 #pragma once
-#include "DNA.h"
 
-// 인접행렬을 구현하기 위한 헤더
 #include <iostream>
 #include <vector>
 #include <string>
-#include <queue>
-#include <map>
 
 using namespace std;
 
@@ -21,3 +17,4 @@ bool check_visited(int* visited, int spectrum_size);
 void DFS_start(int spectrum_size);
 bool all_false(int* row, int spectrum_size);
 int not_visited_index(int* visited);
+string find_Max(vector<string> restored_DNAs);
