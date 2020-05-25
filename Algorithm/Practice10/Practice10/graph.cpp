@@ -44,6 +44,16 @@ bool all_false(int* row, int spectrum_size)
 	return true;
 }
 
+int not_visited_index(int* visited)
+{
+	int size = sizeof(visited) / sizeof(int);
+	for (int i = 0; size; i++)
+	{
+		if (visited[i] == 0)
+			return i;
+	}
+}
+
 int** make_adjacentMatrix(vector<string> spec)
 {
 	int row = spec.size();
