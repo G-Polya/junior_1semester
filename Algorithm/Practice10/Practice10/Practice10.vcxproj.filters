@@ -21,7 +21,7 @@
     <ClCompile Include="graph.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Spectrum3.cpp">
+    <ClCompile Include="Spectrum4.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

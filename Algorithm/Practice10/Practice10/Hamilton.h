@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-
+#include <random>
+#include <ctime>
 #include "graph.h"
 
 using namespace std;
@@ -17,7 +18,8 @@ public:
 		:spectrum(spec)
 	{}
 
-	void DFS_start(int* visited, int** adjMat,int overlap);
-	void DFS(int node, int* visited, int** adjMat,int overlap);
+	void DFS_start(int* visited, int** adjMat,int overlap);		// DFS Ω√¿€
+	void DFS_even(int node, int* visited, int** adjMat,int overlap);		// DFS
+	void DFS_odd(int node, int* visited, int** adjMat, int overlap);		// DFS
 	
 };
