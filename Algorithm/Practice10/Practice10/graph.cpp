@@ -35,6 +35,14 @@ bool check_visited(int* visited, int spectrum_size)
 	return true;
 }
 
+bool all_false(int* row, int spectrum_size)
+{
+	for (int i = 0; i < spectrum_size;i++)
+		if (row[i] == 1 )
+			return false;
+
+	return true;
+}
 
 int** make_adjacentMatrix(vector<string> spec)
 {

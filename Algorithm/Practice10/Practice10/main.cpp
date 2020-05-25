@@ -33,5 +33,6 @@ int main()
 	show_matrix(matrix_h1, size, size);
 	h1.DFS_start(visited, matrix_h1);
 
-
+	for(int i = 0; i < size;i++)
+		cout << i<<" : "<<all_false(matrix_h1[i], size) << endl;
 }
