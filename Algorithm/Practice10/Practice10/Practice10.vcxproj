@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Hamilton.cpp" />
     <ClCompile Include="graph.cpp" />
-    <ClCompile Include="Spectrum3.cpp" />
+    <ClCompile Include="Spectrum4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hamilton.h" />

@@ -12,7 +12,7 @@ int main()
 {
 
 
-	vector<string> spectrum1 = { "ATGC","TGCG","GCGG","CGGC","GGCT","GGCT","GCTG","CTGT","TGTA","GTAT","TATG","ATGG","TGGT","GGTG" };
+	vector<string> spectrum1 = { "ATGC","TGCG","GCGG","CGGC","GGCT","GCTG","CTGT","TGTA","GTAT","TATG","ATGG","TGGT","GGTG" };
 	
 	int overlap = spectrum1[0].length() - 1;
 	Hamilton h1(spectrum1);
