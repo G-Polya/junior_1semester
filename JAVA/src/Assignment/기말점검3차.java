@@ -17,13 +17,15 @@ class Create_Database_Table
 	private PreparedStatement pstmt;
 	private ResultSet rs, rs2;
 
+
 	// 데이터베이스 연결
-	public Create_Database_Table()
+	public Create_Database_Table(String user, String password)
 	{
 		try
 		{
 			Class.forName("org.mariadb.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/test", "testuser", "1234");
+			System.out.println("User : "+user+"로 접속했습니다.");
 		}
 		catch(Exception e)
 		{
@@ -49,6 +51,7 @@ class Create_Database_Table
 				boolean re = stmt.execute(sql);
 				if(!re)
 					System.out.println("데이터베이스 생성 실패");
+				System.out.println(dbName+" 데이터 베이스가 생성되었습니다.");
 				stmt.close();
 			}
 			// 데이터베이스를 전환 (use database)
@@ -153,9 +156,9 @@ class Create_Database_Table
 			pstmt.setInt(8,  ranking);
 
 			rs = pstmt.executeQuery();
-
+			System.out.println("입력완료!");
 		}
-		catch(Exception e)
+		catch(SQLException e)
 		{
 			System.out.println("Insert error : "+ e);
 		}
@@ -273,7 +276,7 @@ public class 기말점검3차
 
 	public static void main(String[] args)
 	{
-		Create_Database_Table db = new Create_Database_Table();
+		Create_Database_Table db = new Create_Database_Table("testuser","1234");
 		String inputFile = "C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment\\inputFile.csv";
 
 		Scanner inputScanner = readCSV(inputFile);		// inputFile.csv 읽어오기
@@ -338,14 +341,14 @@ public class 기말점검3차
 
 		make_outputCSV(output_table,"outputFile","C:\\Users\\wlska\\Documents\\junior_1semester\\JAVA\\src\\Assignment");
 
-//		String no = "2016112158";
-//		String name = "kim";
-//		int attend = 10;
-//		int assign = 20;
-//		int mid_term = 35;
-//		int final_term = 35;	
-//		int sum = attend+assign+mid_term+final_term;
-//		int ranking = 1;
-//		db.insert_toTable("test", "student", no, name, attend, assign, mid_term, final_term, sum, ranking);
+		String no = "2016112158";
+		String name = "kim";
+		int attend = 10;
+		int assign = 20;
+		int mid_term = 35;
+		int final_term = 35;
+		int sum = attend+assign+mid_term+final_term;
+		int ranking = 1;
+		db.insert_toTable("test", "student", no, name, attend, assign, mid_term, final_term, sum, ranking);
 	}
 }

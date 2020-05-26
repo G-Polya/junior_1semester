@@ -9,6 +9,7 @@ public class MyServer
 		{
 			ServerSocket ss=new ServerSocket(6666);	// Create Server
 			Socket s=ss.accept();//establishes connection
+
 			DataInputStream dis=new DataInputStream(s.getInputStream()); // make Input stream received from Client(s)
 			String  str=(String)dis.readUTF();	// Convert data to String type
 			System.out.println("message= "+str);	// print
