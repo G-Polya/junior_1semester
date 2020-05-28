@@ -13,12 +13,14 @@ void print_table(vector<tuple<int, string>> tab)
 int main()
 {
 	cout << "---------------Original String---------------" << endl;
-	string s1 = "missisippi";
-	s1 += "$";
-	cout << s1 << endl;
+	string str;
+	cout << "스트링을 입력하세요 >> ";
+	cin >> str;
+	str += "$";
+	cout << str << endl;
 
 	BWT bwt;
-	bwt.origString = s1;
+	bwt.origString = str;
 	int compSize = 0;
 
 
