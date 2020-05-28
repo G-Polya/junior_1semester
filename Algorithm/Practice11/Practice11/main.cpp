@@ -1,5 +1,7 @@
 #include "BWT.h"
 
+// https://www.geeksforgeeks.org/inverting-burrows-wheeler-transform/
+
 void print_table(vector<tuple<int, string>> tab)
 {
 	for (int i = 0; i < tab.size(); i++)
@@ -10,8 +12,10 @@ void print_table(vector<tuple<int, string>> tab)
 
 int main()
 {
+	cout << "---------------Original String---------------" << endl;
 	string s1 = "missisippi";
 	s1 += "$";
+	cout << s1 << endl;
 
 	BWT bwt;
 	bwt.origString = s1;
@@ -25,14 +29,14 @@ int main()
 	print_table(bwt.table);
 
 	cout << "---------------------Sort----------------------" << endl;
-	bwt.Sort();
+	bwt.SortTable();
 	print_table(bwt.table);
 	bwt.findBWT();
+	cout << endl;
+	cout << "BWT String: " << bwt.BWTString<< endl;
 	
-
-
-	cout << "BWT String: " << bwt.get_BWTString() << endl;
-	
+	cout << "----------------------Restore---------------------" << endl;
+	bwt.restore();
 	
 	return 0;
 }

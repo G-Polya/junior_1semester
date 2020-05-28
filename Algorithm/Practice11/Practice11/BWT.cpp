@@ -1,15 +1,15 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "BWT.h"
 
 
 void BWT::findBWT()
 {
-	for (int i = 0; i < origString.length(); i++)
+	
+	for (int i = 0; i < table.size(); i++)
 	{
-		if (componentIds[i] > 0)
-			BWTString.push_back(origString[componentIds[i] - 1]);
-		else
-			BWTString.push_back(origString[origString.length() - 1]);
+		BWTString += get<1>(table[i])[table.size()-1];
 	}
+	
 }
 
 void BWT::fill_table()
@@ -23,30 +23,110 @@ void BWT::fill_table()
 	}
 }
 
-void BWT::findLCPArray()
-{
-	LCPArray.push_back("\0");
-	LCPVal.push_back(-1);
 
-	for (int i = 1; i < componentIds.size(); i++)
-	{
-		string s1 = origString.substr(componentIds[i - 1]);
-		string s2 = origString.substr(componentIds[i]);
-		int j = 0;
-		string LCPStr = "";
-		while (s1[j] == s2[j])
-		{
-			LCPStr += s1[j];
-			j++;
-		}
-		LCPStr[j] += '\0';
-		LCPArray.push_back(LCPStr);
-		LCPVal.push_back(j);
-	}
+// 货肺款 畴靛 积己
+node* getNode(int i)
+{
+	node* nn = new node();
+	nn->data = i;
+	nn->next = NULL;
+	return nn;
 }
 
 
-void BWT::Sort()
+void computeLShift(node** head, int index, int* l_shift)
+{
+	l_shift[index] = (*head)->data;
+	(*head) = (*head)->next;
+}
+
+string SortString(string str)
+{
+	string result = str;
+	char temp_string;
+	
+
+	for (int step = 0; step < str.size() - 1; step++)
+	{
+		for (int i = 0; i < str.size() - 1 - step; i++)
+		{
+			if (result[i] > result[i + 1])
+			{
+				temp_string = result[i];
+				
+				result[i] = result[i + 1];
+				
+				result[i + 1] = temp_string;
+			}
+		}
+	}
+
+	return result;
+}
+
+int cmpfunc(const void* a, const void* b)
+{
+	const char* ia = (const char*)a;
+	const char* ib = (const char*)b;
+	return strcmp(ia, ib);
+}
+
+int BWT::find_dollar()
+{
+	for (int i = 0; i < BWTString.length(); i++)
+		if (BWTString[i] == '$')
+			return i;
+}
+
+
+void BWT::restore()
+{
+	int len_bwt = BWTString.length();
+	char* bwt_arr = (char*)malloc(len_bwt * sizeof(char));
+	strcpy(bwt_arr, BWTString.c_str());
+
+	int i;
+	string sorted_bwt = SortString(BWTString);
+
+	int* l_shift = (int*)malloc(len_bwt * sizeof(int));
+	
+	int x = find_dollar();
+	node* arr[128] = { NULL };
+
+
+	for (i = 0; i < len_bwt; i++)
+	{
+		node* nn = getNode(i);
+		addAtLast(&arr[BWTString[i]], nn);
+	}
+
+	for (i = 0; i < len_bwt; i++)
+		computeLShift(&arr[sorted_bwt[i]], i, l_shift);
+
+	for(i = 0; i < len_bwt; i++)
+	{
+		x = l_shift[x];
+		cout << bwt_arr[x];
+		
+	}
+	cout << endl;
+
+}
+
+void addAtLast(node** head, node* nn)
+{
+	if (*head == NULL)
+	{
+		*head = nn;
+		return;
+	}
+	node* temp = *head;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = nn;
+}
+
+void BWT::SortTable()
 {
 	string temp_string;
 	int temp_int;
@@ -77,66 +157,4 @@ void BWT::fillUpComponentIds()
 	{
 		componentIds.push_back(i);
 	}
-}
-
-void BWT::findSuperMaximalRepeats()
-{
-	fstream fout;
-	fout.open("out.txt", ios::out);
-	bool currentUp = false, currDown = false;
-	int startInt = -1, endInt = -1;
-	cout << endl << "Supermaximal repeats:" << endl;
-	for (int i = 0; i < LCPVal.size() - 1; i++)
-	{
-		//if (!currentUp && bwt.LCPVal[i+1] < 3)
-		//break;
-		if (i + 1 != LCPVal.size() && LCPVal[i] < LCPVal[i + 1])
-		{
-			currentUp = true;
-			startInt = i;
-			endInt = i + 1;
-		}
-		if (currentUp)
-		{
-			if (LCPVal[i] == LCPVal[i + 1])
-			{
-				endInt = i + 1;
-			}
-			else if (LCPVal[i] > LCPVal[i + 1])
-			{
-				currentUp = false;
-				currDown = true;
-			}
-		}
-		if (!currentUp && currDown)
-		{
-			//put stint and endint in file.
-			if (endInt - startInt + 1 <= 4 && LCPVal[endInt] > 15) // possiblity for supermaximal repeat
-			{
-				// check for pairwise distinct
-				bool pairWiseDistinct = true;
-				for (int j = startInt; j < endInt; j++)
-				{
-					for (int k = j + 1; k <= endInt; k++)
-					{
-						if (BWTString[j] == BWTString[k])
-						{
-							pairWiseDistinct = false;
-							break;
-						}
-					}
-				}
-
-				if (fout.is_open() && pairWiseDistinct)
-				{
-					fout << componentIds[startInt] << "\t" << LCPVal[endInt] << "\t" << origString.substr(componentIds[startInt], LCPVal[endInt]) << endl;
-					cout << componentIds[startInt] << "\t" << LCPVal[endInt] << "\t" << origString.substr(componentIds[startInt], LCPVal[endInt]) << endl;
-					pairWiseDistinct = false;
-					currentUp = false;
-					currDown = false;
-				}
-			}
-		}
-	}
-	fout.close();
 }
