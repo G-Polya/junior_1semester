@@ -64,13 +64,8 @@ string SortString(string str)
 	return result;
 }
 
-int cmpfunc(const void* a, const void* b)
-{
-	const char* ia = (const char*)a;
-	const char* ib = (const char*)b;
-	return strcmp(ia, ib);
-}
 
+// $가 나타나는 인덱스 반환
 int BWT::find_dollar()
 {
 	for (int i = 0; i < BWTString.length(); i++)
@@ -79,6 +74,8 @@ int BWT::find_dollar()
 }
 
 
+
+// BWT를 기반으로 원래 스트링 복원
 void BWT::restore()
 {
 	int len_bwt = BWTString.length();
