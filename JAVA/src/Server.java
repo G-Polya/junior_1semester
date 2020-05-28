@@ -34,6 +34,8 @@ public class Server
 
             out.writeUTF("Input Database name >> ");
             String dbName = in.readUTF();
+            System.out.println("dbName : "+dbName);
+
 
             Create_Database_Table db = new Create_Database_Table();
             db.CreateOrChangeDatabase(dbName);
@@ -45,5 +47,7 @@ public class Server
         {
             e.printStackTrace();
         }
+
+
     }
 }
