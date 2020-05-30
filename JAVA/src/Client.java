@@ -36,6 +36,30 @@ public class Client
             String dbName = scanner.next();
             out.writeUTF(dbName);
 
+            System.out.println("Server says : "+in.readUTF());      // Input tablename name >>
+            String tbName = scanner.next();
+            out.writeUTF(tbName);
+
+            System.out.println("Server says : "+in.readUTF());
+            String id = scanner.next();
+            out.writeUTF(id);
+
+            String name = scanner.next();
+            out.writeUTF(name);
+
+            int attendance = scanner.nextInt();
+            out.writeInt(attendance);
+
+            int assignment = scanner.nextInt();
+            out.writeInt(assignment);
+
+            int midterm = scanner.nextInt();
+            out.writeInt(midterm);
+
+            int finalterm = scanner.nextInt();
+            out.writeInt(finalterm);
+
+
             out.flush();
 
         }

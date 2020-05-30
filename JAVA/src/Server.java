@@ -40,6 +40,21 @@ public class Server
             Create_Database_Table db = new Create_Database_Table();
             db.CreateOrChangeDatabase(dbName);
 
+            out.writeUTF("Input table name >> ");
+            String tbName = in.readUTF();
+            db.CreateTable(dbName, tbName);
+
+            out.writeUTF("Input Data(학번, 성명, 출석, 과제, 중간, 기말)");
+            String id = in.readUTF();
+            String name = in.readUTF();
+            int attendance = in.readInt();
+            int assignment = in.readInt();
+            int midterm = in.readInt();
+            int finalterm = in.readInt();
+
+            db.insert_toTable(dbName, tbName,id,name,attendance,assignment,midterm,finalterm);
+
+
             out.flush();
 
         }
