@@ -71,12 +71,12 @@ class Create_Database_Table
     }
 
     // 테이블이 있는지 확인하고 없으면 생성
-    public void CreateTable(String dbName, String tbName)
+    public void CreateTable(String tbName)
     {
+        this.tbName = tbName;
         try
         {
             //데이터베이스 생성 및 전환
-            CreateOrChangeDatabase(dbName);
 
             //information_schecma.tables로 테이블의 존재유무 확인
             String tableSql = "SELECT table_name FROM information_schema.tables where table_schema = ? and table_name = ?";
@@ -127,11 +127,11 @@ class Create_Database_Table
             }
         }
     }
-    public void insert_toTable(String dbName, String tbName, String id, String name, int attend, int assign, int _mid, int _final)
+    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final)
     {
         try
         {
-            CreateTable(dbName, tbName);
+
             String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(insertSql);
 
@@ -171,7 +171,7 @@ class Create_Database_Table
     {
         try
         {
-            CreateTable(dbName, tbName);
+
             String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(insertSql);
 
