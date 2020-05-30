@@ -76,7 +76,20 @@ public class Client
 
             }
 
+            System.out.println("Server says : "+in.readUTF());      // Ranking Update...
+            System.out.println("Server says : "+in.readUTF());      // The number of rows ...
+
             int table_size = in.readInt();
+
+            System.out.println("Server says : "+in.readUTF());      // Alter complete or Alter Error
+
+
+            for(int i =0;i<table_size;i++)
+            {
+                System.out.println("Server says : "+in.readUTF());      // update table or update error
+
+            }
+
 
 
 

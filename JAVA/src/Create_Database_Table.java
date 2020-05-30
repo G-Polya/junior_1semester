@@ -1,3 +1,5 @@
+import jdk.jshell.spi.ExecutionControlProvider;
+
 import java.io.DataOutputStream;
 import java.sql.*;
 import java.util.HashMap;
@@ -242,6 +244,23 @@ class Create_Database_Table
         }
     }
 
+    public void select_id_name(int id, String name, String condition)
+    {
+        try
+        {
+            String selectSql = "select " + id + ", "+ name +
+                    " from " + tbName;
+
+            if(condition.length() != 0)
+            {
+                condition = " where "+condition;
+                selectSql += condition;
+            }
+
+        }
+
+    }
+
 
 
     public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final,int sum)
@@ -318,14 +337,28 @@ class Create_Database_Table
 
             count = rs.getInt("count");
             rs.close();
-
+            System.out.println("The number of rows : "+count);
+            try
+            {
+                out.writeUTF("The number of rows : "+count);
+            }
+            catch(Exception err)
+            {}
         }
         catch(SQLException e)
         {
             System.out.println("Count Error : "+e);
+            try
+            {
+                out.writeUTF("Count Error : "+e);
+            }
+            catch(Exception err)
+            {}
         }
         return count;
     }
+
+
 
     // sum이 주어지면 ranking을 반환하는 함수
     public int ranking_func(int sum)
@@ -352,45 +385,6 @@ class Create_Database_Table
     }
 
 
-    public void insert_toTable(String dbName, String tbName, String id, String name, int attend, int assign, int _mid, int _final,int sum, int ranking)
-    {
-        try
-        {
 
-            String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?,?,?)";
-            pstmt = conn.prepareStatement(insertSql);
-
-            pstmt.setString(1, id);
-            pstmt.setString(2,  name);
-            pstmt.setInt(3, attend);
-            pstmt.setInt(4, assign);
-            pstmt.setInt(5, _mid);
-            pstmt.setInt(6, _final);
-            pstmt.setInt(7, sum);
-            pstmt.setInt(8,  ranking);
-
-            rs = pstmt.executeQuery();
-            System.out.println("Input Complete!");
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Insert error : "+ e);
-        }
-        finally
-        {
-            try
-            {
-                if(rs!=null)rs.close();
-
-                if(pstmt!=null)pstmt.close();
-
-                if(conn!=null)pstmt.close();
-            }
-            catch(Exception e)
-            {
-
-            }
-        }
-    }
 }
 

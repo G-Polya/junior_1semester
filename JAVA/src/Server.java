@@ -65,7 +65,7 @@ public class Server
                 sums.add(sum);
 
 
-                db.insert_toTable(id,name,attendance,assignment,midterm,finalterm,sum,out);
+                db.insert_toTable(id,name,attendance,assignment,midterm,finalterm,sum);
 
             }
 
@@ -81,16 +81,16 @@ public class Server
                 System.out.println(db.ranking_func(sums.get(i)));
 
 
-            db.alter_Table("ranking","int", out);
+            db.alter_Table("ranking","int");
 
             for(int i = 0; i<sums.size();i++)
             {
                 int sum = sums.get(i);
                 int ranking = db.ranking_func(sum);
-                db.update_table("ranking","sum", sum,ranking, out);
+                db.update_table("ranking","sum", sum,ranking);
             }
 
-
+            out.writeUTF("추출하고자 하는 자료를 입력하세요 >> ");
 
 
             out.flush();
