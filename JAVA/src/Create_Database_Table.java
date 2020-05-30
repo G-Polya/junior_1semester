@@ -10,6 +10,7 @@ class Create_Database_Table
     private ResultSet rs, rs2;
     private String dbName;
     private String tbName;
+    private DataOutputStream out;
 
     private static void selectionSort(int[] input, int length)
     {
@@ -73,8 +74,9 @@ class Create_Database_Table
     }
 
     // 데이터베이스가 있는지 확인하고, 없으면 데이터베이스 생성 후 데이터베이스 전환
-    public void CreateOrChangeDatabase(String dbName)
+    public void CreateOrChangeDatabase(String dbName, DataOutputStream out)
     {
+        this.out = out;
         this.dbName = dbName;
         try
         {
@@ -146,7 +148,7 @@ class Create_Database_Table
                         +"assignment int,"
                         +"mid_term int,"
                         +"final_term int,"
-                        +"sum"
+                        +"sum int"
                         +")";
 
                 rs2 = stmt.executeQuery(sql);
@@ -177,7 +179,72 @@ class Create_Database_Table
             }
         }
     }
-    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final,int sum, DataOutputStream out)
+    public void alter_Table(String column,String datatype)
+    {
+        try
+        {
+            String alterSql = "ALTER TABLE "+tbName+ " ADD "+ column +" "+datatype;
+            pstmt = conn.prepareStatement(alterSql);
+            rs = pstmt.executeQuery();
+            rs.close();
+            System.out.println("Alter Complete!");
+            try
+            {
+                out.writeUTF("Alter Complete!");
+            }
+            catch (Exception e)
+            {}
+
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Alter Error : "+e);
+
+            try
+            {
+                out.writeUTF("Alter Error : " + e);
+            }
+            catch(Exception err)
+            {}
+
+        }
+    }
+
+    public void update_table(String column, String condition, int sum, int ranking)
+    {
+        try
+        {
+            String updateSql = "update " + tbName +
+                               " set "+column+" = "+ranking+
+                               " where "+condition+" = "+sum;
+            pstmt = conn.prepareStatement(updateSql);
+            rs = pstmt.executeQuery();
+            rs.close();
+            System.out.println("Update Complete!");
+
+            try
+            {
+                out.writeUTF("Update Complete!");
+            }
+            catch(Exception e)
+            {}
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Update Error : "+ e);
+            try
+            {
+                out.writeUTF("Update Error : " + e);
+            }
+            catch(Exception err)
+            {}
+
+        }
+    }
+
+
+
+    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final,int sum)
     {
         try
         {
@@ -260,6 +327,7 @@ class Create_Database_Table
         return count;
     }
 
+    // sum이 주어지면 ranking을 반환하는 함수
     public int ranking_func(int sum)
     {
         int ranking = 0;
@@ -268,7 +336,7 @@ class Create_Database_Table
             String sum_Sql = "SELECT sum FROM "+tbName;
             pstmt = conn.prepareStatement(sum_Sql);
             rs = pstmt.executeQuery();
-            Vector<Integer> sums = null;
+            Vector<Integer> sums = new Vector<Integer>();
             while(rs.next())
             {
                 sums.add(rs.getInt("sum"));

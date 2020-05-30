@@ -42,13 +42,13 @@ public class Server
 
 
             Create_Database_Table db = new Create_Database_Table();
-            db.CreateOrChangeDatabase(dbName);
+            db.CreateOrChangeDatabase(dbName, out);
 
             out.writeUTF("Input table name >> ");
             String tbName = in.readUTF();
             db.CreateTable(tbName);
 
-            Vector<Integer> sums = null;
+            Vector<Integer> sums = new Vector<Integer>();
             while(true)
             {
                 out.writeUTF("Input Data(학번, 성명, 출석, 과제, 중간, 기말)");
@@ -64,17 +64,31 @@ public class Server
                 int sum = attendance + assignment + midterm + finalterm;
                 sums.add(sum);
 
+
                 db.insert_toTable(id,name,attendance,assignment,midterm,finalterm,sum,out);
 
             }
 
+            out.writeUTF("Ranking Update...");
+
             int table_size = db.count_table();
             out.writeInt(table_size);
-            for(int i = 0; i<sums.size();i++)
+
+
+
+
+            for(int i =0 ;i<sums.size();i++)
                 System.out.println(db.ranking_func(sums.get(i)));
 
 
+            db.alter_Table("ranking","int", out);
 
+            for(int i = 0; i<sums.size();i++)
+            {
+                int sum = sums.get(i);
+                int ranking = db.ranking_func(sum);
+                db.update_table("ranking","sum", sum,ranking, out);
+            }
 
 
 
