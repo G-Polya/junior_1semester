@@ -3,11 +3,15 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.Buffer;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Vector;
 
 
 public class Client
 {
+
+
     public static void main(String[] args)
     {
         DataInputStream in = null;
@@ -40,27 +44,42 @@ public class Client
             String tbName = scanner.next();
             out.writeUTF(tbName);
 
-            System.out.println("Server says : "+in.readUTF());
-            String id = scanner.next();
-            out.writeUTF(id);
 
-            String name = scanner.next();
-            out.writeUTF(name);
+            // 자료 입력
+            while(true)
+            {
+                System.out.println("Server says : "+in.readUTF());      // Input data
+                String id = scanner.next();
+                out.writeUTF(id);
+                if(id.equals("stop"))
+                    break;
 
-            int attendance = scanner.nextInt();
-            out.writeInt(attendance);
+                String name = scanner.next();
+                out.writeUTF(name);
 
-            int assignment = scanner.nextInt();
-            out.writeInt(assignment);
+                int attendance = scanner.nextInt();
+                out.writeInt(attendance);
 
-            int midterm = scanner.nextInt();
-            out.writeInt(midterm);
+                int assignment = scanner.nextInt();
+                out.writeInt(assignment);
 
-            int finalterm = scanner.nextInt();
-            out.writeInt(finalterm);
+                int midterm = scanner.nextInt();
+                out.writeInt(midterm);
+
+                int finalterm = scanner.nextInt();
+                out.writeInt(finalterm);
 
 
-            out.flush();
+
+                System.out.println("Server says : "+in.readUTF());
+                out.flush();
+
+            }
+
+            int table_size = in.readInt();
+
+
+
 
         }
         catch(IOException e)

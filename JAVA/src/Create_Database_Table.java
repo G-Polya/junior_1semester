@@ -1,4 +1,7 @@
+import java.io.DataOutputStream;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Vector;
 
 class Create_Database_Table
 {
@@ -7,6 +10,52 @@ class Create_Database_Table
     private ResultSet rs, rs2;
     private String dbName;
     private String tbName;
+
+    private static void selectionSort(int[] input, int length)
+    {
+        int max;
+        int tmp;
+        for(int i =0; i<length-1;i++)
+        {
+            max = i;
+            for(int j = i +1 ; j<length;j++)
+            {
+                if(input[j] > input[max])
+                    max = j;
+            }
+            tmp = input[i];
+            input[i] = input[max];
+            input[max] = tmp;
+        }
+    }
+
+    public static HashMap<Integer, Integer> get_ranking(Vector<Integer> sums)
+    {
+        // 먼저 합계를 입력받아서 정렬해준다.
+        int[] input = new int[sums.size()];
+        for(int i = 0; i < sums.size();i++)
+            input[i] = (Integer)sums.get(i);
+        selectionSort(input, input.length);
+
+        // int형인 합계들을 String으로 바꿔주는 과정이다.
+//        String[] temp = new String[input.length];
+//        for(int i = 0; i< input.length;i++)
+//            temp[i] = Integer.toString(input[i]);
+
+
+        // 해시맵 객체를 생성해서 합계에 해당하는 등수를 입력한다.
+        // 정렬되어 있으므로 큰 수부터 작은 등수를 value로 가짐
+        HashMap<Integer, Integer> ranking = new HashMap<Integer, Integer>();
+        for(int i = 0; i< input.length;i++)
+        {
+            ranking.put(input[i], i+1);
+        }
+
+
+        return ranking;
+
+
+    }
 
     // 데이터베이스 연결
     public Create_Database_Table()
@@ -96,7 +145,8 @@ class Create_Database_Table
                         +"attendance int,"
                         +"assignment int,"
                         +"mid_term int,"
-                        +"final_term int"
+                        +"final_term int,"
+                        +"sum"
                         +")";
 
                 rs2 = stmt.executeQuery(sql);
@@ -127,12 +177,12 @@ class Create_Database_Table
             }
         }
     }
-    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final)
+    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final,int sum, DataOutputStream out)
     {
         try
         {
 
-            String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?)";
+            String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(insertSql);
 
             pstmt.setString(1, id);
@@ -141,13 +191,35 @@ class Create_Database_Table
             pstmt.setInt(4, assign);
             pstmt.setInt(5, _mid);
             pstmt.setInt(6, _final);
+            pstmt.setInt(7,sum);
 
             rs = pstmt.executeQuery();
             System.out.println("Input Complete!");
+
+            // insert 성공시 클라이언트에 성공메시지 전달
+            try
+            {
+                out.writeUTF("Input Complete!");
+
+            }
+            catch(Exception err)
+            {
+
+            }
         }
         catch(SQLException e)
         {
             System.out.println("Insert error : "+ e);
+
+            // insert 실패시 클라이언트에 실패 메시지 전달
+            try
+            {
+                out.writeUTF(e.getMessage()+"  Retry plz");
+            }
+            catch(Exception err)
+            {
+
+            }
         }
         finally
         {
@@ -164,6 +236,51 @@ class Create_Database_Table
 
             }
         }
+    }
+
+    public int count_table()
+    {
+        int count = 0;
+        try
+        {
+            String countSql = "SELECT COUNT(*) count FROM "+tbName;
+            pstmt = conn.prepareStatement(countSql);
+
+            rs = pstmt.executeQuery();
+            rs.next();
+
+            count = rs.getInt("count");
+            rs.close();
+
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Count Error : "+e);
+        }
+        return count;
+    }
+
+    public int ranking_func(int sum)
+    {
+        int ranking = 0;
+        try
+        {
+            String sum_Sql = "SELECT sum FROM "+tbName;
+            pstmt = conn.prepareStatement(sum_Sql);
+            rs = pstmt.executeQuery();
+            Vector<Integer> sums = null;
+            while(rs.next())
+            {
+                sums.add(rs.getInt("sum"));
+            }
+            HashMap<Integer, Integer> rankings = get_ranking(sums);
+            ranking = rankings.get(sum);
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Update Error : "+ e);
+        }
+        return ranking;
     }
 
 
