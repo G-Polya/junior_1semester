@@ -1,6 +1,6 @@
+// 2016112158 ±èÈñ¼ö
 #include "BWT.h"
 
-// https://www.geeksforgeeks.org/inverting-burrows-wheeler-transform/
 
 void print_table(vector<tuple<int, string>> tab)
 {
