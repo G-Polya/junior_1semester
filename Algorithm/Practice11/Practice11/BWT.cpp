@@ -73,7 +73,7 @@ node* getNode(int i)
 	return nn;
 }
 
-
+// l_shift계산하는 함수.
 void computeLShift(node** head, int index, int* l_shift)
 {
 	l_shift[index] = (*head)->data;
@@ -118,40 +118,44 @@ int BWT::find_dollar()
 
 // BWT를 기반으로 원래 스트링 복원
 void BWT::reconstruct()
-{
+{	
 	int len_bwt = BWTString.length();
-	char* bwt_arr = (char*)malloc(len_bwt * sizeof(char));		
-	strcpy(bwt_arr, BWTString.c_str());
-
-	int i;
-	string sorted_bwt = SortString(BWTString);
-
-	int* l_shift = (int*)malloc(len_bwt * sizeof(int));
+	string first_column = SortString(BWTString);
+	cout <<"first column : "<< first_column << endl;
+	int* l_shift = new int[len_bwt];		//first column의 문자에 해당하는 BWTString의 문자를 저장하는 배열.
+	/* acaacg$를 예로 들면 first column은 $aaaccg가 된다. l_shift의 인덱스는 first column의 원소를 가리킨다. 
+	 l_shift[0]에는 first column의 0번째 문자에 해당하는 $를 BWTString에서 찾아서 그 인덱스를 저장한다. 따라서 l_shift[0] = 2
+	 l_shift[1]에는 first column의 1번째 문자에 해당하는 a를 BWTString에서 찾아서 그 인덱스를 저장한다. 따라서 l_shift[1] = 3 */
 	
-	int x = find_dollar();
+	
 	node* arr[128] = { NULL };
 
-
-	for (i = 0; i < len_bwt; i++)
+	// arr에 노드삽입
+	for (int i = 0; i < len_bwt; i++)
 	{
 		node* nn = getNode(i);
-		addAtLast(&arr[BWTString[i]], nn);
+		insert_toList(&arr[BWTString[i]], nn);
 	}
 
-	for (i = 0; i < len_bwt; i++)
-		computeLShift(&arr[sorted_bwt[i]], i, l_shift);
+	// l_shift 계산
+	for (int i = 0; i < len_bwt; i++)
+		computeLShift(&arr[first_column[i]], i, l_shift);
+	/* 계산이 완료되면 $의 위치, a의 위치, c의 위치, g의 위치가 연결리스트로 저장된다. */
 
-	for(i = 0; i < len_bwt; i++)
+	int x = find_dollar(); // $를 찾아서 $에 해당하는 인덱스의 l_shift(g)가 출력될 BWTString의 인덱스다
+
+	for(int i = 0; i < len_bwt; i++)
 	{
 		x = l_shift[x];
-		cout << bwt_arr[x];
+		cout << BWTString[x];
 		
 	}
 	cout << endl;
 
 }
 
-void addAtLast(node** head, node* nn)
+// 연결리스트의 끝에 삽입
+void insert_toList(node** head, node* nn)
 {
 	if (*head == NULL)
 	{

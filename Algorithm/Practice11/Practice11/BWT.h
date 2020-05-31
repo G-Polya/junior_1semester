@@ -45,7 +45,7 @@ typedef struct node
 }node;
 
 node* getNode(int i);
-void addAtLast(node** head, node* nn);
+void insert_toList(node** head, node* nn);
 void computeLShift(node** head, int index, int* l_shift);
 string SortString(string str);
 
