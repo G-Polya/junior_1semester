@@ -125,8 +125,10 @@ public class Chapter13_Assignment extends JFrame
         g.start();
         setContentPane(new GamePanel(g,la,result));
         setSize(550,350);
+        setVisible(true);
         getContentPane().setFocusable(true);
         getContentPane().requestFocus();
+
 
     }
 
