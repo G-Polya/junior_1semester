@@ -258,6 +258,11 @@ class Create_Database_Table
             }
 
         }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
 
     }
 
