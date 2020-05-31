@@ -1,17 +1,16 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "BWT.h"
 
-
-void BWT::findBWT()
+// componentIds 초기화. table안에 들어있는 스트링들의 번호를 초기화
+void BWT::fillUpComponentIds()
 {
-	
-	for (int i = 0; i < table.size(); i++)
+	for (int i = 0; i < origString.size(); i++)
 	{
-		BWTString += get<1>(table[i])[table.size()-1];
+		componentIds.push_back(i);
 	}
-	
 }
 
+// 테이블 채워넣는 함수
 void BWT::fill_table()
 {
 
@@ -22,6 +21,47 @@ void BWT::fill_table()
 		origString = temp;
 	}
 }
+
+// table안의 스트링들을 비교해서 정렬
+void BWT::SortTable()
+{
+	string temp_string;		// 스왑에 사용될 임시 스트링
+	int temp_Ids;			// 스왑에 사용될 임시 componentId
+
+	for (int step = 0; step < table.size() - 1; step++)
+	{
+		for (int i = 0; i < table.size() - 1 - step; i++)
+		{
+			//  비교
+			if (get<1>(table[i]) > get<1>(table[i + 1]))
+			{
+				temp_string = get<1>(table[i]);
+				temp_Ids = get<0>(table[i]);
+
+				get<1>(table[i]) = get<1>(table[i + 1]);
+				get<0>(table[i]) = get<0>(table[i + 1]);
+
+				get<1>(table[i + 1]) = temp_string;
+				get<0>(table[i + 1]) = temp_Ids;
+			}
+		}
+	}
+}
+
+
+
+// table안에서 BWTString을 찾는 함수
+void BWT::findBWT()
+{
+	
+	for (int i = 0; i < table.size(); i++)
+	{
+		BWTString += get<1>(table[i])[table.size()-1];
+	}
+	
+}
+
+
 
 
 // 새로운 노드 생성
@@ -40,6 +80,7 @@ void computeLShift(node** head, int index, int* l_shift)
 	(*head) = (*head)->next;
 }
 
+// 스트링의 문자를 정렬
 string SortString(string str)
 {
 	string result = str;
@@ -76,10 +117,10 @@ int BWT::find_dollar()
 
 
 // BWT를 기반으로 원래 스트링 복원
-void BWT::restore()
+void BWT::reconstruct()
 {
 	int len_bwt = BWTString.length();
-	char* bwt_arr = (char*)malloc(len_bwt * sizeof(char));
+	char* bwt_arr = (char*)malloc(len_bwt * sizeof(char));		
 	strcpy(bwt_arr, BWTString.c_str());
 
 	int i;
@@ -123,35 +164,5 @@ void addAtLast(node** head, node* nn)
 	temp->next = nn;
 }
 
-void BWT::SortTable()
-{
-	string temp_string;
-	int temp_int;
-
-	for (int step = 0; step < table.size()-1; step++)
-	{
-		for (int i = 0; i < table.size()-1-step; i++)
-		{
-			if (get<1>(table[i]) > get<1>(table[i + 1]))
-			{
-				temp_string = get<1>(table[i]);
-				temp_int = get<0>(table[i]);
-
-				get<1>(table[i]) = get<1>(table[i+1]);
-				get<0>(table[i]) = get<0>(table[i + 1]);
-
-				get<1>(table[i+1]) = temp_string;
-				get<0>(table[i + 1]) = temp_int;
-			}
-		}
-	}
-}
 
 
-void BWT::fillUpComponentIds()
-{
-	for (int i = 0; i < origString.size(); i++)
-	{
-		componentIds.push_back(i);
-	}
-}

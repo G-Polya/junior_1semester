@@ -275,7 +275,7 @@ tuple<double, size_t> compare_degree(string refDNA, string myDNA)
 
 int main()
 {
-	//make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
+	make_refDNA("referenceDNA.txt", 500000);				// referenceDNA를 만들때 사용
 	int k, n;
 	cout << "shortRead의 길이 k를 입력해주세요 >> ";
 	cin >> k;

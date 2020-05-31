@@ -37,8 +37,8 @@ int main()
 	cout << endl;
 	cout << "BWT String: " << bwt.BWTString<< endl;
 	
-	cout << "----------------------Restore---------------------" << endl;
-	bwt.restore();
+	cout << "----------------------Reconstruct---------------------" << endl;
+	bwt.reconstruct();
 	
 	return 0;
 }
