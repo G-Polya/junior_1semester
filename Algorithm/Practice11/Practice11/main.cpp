@@ -21,8 +21,7 @@ int main()
 
 	BWT bwt;
 	bwt.origString = str;
-	int compSize = 0;
-
+	
 
 	bwt.fillUpComponentIds();
 

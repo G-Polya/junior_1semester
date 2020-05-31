@@ -30,7 +30,8 @@ void BWT::SortTable()
 
 	for (int step = 0; step < table.size() - 1; step++)
 	{
-		for (int i = 0; i < table.size() - 1 - step; i++)
+		int len = get<1>(table[step]).length();
+		for (int i = 0; i < len - 1 - step; i++)
 		{
 			//  비교
 			if (get<1>(table[i]) > get<1>(table[i + 1]))
@@ -73,10 +74,10 @@ node* getNode(int i)
 	return nn;
 }
 
-// l_shift계산하는 함수.
+// l_shift계산하는 함수. 
 void computeLShift(node** head, int index, int* l_shift)
 {
-	l_shift[index] = (*head)->data;
+	l_shift[index] = (*head)->data; //l_shift[index] 값은 연결리스트의 노드의 데이터. 즉, BWTString에서 각 문자의 상대적 위치다. 
 	(*head) = (*head)->next;
 }
 
@@ -128,18 +129,18 @@ void BWT::reconstruct()
 	 l_shift[1]에는 first column의 1번째 문자에 해당하는 a를 BWTString에서 찾아서 그 인덱스를 저장한다. 따라서 l_shift[1] = 3 */
 	
 	
-	node* arr[128] = { NULL };
+	node* list[128] = { NULL };	// 연결리스트
 
-	// arr에 노드삽입
+	// list에 노드삽입
 	for (int i = 0; i < len_bwt; i++)
 	{
 		node* nn = getNode(i);
-		insert_toList(&arr[BWTString[i]], nn);
+		insert_toList(&list[BWTString[i]], nn); // BWTString의 문자를 인덱스로 그 문자의 상대적 위치를 data로 받게 된다.
 	}
 
 	// l_shift 계산
 	for (int i = 0; i < len_bwt; i++)
-		computeLShift(&arr[first_column[i]], i, l_shift);
+		computeLShift(&list[first_column[i]], i, l_shift);	// 연결리스트에서 first_column에 해당하는 문자로 l_shift를 초괴화한다.  
 	/* 계산이 완료되면 $의 위치, a의 위치, c의 위치, g의 위치가 연결리스트로 저장된다. */
 
 	int x = find_dollar(); // $를 찾아서 $에 해당하는 인덱스의 l_shift(g)가 출력될 BWTString의 인덱스다

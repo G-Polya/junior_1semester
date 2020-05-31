@@ -34,7 +34,7 @@ public:
 	
 	int find_dollar();
 	
-	void reconstruct();
+	void reconstruct();				// 원래 스트링 복원
 
 };
 
