@@ -123,7 +123,7 @@ public class Chapter13_Assignment extends JFrame
         la[2] = new JLabel(Integer.toString(0));
 
         GameblingThread g = new GameblingThread(la, result);
-        g.start();
+        g.start();  // thraed 시작
         setContentPane(new GamePanel(g,la,result));
         setSize(550,350);
         setVisible(true);
