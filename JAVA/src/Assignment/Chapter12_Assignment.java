@@ -1,55 +1,60 @@
 package Assignment;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Locale;
 import javax.swing.*;
 
 class Panel extends JPanel
 {
-    ImageIcon target = new ImageIcon("images/사과.jpg");
-    ImageIcon background = new ImageIcon("images/Desert.png");
-    Image target_image = target.getImage();
-    Image background_image = background.getImage();
+    ImageIcon target = new ImageIcon("images/사과.jpg");              // 사과
+    ImageIcon background = new ImageIcon("images/Desert.png");      // 배경
+    Image target_image = target.getImage();             // 사과이미지
+    Image background_image = background.getImage();     // 배경이미지
 
-    boolean hide_and_show = true;
     JLabel targetLabel = new JLabel(target);
 
     Point previous;
-    Point following;
-    Point current;
-    int initial_x = 100, initial_y = 100;
+
+    int initial_x = 100, initial_y = 100;   // 초록원의 위치
+
+    boolean show_flag = true;               // 배경을 보이게 or 안보이게
+
 
     public Panel()
     {
-        JButton hs_Button = new JButton("Hide or Show");
+        JButton show_Button = new JButton("Hide or Show");          // 배경을 보이게 or 안보이게
+
+        // Hide or Show버튼 설정
+        show_Button.setLocation(0,20);
+        show_Button.setSize(100,80);
+        add(show_Button);
+
+        // 라디오버튼 설정
         JRadioButton dragTarget = new JRadioButton("Drag Target");
         JRadioButton dragCircle = new JRadioButton("Drag Circle");
-
-        targetLabel.setLocation(600,600);
-
-        hs_Button.setLocation(0,20);
-        hs_Button.setSize(100,80);
-        add(hs_Button);
-
 
         ButtonGroup radioGroup = new ButtonGroup();
         radioGroup.add(dragTarget);
         radioGroup.add(dragCircle);
 
+        targetLabel.setLocation(600,600);
+
         add(dragTarget);
         add(dragCircle);
         add(targetLabel);
 
-        hs_Button.addActionListener(new ActionListener()
+
+        // hide or show 버튼 이벤트처리
+        show_Button.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                hide_and_show = !hide_and_show;
-                Panel.this.repaint();
-            }
+                show_flag = !show_flag;
+                Panel.this.repaint();       // show_flag에 따라 componentPaint가 수행됨됨
+           }
         });
 
+        // 타겟라디오버튼 이벤트처리
         targetLabel.addMouseListener(new MouseAdapter()
         {
             public void mousePressed(MouseEvent e)
@@ -59,6 +64,7 @@ class Panel extends JPanel
             }
         });
 
+        // 타겟 이미지 드래그 이벤트처리
         targetLabel.addMouseMotionListener(new MouseMotionAdapter()
         {
             @Override
@@ -66,22 +72,25 @@ class Panel extends JPanel
             {
                 if(dragTarget.isSelected())
                 {
-                    following = e.getPoint();
+                    Point  current = e.getPoint();
                     Component component = (JComponent)(e.getSource());
-                    current = component.getLocation();
+                    Point following = component.getLocation();    // 드래그 되는 위치의 좌표 저장
 
-                    component.setLocation(current.x + following.x-previous.x, current.y+following.y-previous.y);
-                    component.getParent().repaint();
+                    component.setLocation(following.x + current.x-previous.x, following.y+current.y-previous.y);
+                    component.getParent().repaint();    // paintComponet호출
                 }
             }
         });
 
+        // Circle drag이벤트처리
         addMouseMotionListener(new MouseMotionAdapter()
         {
             public void mouseDragged(MouseEvent e)
             {
+                // Circle drag 라디오버튼 체크, 클릭한 곳의 위치 체크
                 if(dragCircle.isSelected() && (e.getX() <= initial_x + 25  && e.getX() >= initial_x-25) && (e.getY() <= initial_y+25 && e.getY() >= initial_y-25)  )
                 {
+                    // 위치 재설정해서 리페인트
                     initial_x = e.getX();
                     initial_y = e.getY();
                     repaint();
@@ -95,7 +104,7 @@ class Panel extends JPanel
     {
         super.paintComponent(g);
 
-        if(hide_and_show)
+        if(show_flag)
             g.drawImage(background_image,0,0,getWidth(),getHeight(),this);
 
         g.setColor(Color.GREEN);
