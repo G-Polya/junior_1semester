@@ -53,12 +53,11 @@ public class Server
                 out.writeUTF("자료를 입력하세요(학번, 이름, 출석, 과제, 중간, 기말)>> ");
                 String id = in.readUTF();
                 System.out.println("id : "+id);
-                if(id.equals("stop"))
-                    flag = false;
-
-                if(flag == false)
+                if(id.equals("stop"))       // stop 입력하면 종료
+                {
+                    System.out.println("입력 종료");
                     break;
-
+                }
                 Integer temp_id = Integer.parseInt(id);
                 for(int i = 0; i<ids.size();i++)
                     if(ids.get(i) == temp_id)
@@ -80,15 +79,10 @@ public class Server
 
 
 
-               // out.writeUTF("이름을 입력하세요 ");
                 String name = in.readUTF();
-             //   out.writeUTF("출석을 입력하세요 ");
                 int attendance = in.readInt();
-              //  out.writeUTF("과제을 입력하세요 ");
                 int assignment = in.readInt();
-             //   out.writeUTF("중간점수를 입력하세요 ");
                 int midterm = in.readInt();
-              //  out.writeUTF("기말점수을 입력하세요 ");
                 int finalterm = in.readInt();
                 int sum = attendance + assignment + midterm + finalterm;
                 sums.add(sum);
@@ -109,20 +103,15 @@ public class Server
 
 
 
-//            for(int i =0 ;i<sums.size();i++)
-//                System.out.println(db.ranking_func(sums.get(i)));
-            System.out.println("Sums size : "+sums.size());
-            for(int i = 0; i<sums.size();i++)
-                System.out.println("Sums:" + sums.get(i));
-
             for(int i = 0; i<sums.size();i++)
             {
                 int sum = sums.get(i);
-                System.out.println("sum : "+sum+", i : "+i);
+               // System.out.println("sum : "+sum+", i : "+i);
                 int ranking = db.ranking_func(sum);
                 db.update_table("ranking","sum", sum,ranking);
             }
 
+            // 자료 select
             while(true)
             {
                 out.writeUTF("자료를 입력하세요(stop을 입력하면 중지) >> ");
@@ -136,6 +125,7 @@ public class Server
                 out.writeUTF("범위의 끝을 입력하세요 >> ");
                 int end = in.readInt();
 
+                
                 db.where_between(data,start,end);
             }
 

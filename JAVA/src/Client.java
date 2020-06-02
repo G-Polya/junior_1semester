@@ -42,12 +42,12 @@ public class Client
             {
                 System.out.println("Server says : "+in.readUTF());      // Input data
                 String id = scanner.next();
-                if(id.equals("stop"))
-                    flag = false;
-
-                if(flag == false)
+                out.writeUTF(id);
+                if(id.equals("stop"))       // stop 입력하면 종료
+                {
+                    System.out.println("입력 종료");
                     break;
-
+                }
                 String name = scanner.next();
                 int attendance = scanner.nextInt();
                 int assignment = scanner.nextInt();
@@ -56,7 +56,7 @@ public class Client
 
                 Integer temp_id = Integer.parseInt(id);
                 System.out.println("id : "+id);
-                out.writeUTF(id);
+
                 for(int i = 0 ;i < ids.size();i++)
                     if(ids.get(i) == temp_id)
                     {
@@ -78,16 +78,12 @@ public class Client
                 //            System.out.println("Server says : "+in.readUTF());
                 out.writeUTF(name);
 
-                //            System.out.println("Server says : "+in.readUTF());
                 out.writeInt(attendance);
 
-                //              System.out.println("Server says : "+in.readUTF());
                 out.writeInt(assignment);
 
-                //          System.out.println("Server says : "+in.readUTF());
                 out.writeInt(midterm);
 
-                //       System.out.println("Server says : "+in.readUTF());
                 out.writeInt(finalterm);
 
 

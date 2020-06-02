@@ -32,29 +32,6 @@ class Create_Database_Table
         }
     }
 
-    public static HashMap<Integer, Integer> get_ranking(Vector<Integer> sums)
-    {
-        // 먼저 합계를 입력받아서 정렬해준다.
-        int[] input = new int[sums.size()];
-        for(int i = 0; i < sums.size();i++)
-            input[i] = (Integer)sums.get(i);
-        selectionSort(input, input.length);
-
-
-
-        // 해시맵 객체를 생성해서 합계에 해당하는 등수를 입력한다.
-        // 정렬되어 있으므로 큰 수부터 작은 등수를 value로 가짐
-        HashMap<Integer, Integer> ranking = new HashMap<Integer, Integer>();
-        for(int i = 0; i< input.length;i++)
-        {
-            ranking.put(input[i], i+1);
-        }
-
-
-        return ranking;
-
-
-    }
 
     // 데이터베이스 연결
     public Create_Database_Table()
@@ -397,7 +374,6 @@ class Create_Database_Table
                 out.writeInt(count);
                 for(int i = 0; i< count;i++)
                 {
-                    // System.out.println(start + "와 " + end + "사이의 " + data + "는 " + ids[i] + ", " + names[i] + " 이 있습니다");
                     out.writeUTF(start + "와 " + end + "사이의 " + data + "는 " + ids.get(i) + ", " + names.get(i) + " 이 있습니다");
                 }
            }
@@ -458,6 +434,30 @@ class Create_Database_Table
         return count;
     }
 
+
+    public static HashMap<Integer, Integer> get_ranking(Vector<Integer> sums)
+    {
+        // 먼저 합계를 입력받아서 정렬해준다.
+        int[] input = new int[sums.size()];
+        for(int i = 0; i < sums.size();i++)
+            input[i] = (Integer)sums.get(i);
+        selectionSort(input, input.length);
+
+
+
+        // 해시맵 객체를 생성해서 합계에 해당하는 등수를 입력한다.
+        // 정렬되어 있으므로 큰 수부터 작은 등수를 value로 가짐
+        HashMap<Integer, Integer> ranking = new HashMap<Integer, Integer>();
+        for(int i = 0; i< input.length;i++)
+        {
+            ranking.put(input[i], i+1);
+        }
+
+
+        return ranking;
+
+
+    }
 
 
     // sum이 주어지면 ranking을 반환하는 함수
