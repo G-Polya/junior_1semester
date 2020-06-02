@@ -12,9 +12,6 @@ import java.util.Vector;
 
 public class Server
 {
-
-
-
     public static void main(String[] args)
     {
         DataInputStream in = null;
@@ -26,8 +23,8 @@ public class Server
         try
         {
             listener = new ServerSocket(9999);
-            System.out.println("Connection waiting...");
-            socket = listener.accept();
+            System.out.println("Connection waiting...");        // 대기중
+            socket = listener.accept();                         // 클라이언트와 연결
             System.out.println("Connection completed");
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
@@ -90,10 +87,25 @@ public class Server
                 db.update_table("ranking","sum", sum,ranking);
             }
 
-            out.writeUTF("추출하고자 하는 자료를 입력하세요 >> ");
+            while(true)
+            {
+                out.writeUTF("자료를 입력하세요(stop을 입력하면 중지) >> ");
+                String data = in.readUTF();
+                if(data.equals("stop"))
+                    break;
 
+                out.writeUTF("범위의 시작을 입력하세요 >> ");
+                int start = in.readInt();
 
-            out.flush();
+                out.writeUTF("범위의 끝을 입력하세요 >> ");
+                int end = in.readInt();
+
+                db.where_between(data,start,end);
+            }
+
+            db.select_all();
+
+           // out.flush();
 
         }
         catch(IOException e)

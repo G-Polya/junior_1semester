@@ -22,19 +22,9 @@ public class Client
         try
         {
             socket = new Socket("localhost",9999);
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-            String inputMessage = in.readUTF();
-            System.out.println("Sever says : "+inputMessage);
-
-//            System.out.println("Server says : "+in.readUTF());      // Input user name >>
-//            String username = scanner.next();
-//            out.writeUTF(username);
-
-
-//            System.out.println("Server says : "+in.readUTF());      // Input password >>
-//            String password = scanner.next();
-//            out.writeUTF(password);
+            in = new DataInputStream(socket.getInputStream());      // 들어오는 데이터
+            out = new DataOutputStream(socket.getOutputStream());   // 나가는 데이터
+            System.out.println("Sever says : "+in.readUTF());
 
             System.out.println("Server says : "+in.readUTF());      // Input database name >>
             String dbName = scanner.next();
@@ -90,7 +80,32 @@ public class Client
 
             }
 
+            while(true)
+            {
+                System.out.println("Server says : "+in.readUTF());   // 자료를 입력하세요
+                String data = scanner.next();
+                out.writeUTF(data);
+                if(data.equals("stop"))
+                    break;
 
+                System.out.println("Server says : "+in.readUTF());   // 범위의 시작을 입력하세요
+                int start = scanner.nextInt();
+                out.writeInt(start);
+
+                System.out.println("Server says : "+in.readUTF());   // 범위의 끝을 입력하세요
+                int end = scanner.nextInt();
+                out.writeInt(end);
+
+                int count = in.readInt();
+                for(int i = 0; i < count;i++)
+                    System.out.println("Server says : "+in.readUTF());          // start와 end 사이에는 ...
+            }
+
+
+            int count = in.readInt();
+            System.out.println("Server says : "+in.readUTF());
+            for(int i = 0; i< count;i++)
+                System.out.println("Server says : "+in.readUTF());              // 테이블 전체출력
 
 
 

@@ -40,10 +40,6 @@ class Create_Database_Table
             input[i] = (Integer)sums.get(i);
         selectionSort(input, input.length);
 
-        // int형인 합계들을 String으로 바꿔주는 과정이다.
-//        String[] temp = new String[input.length];
-//        for(int i = 0; i< input.length;i++)
-//            temp[i] = Integer.toString(input[i]);
 
 
         // 해시맵 객체를 생성해서 합계에 해당하는 등수를 입력한다.
@@ -144,7 +140,7 @@ class Create_Database_Table
                 Statement stmt = conn.createStatement();
                 String sql = "create table "+ tbName
                         +"("
-                        +"no int primary key,"
+                        +"id int primary key,"
                         +"name varchar(10),"
                         +"attendance int,"
                         +"assignment int,"
@@ -244,24 +240,123 @@ class Create_Database_Table
         }
     }
 
-    public void select_id_name(int id, String name, String condition)
+    public void select_all()
     {
+        int count = 0;
+        Vector<Integer> ids = new Vector<>();
+        Vector<String> names = new Vector<>();
+        Vector<Integer> attends = new Vector<>();
+        Vector<Integer> assigns = new Vector<>();
+        Vector<Integer> mids = new Vector<>();
+        Vector<Integer> finals = new Vector<>();
+        Vector<Integer> sums = new Vector<>();
+        Vector<Integer> rankings = new Vector<>();
+
         try
         {
-            String selectSql = "select " + id + ", "+ name +
-                    " from " + tbName;
+            String allSql = "select * from "+tbName;
+            pstmt = conn.prepareStatement(allSql);
+            rs = pstmt.executeQuery();
 
-            if(condition.length() != 0)
+            System.out.println(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
+            while(rs.next())
             {
-                condition = " where "+condition;
-                selectSql += condition;
+                int id = rs.getInt("id");                       ids.add(id);
+                String name = rs.getString("name");             names.add(name);
+                int attendance = rs.getInt("attendance");       attends.add(attendance);
+                int assignment = rs.getInt("assignment");       assigns.add(assignment);
+                int mid_term = rs.getInt("mid_term");           mids.add(mid_term);
+                int final_term = rs.getInt("final_term");       finals.add(final_term);
+                int sum = rs.getInt("sum");                     sums.add(sum);
+                int ranking = rs.getInt("ranking");             rankings.add(ranking);
+                System.out.println(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
+                                                  ids.get(count),
+                                                  names.get(count),
+                                                  attends.get(count),
+                                                  assigns.get(count),
+                                                  mids.get(count),
+                                                  finals.get(count),
+                                                  sums.get(count),
+                                                  rankings.get(count)));
+
+                count++;
             }
 
+            try
+            {
+                out.writeInt(count);
+                out.writeUTF(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
+                for(int i = 0; i < count;i++)
+                    out.writeUTF(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
+                                              ids.get(i),
+                                              names.get(i),
+                                              attends.get(i),
+                                              assigns.get(i),
+                                              mids.get(i),
+                                              finals.get(i),
+                                              sums.get(i),
+                                              rankings.get(i)));
+            }
+            catch(Exception err)
+            {}
         }
-        catch(Exception e)
+        catch(SQLException e)
         {
-            e.printStackTrace();
+            System.out.println("Select Error : "+ e);
         }
+    }
+
+    public void where_between(String data, int start, int end)
+    {
+        int count = 0;
+        Vector<Integer> ids = new Vector<Integer>();
+        Vector<String> names = new Vector<String>();
+        try
+        {
+            String condition = data + " between " + start + " and " + end;
+            String selectSql = "select id, name " +
+                               " from " + tbName +
+                               " where "+ condition;
+
+            pstmt = conn.prepareStatement(selectSql);
+            rs = pstmt.executeQuery();
+
+
+           while(rs.next())
+           {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                ids.add(id);
+                names.add(name);
+                System.out.println(start + "와 " + end + "사이의 " + data + "는 " + ids.get(count) + ", " + names.get(count) + " 이 있습니다");
+
+                count ++;
+           }
+
+           try
+           {
+                out.writeInt(count);
+                for(int i = 0; i< count;i++)
+                {
+                    // System.out.println(start + "와 " + end + "사이의 " + data + "는 " + ids[i] + ", " + names[i] + " 이 있습니다");
+                    out.writeUTF(start + "와 " + end + "사이의 " + data + "는 " + ids.get(i) + ", " + names.get(i) + " 이 있습니다");
+                }
+           }
+           catch(Exception err)
+           {}
+           rs.close();
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Select Error : "+e);
+            try
+            {
+                out.writeUTF("Select Error : "+ e);
+            }
+            catch(Exception err)
+            {}
+        }
+
 
 
     }
