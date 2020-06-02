@@ -276,71 +276,6 @@ class Create_Database_Table
         }
     }
 
-    public void select_all()
-    {
-        int count = 0;
-        Vector<Integer> ids = new Vector<>();
-        Vector<String> names = new Vector<>();
-        Vector<Integer> attends = new Vector<>();
-        Vector<Integer> assigns = new Vector<>();
-        Vector<Integer> mids = new Vector<>();
-        Vector<Integer> finals = new Vector<>();
-        Vector<Integer> sums = new Vector<>();
-        Vector<Integer> rankings = new Vector<>();
-
-        try
-        {
-            String allSql = "select * from "+tbName;
-            pstmt = conn.prepareStatement(allSql);
-            rs = pstmt.executeQuery();
-
-            System.out.println(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
-            while(rs.next())
-            {
-                int id = rs.getInt("id");                       ids.add(id);
-                String name = rs.getString("name");             names.add(name);
-                int attendance = rs.getInt("attendance");       attends.add(attendance);
-                int assignment = rs.getInt("assignment");       assigns.add(assignment);
-                int mid_term = rs.getInt("mid_term");           mids.add(mid_term);
-                int final_term = rs.getInt("final_term");       finals.add(final_term);
-                int sum = rs.getInt("sum");                     sums.add(sum);
-                int ranking = rs.getInt("ranking");             rankings.add(ranking);
-                System.out.println(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
-                                                  ids.get(count),
-                                                  names.get(count),
-                                                  attends.get(count),
-                                                  assigns.get(count),
-                                                  mids.get(count),
-                                                  finals.get(count),
-                                                  sums.get(count),
-                                                  rankings.get(count)));
-
-                count++;
-            }
-
-            try
-            {
-                out.writeInt(count);
-                out.writeUTF(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
-                for(int i = 0; i < count;i++)
-                    out.writeUTF(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
-                                              ids.get(i),
-                                              names.get(i),
-                                              attends.get(i),
-                                              assigns.get(i),
-                                              mids.get(i),
-                                              finals.get(i),
-                                              sums.get(i),
-                                              rankings.get(i)));
-            }
-            catch(Exception err)
-            {}
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Select Error : "+ e);
-        }
-    }
 
     public void where_between(String data, int start, int end)
     {
@@ -394,6 +329,72 @@ class Create_Database_Table
 
 
 
+    }
+
+    public void select_all()
+    {
+        int count = 0;
+        Vector<Integer> ids = new Vector<>();
+        Vector<String> names = new Vector<>();
+        Vector<Integer> attends = new Vector<>();
+        Vector<Integer> assigns = new Vector<>();
+        Vector<Integer> mids = new Vector<>();
+        Vector<Integer> finals = new Vector<>();
+        Vector<Integer> sums = new Vector<>();
+        Vector<Integer> rankings = new Vector<>();
+
+        try
+        {
+            String allSql = "select * from "+tbName;
+            pstmt = conn.prepareStatement(allSql);
+            rs = pstmt.executeQuery();
+
+            System.out.println(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
+            while(rs.next())
+            {
+                int id = rs.getInt("id");                       ids.add(id);
+                String name = rs.getString("name");             names.add(name);
+                int attendance = rs.getInt("attendance");       attends.add(attendance);
+                int assignment = rs.getInt("assignment");       assigns.add(assignment);
+                int mid_term = rs.getInt("mid_term");           mids.add(mid_term);
+                int final_term = rs.getInt("final_term");       finals.add(final_term);
+                int sum = rs.getInt("sum");                     sums.add(sum);
+                int ranking = rs.getInt("ranking");             rankings.add(ranking);
+                System.out.println(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
+                                                    ids.get(count),
+                                                    names.get(count),
+                                                    attends.get(count),
+                                                    assigns.get(count),
+                                                    mids.get(count),
+                                                    finals.get(count),
+                                                    sums.get(count),
+                                                    rankings.get(count)));
+
+                count++;
+            }
+
+            try
+            {
+                out.writeInt(count);
+                out.writeUTF(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
+                for(int i = 0; i < count;i++)
+                    out.writeUTF(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
+                                                ids.get(i),
+                                                names.get(i),
+                                                attends.get(i),
+                                                assigns.get(i),
+                                                mids.get(i),
+                                                finals.get(i),
+                                                sums.get(i),
+                                                rankings.get(i)));
+            }
+            catch(Exception err)
+            {}
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Select Error : "+ e);
+        }
     }
 
 

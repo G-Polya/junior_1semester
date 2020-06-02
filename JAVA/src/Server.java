@@ -125,7 +125,7 @@ public class Server
                 out.writeUTF("범위의 끝을 입력하세요 >> ");
                 int end = in.readInt();
 
-                
+
                 db.where_between(data,start,end);
             }
 
