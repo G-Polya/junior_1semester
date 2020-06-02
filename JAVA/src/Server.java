@@ -50,8 +50,9 @@ public class Server
             boolean flag = true;
             while(flag)         // 자료 입력 부분
             {
-                out.writeUTF("학번을 입력하세요 ");
-                String id = in.readUTF();
+                out.writeUTF("자료를 입력하세요(학번, 이름, 출석, 과제, 중간, 기말)>> ");
+                String[] data = in.readUTF().split("\\s");
+                String id = data[0];
                 System.out.println("id : "+id);
                 Integer temp_id = Integer.parseInt(id);
                 for(int i = 0; i<ids.size();i++)
@@ -75,15 +76,15 @@ public class Server
                 if(id.equals("stop"))
                     break;
 
-                out.writeUTF("이름을 입력하세요 ");
+               // out.writeUTF("이름을 입력하세요 ");
                 String name = in.readUTF();
-                out.writeUTF("출석을 입력하세요 ");
+             //   out.writeUTF("출석을 입력하세요 ");
                 int attendance = in.readInt();
-                out.writeUTF("과제을 입력하세요 ");
+              //  out.writeUTF("과제을 입력하세요 ");
                 int assignment = in.readInt();
-                out.writeUTF("중간점수를 입력하세요 ");
+             //   out.writeUTF("중간점수를 입력하세요 ");
                 int midterm = in.readInt();
-                out.writeUTF("기말점수을 입력하세요 ");
+              //  out.writeUTF("기말점수을 입력하세요 ");
                 int finalterm = in.readInt();
                 int sum = attendance + assignment + midterm + finalterm;
                 sums.add(sum);

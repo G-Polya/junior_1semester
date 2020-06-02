@@ -41,7 +41,15 @@ public class Client
             while(flag)
             {
                 System.out.println("Server says : "+in.readUTF());      // Input data
-                String id = scanner.next();
+                String data = scanner.next();
+                String[] datum = data.split("\\s");
+
+                System.out.println("dataum : ");
+                for(int i = 0; i<datum.length;i++)
+                    System.out.println(datum[i]);
+
+                String id = datum[0];
+
                 Integer temp_id = Integer.parseInt(id);
                 System.out.println("id : "+id);
                 out.writeUTF(id);
@@ -64,24 +72,24 @@ public class Client
                 if(id.equals("stop"))
                     break;
 
-                System.out.println("Server says : "+in.readUTF());
-                String name = scanner.next();
+            //    System.out.println("Server says : "+in.readUTF());
+                String name = datum[1];
                 out.writeUTF(name);
 
-                System.out.println("Server says : "+in.readUTF());
-                int attendance = scanner.nextInt();
+              //  System.out.println("Server says : "+in.readUTF());
+                int attendance = Integer.parseInt(datum[2]);
                 out.writeInt(attendance);
 
-                System.out.println("Server says : "+in.readUTF());
-                int assignment = scanner.nextInt();
+             //   System.out.println("Server says : "+in.readUTF());
+                int assignment = Integer.parseInt(datum[3]);
                 out.writeInt(assignment);
 
-                System.out.println("Server says : "+in.readUTF());
-                int midterm = scanner.nextInt();
+            //    System.out.println("Server says : "+in.readUTF());
+                int midterm = Integer.parseInt(datum[4]);
                 out.writeInt(midterm);
 
-                System.out.println("Server says : "+in.readUTF());
-                int finalterm = scanner.nextInt();
+             //   System.out.println("Server says : "+in.readUTF());
+                int finalterm = Integer.parseInt(datum[5]);
                 out.writeInt(finalterm);
 
 
