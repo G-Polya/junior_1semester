@@ -51,9 +51,14 @@ public class Server
             while(flag)         // 자료 입력 부분
             {
                 out.writeUTF("자료를 입력하세요(학번, 이름, 출석, 과제, 중간, 기말)>> ");
-                String[] data = in.readUTF().split("\\s");
-                String id = data[0];
+                String id = in.readUTF();
                 System.out.println("id : "+id);
+                if(id.equals("stop"))
+                    flag = false;
+
+                if(flag == false)
+                    break;
+
                 Integer temp_id = Integer.parseInt(id);
                 for(int i = 0; i<ids.size();i++)
                     if(ids.get(i) == temp_id)
@@ -73,8 +78,7 @@ public class Server
 
                 ids.add(temp_id);
 
-                if(id.equals("stop"))
-                    break;
+
 
                // out.writeUTF("이름을 입력하세요 ");
                 String name = in.readUTF();

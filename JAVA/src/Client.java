@@ -41,14 +41,18 @@ public class Client
             while(flag)
             {
                 System.out.println("Server says : "+in.readUTF());      // Input data
-                String data = scanner.next();
-                String[] datum = data.split("\\s");
+                String id = scanner.next();
+                if(id.equals("stop"))
+                    flag = false;
 
-                System.out.println("dataum : ");
-                for(int i = 0; i<datum.length;i++)
-                    System.out.println(datum[i]);
+                if(flag == false)
+                    break;
 
-                String id = datum[0];
+                String name = scanner.next();
+                int attendance = scanner.nextInt();
+                int assignment = scanner.nextInt();
+                int midterm = scanner.nextInt();
+                int finalterm = scanner.nextInt();
 
                 Integer temp_id = Integer.parseInt(id);
                 System.out.println("id : "+id);
@@ -56,10 +60,10 @@ public class Client
                 for(int i = 0 ;i < ids.size();i++)
                     if(ids.get(i) == temp_id)
                     {
-                      flag = false;
-                      System.out.println("Primary key Error");
+                        flag = false;
+                        System.out.println("Primary key Error");
 
-                      break;
+                        break;
                     }
 
                 if(flag == false)
@@ -69,27 +73,21 @@ public class Client
                 }
 
                 ids.add(temp_id);      //ids에 id와 같은 게 없으면 add
-                if(id.equals("stop"))
-                    break;
 
-            //    System.out.println("Server says : "+in.readUTF());
-                String name = datum[1];
+
+                //            System.out.println("Server says : "+in.readUTF());
                 out.writeUTF(name);
 
-              //  System.out.println("Server says : "+in.readUTF());
-                int attendance = Integer.parseInt(datum[2]);
+                //            System.out.println("Server says : "+in.readUTF());
                 out.writeInt(attendance);
 
-             //   System.out.println("Server says : "+in.readUTF());
-                int assignment = Integer.parseInt(datum[3]);
+                //              System.out.println("Server says : "+in.readUTF());
                 out.writeInt(assignment);
 
-            //    System.out.println("Server says : "+in.readUTF());
-                int midterm = Integer.parseInt(datum[4]);
+                //          System.out.println("Server says : "+in.readUTF());
                 out.writeInt(midterm);
 
-             //   System.out.println("Server says : "+in.readUTF());
-                int finalterm = Integer.parseInt(datum[5]);
+                //       System.out.println("Server says : "+in.readUTF());
                 out.writeInt(finalterm);
 
 
