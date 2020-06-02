@@ -32,29 +32,6 @@ class Create_Database_Table
         }
     }
 
-    public static HashMap<Integer, Integer> get_ranking(Vector<Integer> sums)
-    {
-        // 먼저 합계를 입력받아서 정렬해준다.
-        int[] input = new int[sums.size()];
-        for(int i = 0; i < sums.size();i++)
-            input[i] = (Integer)sums.get(i);
-        selectionSort(input, input.length);
-
-
-
-        // 해시맵 객체를 생성해서 합계에 해당하는 등수를 입력한다.
-        // 정렬되어 있으므로 큰 수부터 작은 등수를 value로 가짐
-        HashMap<Integer, Integer> ranking = new HashMap<Integer, Integer>();
-        for(int i = 0; i< input.length;i++)
-        {
-            ranking.put(input[i], i+1);
-        }
-
-
-        return ranking;
-
-
-    }
 
     // 데이터베이스 연결
     public Create_Database_Table()
@@ -299,71 +276,6 @@ class Create_Database_Table
         }
     }
 
-    public void select_all()
-    {
-        int count = 0;
-        Vector<Integer> ids = new Vector<>();
-        Vector<String> names = new Vector<>();
-        Vector<Integer> attends = new Vector<>();
-        Vector<Integer> assigns = new Vector<>();
-        Vector<Integer> mids = new Vector<>();
-        Vector<Integer> finals = new Vector<>();
-        Vector<Integer> sums = new Vector<>();
-        Vector<Integer> rankings = new Vector<>();
-
-        try
-        {
-            String allSql = "select * from "+tbName;
-            pstmt = conn.prepareStatement(allSql);
-            rs = pstmt.executeQuery();
-
-            System.out.println(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
-            while(rs.next())
-            {
-                int id = rs.getInt("id");                       ids.add(id);
-                String name = rs.getString("name");             names.add(name);
-                int attendance = rs.getInt("attendance");       attends.add(attendance);
-                int assignment = rs.getInt("assignment");       assigns.add(assignment);
-                int mid_term = rs.getInt("mid_term");           mids.add(mid_term);
-                int final_term = rs.getInt("final_term");       finals.add(final_term);
-                int sum = rs.getInt("sum");                     sums.add(sum);
-                int ranking = rs.getInt("ranking");             rankings.add(ranking);
-                System.out.println(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
-                                                  ids.get(count),
-                                                  names.get(count),
-                                                  attends.get(count),
-                                                  assigns.get(count),
-                                                  mids.get(count),
-                                                  finals.get(count),
-                                                  sums.get(count),
-                                                  rankings.get(count)));
-
-                count++;
-            }
-
-            try
-            {
-                out.writeInt(count);
-                out.writeUTF(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
-                for(int i = 0; i < count;i++)
-                    out.writeUTF(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
-                                              ids.get(i),
-                                              names.get(i),
-                                              attends.get(i),
-                                              assigns.get(i),
-                                              mids.get(i),
-                                              finals.get(i),
-                                              sums.get(i),
-                                              rankings.get(i)));
-            }
-            catch(Exception err)
-            {}
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Select Error : "+ e);
-        }
-    }
 
     public void where_between(String data, int start, int end)
     {
@@ -397,7 +309,6 @@ class Create_Database_Table
                 out.writeInt(count);
                 for(int i = 0; i< count;i++)
                 {
-                    // System.out.println(start + "와 " + end + "사이의 " + data + "는 " + ids[i] + ", " + names[i] + " 이 있습니다");
                     out.writeUTF(start + "와 " + end + "사이의 " + data + "는 " + ids.get(i) + ", " + names.get(i) + " 이 있습니다");
                 }
            }
@@ -418,6 +329,72 @@ class Create_Database_Table
 
 
 
+    }
+
+    public void select_all()
+    {
+        int count = 0;
+        Vector<Integer> ids = new Vector<>();
+        Vector<String> names = new Vector<>();
+        Vector<Integer> attends = new Vector<>();
+        Vector<Integer> assigns = new Vector<>();
+        Vector<Integer> mids = new Vector<>();
+        Vector<Integer> finals = new Vector<>();
+        Vector<Integer> sums = new Vector<>();
+        Vector<Integer> rankings = new Vector<>();
+
+        try
+        {
+            String allSql = "select * from "+tbName;
+            pstmt = conn.prepareStatement(allSql);
+            rs = pstmt.executeQuery();
+
+            System.out.println(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
+            while(rs.next())
+            {
+                int id = rs.getInt("id");                       ids.add(id);
+                String name = rs.getString("name");             names.add(name);
+                int attendance = rs.getInt("attendance");       attends.add(attendance);
+                int assignment = rs.getInt("assignment");       assigns.add(assignment);
+                int mid_term = rs.getInt("mid_term");           mids.add(mid_term);
+                int final_term = rs.getInt("final_term");       finals.add(final_term);
+                int sum = rs.getInt("sum");                     sums.add(sum);
+                int ranking = rs.getInt("ranking");             rankings.add(ranking);
+                System.out.println(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
+                                                    ids.get(count),
+                                                    names.get(count),
+                                                    attends.get(count),
+                                                    assigns.get(count),
+                                                    mids.get(count),
+                                                    finals.get(count),
+                                                    sums.get(count),
+                                                    rankings.get(count)));
+
+                count++;
+            }
+
+            try
+            {
+                out.writeInt(count);
+                out.writeUTF(String.format("|%3s | %5s | %10s | %12s | %9s | %10s | %4s | %8s|", "id","name","attendance","assignment","mid_term","final_term","sum","ranking"));
+                for(int i = 0; i < count;i++)
+                    out.writeUTF(String.format("|%3d | %5s | %10d | %12d | %9d | %10d | %4d | %8d|",
+                                                ids.get(i),
+                                                names.get(i),
+                                                attends.get(i),
+                                                assigns.get(i),
+                                                mids.get(i),
+                                                finals.get(i),
+                                                sums.get(i),
+                                                rankings.get(i)));
+            }
+            catch(Exception err)
+            {}
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Select Error : "+ e);
+        }
     }
 
 
@@ -458,6 +435,30 @@ class Create_Database_Table
         return count;
     }
 
+
+    public static HashMap<Integer, Integer> get_ranking(Vector<Integer> sums)
+    {
+        // 먼저 합계를 입력받아서 정렬해준다.
+        int[] input = new int[sums.size()];
+        for(int i = 0; i < sums.size();i++)
+            input[i] = (Integer)sums.get(i);
+        selectionSort(input, input.length);
+
+
+
+        // 해시맵 객체를 생성해서 합계에 해당하는 등수를 입력한다.
+        // 정렬되어 있으므로 큰 수부터 작은 등수를 value로 가짐
+        HashMap<Integer, Integer> ranking = new HashMap<Integer, Integer>();
+        for(int i = 0; i< input.length;i++)
+        {
+            ranking.put(input[i], i+1);
+        }
+
+
+        return ranking;
+
+
+    }
 
 
     // sum이 주어지면 ranking을 반환하는 함수

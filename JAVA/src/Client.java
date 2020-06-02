@@ -42,16 +42,28 @@ public class Client
             {
                 System.out.println("Server says : "+in.readUTF());      // Input data
                 String id = scanner.next();
+                out.writeUTF(id);
+                if(id.equals("stop"))       // stop 입력하면 종료
+                {
+                    System.out.println("입력 종료");
+                    break;
+                }
+                String name = scanner.next();
+                int attendance = scanner.nextInt();
+                int assignment = scanner.nextInt();
+                int midterm = scanner.nextInt();
+                int finalterm = scanner.nextInt();
+
                 Integer temp_id = Integer.parseInt(id);
                 System.out.println("id : "+id);
-                out.writeUTF(id);
+
                 for(int i = 0 ;i < ids.size();i++)
                     if(ids.get(i) == temp_id)
                     {
-                      flag = false;
-                      System.out.println("Primary key Error");
+                        flag = false;
+                        System.out.println("Primary key Error");
 
-                      break;
+                        break;
                     }
 
                 if(flag == false)
@@ -61,9 +73,8 @@ public class Client
                 }
 
                 ids.add(temp_id);      //ids에 id와 같은 게 없으면 add
-                if(id.equals("stop"))
-                    break;
 
+<<<<<<< HEAD
     //            System.out.println("Server says : "+in.readUTF());
                 String name = scanner.next();
                 out.writeUTF(name);
@@ -82,6 +93,18 @@ public class Client
 
          //       System.out.println("Server says : "+in.readUTF());
                 int finalterm = scanner.nextInt();
+=======
+
+                //            System.out.println("Server says : "+in.readUTF());
+                out.writeUTF(name);
+
+                out.writeInt(attendance);
+
+                out.writeInt(assignment);
+
+                out.writeInt(midterm);
+
+>>>>>>> test
                 out.writeInt(finalterm);
 
 
