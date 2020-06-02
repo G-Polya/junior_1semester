@@ -64,23 +64,23 @@ public class Client
                 if(id.equals("stop"))
                     break;
 
-                System.out.println("Server says : "+in.readUTF());
+    //            System.out.println("Server says : "+in.readUTF());
                 String name = scanner.next();
                 out.writeUTF(name);
 
-                System.out.println("Server says : "+in.readUTF());
+    //            System.out.println("Server says : "+in.readUTF());
                 int attendance = scanner.nextInt();
                 out.writeInt(attendance);
 
-                System.out.println("Server says : "+in.readUTF());
+  //              System.out.println("Server says : "+in.readUTF());
                 int assignment = scanner.nextInt();
                 out.writeInt(assignment);
 
-                System.out.println("Server says : "+in.readUTF());
+      //          System.out.println("Server says : "+in.readUTF());
                 int midterm = scanner.nextInt();
                 out.writeInt(midterm);
 
-                System.out.println("Server says : "+in.readUTF());
+         //       System.out.println("Server says : "+in.readUTF());
                 int finalterm = scanner.nextInt();
                 out.writeInt(finalterm);
 

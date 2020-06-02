@@ -75,15 +75,15 @@ public class Server
                 if(id.equals("stop"))
                     break;
 
-                out.writeUTF("이름을 입력하세요 ");
+            //    out.writeUTF("이름을 입력하세요 ");
                 String name = in.readUTF();
-                out.writeUTF("출석을 입력하세요 ");
+              //  out.writeUTF("출석을 입력하세요 ");
                 int attendance = in.readInt();
-                out.writeUTF("과제을 입력하세요 ");
+            //    out.writeUTF("과제을 입력하세요 ");
                 int assignment = in.readInt();
-                out.writeUTF("중간점수를 입력하세요 ");
+              //  out.writeUTF("중간점수를 입력하세요 ");
                 int midterm = in.readInt();
-                out.writeUTF("기말점수을 입력하세요 ");
+              //  out.writeUTF("기말점수을 입력하세요 ");
                 int finalterm = in.readInt();
                 int sum = attendance + assignment + midterm + finalterm;
                 sums.add(sum);
