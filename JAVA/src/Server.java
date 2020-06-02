@@ -33,36 +33,65 @@ public class Server
             out.writeUTF("Connection completed.");
 
 
-            out.writeUTF("Input Database name >> ");
-            String dbName = in.readUTF();
+            out.writeUTF("Input Database name >> ");        // 클라이언트쪽에 데이터베이스 입력하라고 전송
+            String dbName = in.readUTF();                       // 클라이언트로부터 온 dbName 저장
             System.out.println("dbName : "+dbName);
 
 
             Create_Database_Table db = new Create_Database_Table();
-            db.CreateOrChangeDatabase(dbName, out);
+            db.CreateOrChangeDatabase(dbName, out);     //데이터베이스 생성
 
             out.writeUTF("Input table name >> ");
             String tbName = in.readUTF();
-            db.CreateTable(tbName);
+            db.CreateTable(tbName);                     // 테이블 생성
 
-            Vector<Integer> sums = new Vector<Integer>();
-            while(true)
+            Vector<Integer> sums = new Vector<Integer>();   // ranking계산을 위한 sums
+            Vector<Integer> ids = new Vector<>();
+            boolean flag = true;
+            while(flag)         // 자료 입력 부분
             {
-                out.writeUTF("Input Data(학번, 성명, 출석, 과제, 중간, 기말)");
+                out.writeUTF("학번을 입력하세요 ");
                 String id = in.readUTF();
+                System.out.println("id : "+id);
+                Integer temp_id = Integer.parseInt(id);
+                for(int i = 0; i<ids.size();i++)
+                    if(ids.get(i) == temp_id)
+                    {
+                        flag = false;
+                        System.out.println("Primary key Error");
+
+                        break;
+                    }
+
+                if(flag == false)
+                {
+                    flag = true;
+                    continue;
+                }
+
+
+                ids.add(temp_id);
+
                 if(id.equals("stop"))
                     break;
 
+                out.writeUTF("이름을 입력하세요 ");
                 String name = in.readUTF();
+                out.writeUTF("출석을 입력하세요 ");
                 int attendance = in.readInt();
+                out.writeUTF("과제을 입력하세요 ");
                 int assignment = in.readInt();
+                out.writeUTF("중간점수를 입력하세요 ");
                 int midterm = in.readInt();
+                out.writeUTF("기말점수을 입력하세요 ");
                 int finalterm = in.readInt();
                 int sum = attendance + assignment + midterm + finalterm;
                 sums.add(sum);
 
 
                 db.insert_toTable(id,name,attendance,assignment,midterm,finalterm,sum);
+
+
 
             }
 
@@ -71,18 +100,20 @@ public class Server
             int table_size = db.count_table();
             out.writeInt(table_size);
 
-
-
-
-            for(int i =0 ;i<sums.size();i++)
-                System.out.println(db.ranking_func(sums.get(i)));
-
-
             db.alter_Table("ranking","int");
+
+
+
+//            for(int i =0 ;i<sums.size();i++)
+//                System.out.println(db.ranking_func(sums.get(i)));
+            System.out.println("Sums size : "+sums.size());
+            for(int i = 0; i<sums.size();i++)
+                System.out.println("Sums:" + sums.get(i));
 
             for(int i = 0; i<sums.size();i++)
             {
                 int sum = sums.get(i);
+                System.out.println("sum : "+sum+", i : "+i);
                 int ranking = db.ranking_func(sum);
                 db.update_table("ranking","sum", sum,ranking);
             }

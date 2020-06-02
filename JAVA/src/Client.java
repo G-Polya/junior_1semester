@@ -23,12 +23,12 @@ public class Client
         {
             socket = new Socket("localhost",9999);
             in = new DataInputStream(socket.getInputStream());      // 들어오는 데이터
-            out = new DataOutputStream(socket.getOutputStream());   // 나가는 데이터
+            out = new DataOutputStream(socket.getOutputStream());   // 나가는 데이터ㅋ
             System.out.println("Sever says : "+in.readUTF());
 
             System.out.println("Server says : "+in.readUTF());      // Input database name >>
             String dbName = scanner.next();
-            out.writeUTF(dbName);
+            out.writeUTF(dbName);                                   // 서버로 전송
 
             System.out.println("Server says : "+in.readUTF());      // Input tablename name >>
             String tbName = scanner.next();
@@ -36,33 +36,60 @@ public class Client
 
 
             // 자료 입력
-            while(true)
+            Vector<Integer> ids = new Vector<>();
+            boolean flag = true;
+            while(flag)
             {
                 System.out.println("Server says : "+in.readUTF());      // Input data
                 String id = scanner.next();
+                Integer temp_id = Integer.parseInt(id);
+                System.out.println("id : "+id);
                 out.writeUTF(id);
+                for(int i = 0 ;i < ids.size();i++)
+                    if(ids.get(i) == temp_id)
+                    {
+                      flag = false;
+                      System.out.println("Primary key Error");
+
+                      break;
+                    }
+
+                if(flag == false)
+                {
+                    flag = true;
+                    continue;
+                }
+
+                ids.add(temp_id);      //ids에 id와 같은 게 없으면 add
                 if(id.equals("stop"))
                     break;
 
+                System.out.println("Server says : "+in.readUTF());
                 String name = scanner.next();
                 out.writeUTF(name);
 
+                System.out.println("Server says : "+in.readUTF());
                 int attendance = scanner.nextInt();
                 out.writeInt(attendance);
 
+                System.out.println("Server says : "+in.readUTF());
                 int assignment = scanner.nextInt();
                 out.writeInt(assignment);
 
+                System.out.println("Server says : "+in.readUTF());
                 int midterm = scanner.nextInt();
                 out.writeInt(midterm);
 
+                System.out.println("Server says : "+in.readUTF());
                 int finalterm = scanner.nextInt();
                 out.writeInt(finalterm);
 
 
 
                 System.out.println("Server says : "+in.readUTF());
-                out.flush();
+
+
+                // out.flush();
 
             }
 

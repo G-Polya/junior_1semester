@@ -140,7 +140,7 @@ class Create_Database_Table
                 Statement stmt = conn.createStatement();
                 String sql = "create table "+ tbName
                         +"("
-                        +"id int primary key,"
+                        +"id int primary key,"          // primary key. 중복되면 안된다.
                         +"name varchar(10),"
                         +"attendance int,"
                         +"assignment int,"
@@ -177,6 +177,65 @@ class Create_Database_Table
             }
         }
     }
+
+    // 테이블에 자료 입력
+    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final,int sum)
+    {
+        try
+        {
+
+            String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?,?)";
+            pstmt = conn.prepareStatement(insertSql);
+
+            pstmt.setString(1, id);
+            pstmt.setString(2,  name);
+            pstmt.setInt(3, attend);
+            pstmt.setInt(4, assign);
+            pstmt.setInt(5, _mid);
+            pstmt.setInt(6, _final);
+            pstmt.setInt(7,sum);
+
+            rs = pstmt.executeQuery();
+            System.out.println("Input Complete!");
+
+            // insert 성공시 클라이언트에 성공메시지 전달
+            try
+            {
+                out.writeUTF("Input Complete!");
+
+            }
+            catch(Exception err)
+            {}
+        }
+        catch(SQLException e)
+        {
+            System.out.println("Insert error : "+ e);
+
+            // insert 실패시 클라이언트에 실패 메시지 전달
+            try
+            {
+                out.writeUTF(e.getMessage()+"  Retry plz");
+            }
+            catch(Exception err)
+            {}
+        }
+        finally
+        {
+            try
+            {
+                if(rs!=null)rs.close();
+
+                if(pstmt!=null)pstmt.close();
+
+                if(conn!=null)pstmt.close();
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+    }
+
     public void alter_Table(String column,String datatype)
     {
         try
@@ -363,66 +422,7 @@ class Create_Database_Table
 
 
 
-    public void insert_toTable(String id, String name, int attend, int assign, int _mid, int _final,int sum)
-    {
-        try
-        {
 
-            String insertSql = "insert into "+tbName+" value (?,?,?,?,?,?,?)";
-            pstmt = conn.prepareStatement(insertSql);
-
-            pstmt.setString(1, id);
-            pstmt.setString(2,  name);
-            pstmt.setInt(3, attend);
-            pstmt.setInt(4, assign);
-            pstmt.setInt(5, _mid);
-            pstmt.setInt(6, _final);
-            pstmt.setInt(7,sum);
-
-            rs = pstmt.executeQuery();
-            System.out.println("Input Complete!");
-
-            // insert 성공시 클라이언트에 성공메시지 전달
-            try
-            {
-                out.writeUTF("Input Complete!");
-
-            }
-            catch(Exception err)
-            {
-
-            }
-        }
-        catch(SQLException e)
-        {
-            System.out.println("Insert error : "+ e);
-
-            // insert 실패시 클라이언트에 실패 메시지 전달
-            try
-            {
-                out.writeUTF(e.getMessage()+"  Retry plz");
-            }
-            catch(Exception err)
-            {
-
-            }
-        }
-        finally
-        {
-            try
-            {
-                if(rs!=null)rs.close();
-
-                if(pstmt!=null)pstmt.close();
-
-                if(conn!=null)pstmt.close();
-            }
-            catch(Exception e)
-            {
-
-            }
-        }
-    }
 
     public int count_table()
     {
@@ -474,8 +474,8 @@ class Create_Database_Table
             {
                 sums.add(rs.getInt("sum"));
             }
-            HashMap<Integer, Integer> rankings = get_ranking(sums);
-            ranking = rankings.get(sum);
+            ranking = get_ranking(sums).get(sum);
+
         }
         catch(SQLException e)
         {
