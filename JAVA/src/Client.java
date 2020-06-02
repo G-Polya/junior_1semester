@@ -74,26 +74,6 @@ public class Client
 
                 ids.add(temp_id);      //ids에 id와 같은 게 없으면 add
 
-<<<<<<< HEAD
-    //            System.out.println("Server says : "+in.readUTF());
-                String name = scanner.next();
-                out.writeUTF(name);
-
-    //            System.out.println("Server says : "+in.readUTF());
-                int attendance = scanner.nextInt();
-                out.writeInt(attendance);
-
-  //              System.out.println("Server says : "+in.readUTF());
-                int assignment = scanner.nextInt();
-                out.writeInt(assignment);
-
-      //          System.out.println("Server says : "+in.readUTF());
-                int midterm = scanner.nextInt();
-                out.writeInt(midterm);
-
-         //       System.out.println("Server says : "+in.readUTF());
-                int finalterm = scanner.nextInt();
-=======
 
                 //            System.out.println("Server says : "+in.readUTF());
                 out.writeUTF(name);
@@ -104,7 +84,6 @@ public class Client
 
                 out.writeInt(midterm);
 
->>>>>>> test
                 out.writeInt(finalterm);
 
 
