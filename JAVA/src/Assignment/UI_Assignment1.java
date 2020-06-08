@@ -145,7 +145,7 @@ public class UI_Assignment1 extends JFrame
 
     }
 
-    boolean player_flag = ttt.getCurrentPlayerNum() == 1 ? true : false;
+    String player_flag = ttt.getCurrentPlayerNum() == 1 ? "O" : "X";
 
     public void drawWindow()
     {
@@ -174,6 +174,7 @@ public class UI_Assignment1 extends JFrame
             {
                 JButton tempButton = (JButton)e.getComponent();
                 // System.out.println(ttt.getCurrentPlayerNum());
+
                 if(isGameEnd)
                 {
                     return;
@@ -186,12 +187,24 @@ public class UI_Assignment1 extends JFrame
                 else if(ttt.getCurrentPlayerNum() == 1)
                 {
                     tempButton.setText("O");
-                    tempButton.add(new MyPanel());
-
-                    dispCurrentPlayer.setText("Player " + 2);
-                } else
+                    JPanel myPanel = new JPanel()
                     {
+                        public void paintComponet(Graphics g)
+                        {
+                            super.paintComponent(g);
+                            g.setColor(Color.BLACK);
+                            g.fillOval(tempButton.getX(),tempButton.getY(),1000,1000);
+                        }
+                    };
+                    tempButton.add(myPanel);
+                    repaint();
+                    dispCurrentPlayer.setText("Player " + 2);
+                }
+                else
+                {
                     tempButton.setText("X");
+                 //   tempButton.add(myPanel);
+                    repaint();
                     dispCurrentPlayer.setText("Player " + 1);
                 }
                 ttt.changeTurn();
@@ -257,19 +270,7 @@ public class UI_Assignment1 extends JFrame
 
     class MyPanel extends JPanel
     {
-        public void paintComponent(Graphics g,JButton tempButton)
-        {
-            super.paintComponents(g);
-            g.setColor(Color.BLACK);
-            if(player_flag)
-                g.fillOval(tempButton.getX(),tempButton.getY(),tempButton.getWidth(),tempButton.getHeight());
-            else
-            {
-                g.drawLine(tempButton.getWidth(), tempButton.getHeight(), 0,0 );
-                g.drawLine(0,0,tempButton.getWidth(), tempButton.getHeight());
-            }
 
-        }
     }
 
 

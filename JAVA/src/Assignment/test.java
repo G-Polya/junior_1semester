@@ -1,31 +1,44 @@
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class test extends JPanel
+public class test extends JFrame
 {
 	JButton buttons[] = new JButton[9];
 	int alternate = 0;//if this number is a even, then put a X. If it's odd, then put an O
 
+	JPanel nineRoom = new JPanel();
+
 	public test()
 	{
-		setLayout(new GridLayout(3,3));
-		initializebuttons();
+		super("TIc Tac Toe");
+		setSize(400,300);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		drawWindow();
+		setVisible(true);
 	}
 
-	public void initializebuttons()
+	public void drawWindow()
 	{
+		nineRoom.setLayout(new GridLayout(3,3));
+
 		for(int i = 0; i <= 8; i++)
 		{
 			buttons[i] = new JButton();
 			buttons[i].setText("");
 			buttons[i].addActionListener(new buttonListener());
 
-			add(buttons[i]); //adds this button to JPanel (note: no need for JPanel.add(...)
+			nineRoom.add(buttons[i]); //adds this button to JPanel (note: no need for JPanel.add(...)
 			//because this whole class is a JPanel already
 		}
+
+		add(nineRoom, BorderLayout.CENTER);
+
 	}
+
+
 	public void resetButtons()
 	{
 		for(int i = 0; i <= 8; i++)
@@ -33,6 +46,7 @@ public class test extends JPanel
 			buttons[i].setText("");
 		}
 	}
+
 
 	// when a button is clicked, it generates an ActionEvent. Thus, each button needs an ActionListener. When it is clicked, it goes to this listener class that I have created and goes to the actionPerformed method. There (and in this class), we decide what we want to do.
 	private class buttonListener implements ActionListener
@@ -42,10 +56,48 @@ public class test extends JPanel
 		{
 
 			JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
+			//buttonClicked.
+			if(buttonClicked.getText().equals("O") || buttonClicked.getText().equals("X"))
+			{
+				JOptionPane.showMessageDialog(nineRoom, "이미 둔 곳입니다.");
+				return;
+			}
+
 			if(alternate%2 == 0)
+			{
 				buttonClicked.setText("X");
+
+				JPanel myPanel = new JPanel()
+				{
+					public void paintComponent(Graphics g)
+					{
+						super.paintComponent(g);
+						g.setColor(Color.BLACK);
+						g.drawLine(0,0,120,100);
+						g.drawLine(0,80,90,0);
+						g.fillOval(23,10,50,50);
+
+					}
+				};
+				buttonClicked.add(myPanel);
+
+			}
 			else
+			{
 				buttonClicked.setText("O");
+				JPanel myPanel = new JPanel()
+				{
+					public void paintComponet(Graphics g)
+					{
+						super.paintComponent(g);
+						g.setColor(Color.BLACK);
+						g.fillOval(buttonClicked.getX()/2,buttonClicked.getY()/2,50,50);
+					}
+				};
+
+				buttonClicked.add(myPanel);
+
+			}
 
 			if(checkForWin() == true)
 			{
@@ -56,6 +108,8 @@ public class test extends JPanel
 			alternate++;
 
 		}
+
+		class MyPanel
 
 		public boolean checkForWin()
 		{
@@ -103,10 +157,11 @@ public class test extends JPanel
 
 	public static void main(String[] args)
 	{
-		JFrame window = new JFrame("Tic-Tac-Toe");
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.getContentPane().add(new test());
-		window.setBounds(300,200,300,300);
-		window.setVisible(true);
+		new test();
+//		JFrame window = new JFrame("Tic-Tac-Toe");
+//		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		window.getContentPane().add(new test());
+//		window.setBounds(300,200,300,300);
+//		window.setVisible(true);
 	}
 }
