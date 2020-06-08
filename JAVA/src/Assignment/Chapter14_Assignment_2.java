@@ -19,16 +19,17 @@ public class Chapter14_Assignment_2 extends JFrame
 
     private Clip[] audioClip = new Clip[4]; // 재생을 위한 클립객체
 
-    JCheckBox[] checkBoxes = new JCheckBox[4];
-    String[] audio_name = {"audio/wolf.wav", "audio/dhol_drums.wav", "audio/sirenpolice.wav","audio/hiphop.wav"};
+    String[] audio_name = {"audio/wolf.wav", "audio/dhol_drums.wav", "audio/sirenpolice.wav","audio/hiphop.wav"};   // 오디오파일 이름
     public Chapter14_Assignment_2()
     {
+
         super("Audio Playing...");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = getContentPane();
         container.setLayout(null);
 
-        JLabel explain = new JLabel("체크된 곡만 순서대로 한번씩 연주합니다");
+
+        JLabel explain = new JLabel("체크된 곡만 순서대로 한번씩 연주합니다");   //
         explain.setSize(400,20);
         explain.setFont(new Font("굴림",Font.BOLD,15));
         explain.setHorizontalAlignment(JLabel.CENTER);
@@ -36,6 +37,7 @@ public class Chapter14_Assignment_2 extends JFrame
 
         container.add(explain);
 
+        JCheckBox[] checkBoxes = new JCheckBox[4]; // 체크박스 생성과 위치설정. container에 삽입
         for(int i = 0; i< checkBoxes.length; i++)
         {
             checkBoxes[i] = new JCheckBox(audio_name[i]);
@@ -45,6 +47,8 @@ public class Chapter14_Assignment_2 extends JFrame
 
         }
 
+
+        // 액션리스너 객체생성. 익명클래스 이용
         ActionListener actionListener = new ActionListener()
         {
             @Override
@@ -52,7 +56,7 @@ public class Chapter14_Assignment_2 extends JFrame
             {
                 switch (e.getActionCommand())
                 {
-                    case "music start":
+                    case "music start":     // music
                         count = 0;
                         stop_flag = false;
 
@@ -63,8 +67,7 @@ public class Chapter14_Assignment_2 extends JFrame
                                 selected_audio[count++] = checkBoxes[i].getText();
                             }
                         }
-                        load_audio(0);
-
+                        loadAudio(0);
                         break;
 
                     case "music end":
@@ -92,17 +95,17 @@ public class Chapter14_Assignment_2 extends JFrame
 
     String selected_audio[] = new String[4];
 
-
-
-    public void load_audio(int index)
+    public void loadAudio(int index)
     {
         if(index == count)
         {
             count = 0;
-            for(int i = 0; i< selected_audio.length;i++)
+            int i = 0;
+            while(i<selected_audio.length)
             {
                 selected_audio[i] = "";
                 audioClip[i].close();
+                i++;
             }
         }
         else
@@ -129,7 +132,7 @@ public class Chapter14_Assignment_2 extends JFrame
                                 try
                                 {
                                     soundStream.close();
-                                    load_audio(index+1);
+                                    loadAudio(index+1);
                                 }
                                 catch (IOException err)
                                 {
@@ -149,6 +152,7 @@ public class Chapter14_Assignment_2 extends JFrame
                 e.printStackTrace();
             }
         }
+
     }
 
 
