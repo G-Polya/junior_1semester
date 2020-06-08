@@ -110,7 +110,6 @@ public class test extends JFrame
 
 		}
 
-	//	class MyPanel
 
 		public boolean checkForWin()
 		{
