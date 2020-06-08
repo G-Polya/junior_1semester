@@ -59,24 +59,6 @@ public class test extends JFrame
 			JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
 
 
-			if(alternate%2 == 1)
-			{
-				buttonClicked.setText("O");
-
-				JPanel myPanel = new JPanel()
-				{
-					public void paintComponent(Graphics g)
-					{
-						super.paintComponent(g);
-						g.setColor(Color.BLACK);
-						//g.drawLine(0,0,120,100);
-						g.drawOval(0,0,100,100);
-					}
-				};
-				buttonClicked.add(myPanel);
-				buttonClicked.setEnabled(false);
-
-			}
 
 			if(alternate%2 == 0)
 			{
@@ -97,6 +79,25 @@ public class test extends JFrame
 				buttonClicked.setEnabled(false);
 
 			}
+			else
+			{
+				buttonClicked.setText("O");
+
+				JPanel myPanel = new JPanel()
+				{
+					public void paintComponent(Graphics g)
+					{
+						super.paintComponent(g);
+						g.setColor(Color.BLACK);
+						//g.drawLine(0,0,120,100);
+						g.drawOval(10,0,75,75);
+					}
+				};
+				buttonClicked.add(myPanel);
+				buttonClicked.setEnabled(false);
+
+			}
+
 
 
 			if(checkForWin() == true)
