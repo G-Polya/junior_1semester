@@ -69,33 +69,32 @@ public class test extends JFrame
 
 				JPanel myPanel = new JPanel()
 				{
-					public void paintComponent(Graphics g)
+					public void paintComponet(Graphics g)
 					{
 						super.paintComponent(g);
 						g.setColor(Color.BLACK);
 						g.drawLine(0,0,120,100);
 						g.drawLine(0,80,90,0);
-						g.fillOval(23,10,50,50);
-
 					}
 				};
+
 				buttonClicked.add(myPanel);
 
 			}
 			else
 			{
 				buttonClicked.setText("O");
-				JPanel myPanel = new JPanel()
-				{
-					public void paintComponet(Graphics g)
-					{
-						super.paintComponent(g);
-						g.setColor(Color.BLACK);
-						g.fillOval(buttonClicked.getX()/2,buttonClicked.getY()/2,50,50);
-					}
-				};
-
-				buttonClicked.add(myPanel);
+//				JPanel myPanel = new JPanel()
+//				{
+//					public void paintComponet(Graphics g)
+//					{
+//						super.paintComponent(g);
+//						g.setColor(Color.BLACK);
+//					//	g.fillOval(buttonClicked.getX()/2,buttonClicked.getY()/2,50,50);
+//					}
+//				};
+//
+//				buttonClicked.add(myPanel);
 
 			}
 
@@ -108,8 +107,7 @@ public class test extends JFrame
 			alternate++;
 
 		}
-
-		class MyPanel
+		
 
 		public boolean checkForWin()
 		{
