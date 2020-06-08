@@ -5,10 +5,6 @@ import java.awt.event.*;
 import java.io.*;
 import javax.sound.sampled.*;
 
-interface Test
-{
-    public void load_audio(int index);
-}
 
 
 public class Chapter14_Assignment_2 extends JFrame
@@ -19,7 +15,7 @@ public class Chapter14_Assignment_2 extends JFrame
 
     private Clip[] audioClip = new Clip[4]; // 재생을 위한 클립객체
 
-    String[] audio_name = {"audio/wolf.wav", "audio/dhol_drums.wav", "audio/sirenpolice.wav","audio/hiphop.wav"};   // 오디오파일 이름
+    String[] audio_path = {"audio/wolf.wav", "audio/dhol_drums.wav", "audio/sirenpolice.wav","audio/hiphop.wav"};   // 오디오파일 이름
 
     String playing_audio[] = new String[4];    // 체크박스에서 선택된 wav파일의 이름들
 
@@ -33,25 +29,25 @@ public class Chapter14_Assignment_2 extends JFrame
         container.setLayout(null);
 
 
-        JLabel explain = new JLabel("체크된 곡만 순서대로 한번씩 연주합니다");   //
-        explain.setSize(400,20);
-        explain.setFont(new Font("굴림",Font.BOLD,15));
-        explain.setHorizontalAlignment(JLabel.CENTER);
-        explain.setVerticalAlignment(JLabel.TOP);
+        JLabel top_label = new JLabel("체크된 곡만 순서대로 한번씩 연주합니다");   //
+        top_label.setSize(400,20);
+        top_label.setFont(new Font("굴림",Font.BOLD,15));
+        top_label.setHorizontalAlignment(JLabel.CENTER);
+        top_label.setVerticalAlignment(JLabel.TOP);
 
-        container.add(explain);
+        container.add(top_label);
 
         JCheckBox[] checkBoxes = new JCheckBox[4]; // 체크박스 생성과 위치설정. container에 삽입
         for(int i = 0; i< checkBoxes.length; i++)
         {
-            checkBoxes[i] = new JCheckBox(audio_name[i]);   //체크박스의 레이블은 audio_name이다.
+            checkBoxes[i] = new JCheckBox(audio_path[i]);   //체크박스의 레이블은 audio_name이다.
             checkBoxes[i].setSize(400,20);
             checkBoxes[i].setLocation(120,50 + (i * 20));
             container.add(checkBoxes[i]);
 
         }
 
-        // 액션리스너 객체생성. 익명클래스 이용
+        // 액션리스너 객체생성. 익명클래스 이용. 버튼 이벤트처리
         ActionListener actionListener = new ActionListener()
         {
             @Override
@@ -97,6 +93,36 @@ public class Chapter14_Assignment_2 extends JFrame
 
     }
 
+    class MyLineListener implements LineListener
+    {
+        AudioInputStream soundStream;
+        int index;
+        MyLineListener(AudioInputStream soundStream, int index)
+        {
+            this.soundStream = soundStream;
+            this.index = index;
+        }
+
+        @Override
+        public void update(LineEvent event)
+        {
+            if(event.getType() == LineEvent.Type.STOP)  // clip.stop()이 호출되거나 재생이 끝났을떄
+            {
+                if(!stop_flag)
+                {
+                    try
+                    {
+                        soundStream.close(); // 오디오스트림 종료
+                        loadAudio(index+1); // 다음 오디오파일 재생
+                    }
+                    catch (IOException err)
+                    {
+                        err.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
     public void loadAudio(int index)
     {
@@ -123,28 +149,7 @@ public class Chapter14_Assignment_2 extends JFrame
 
                 playing = index;
 
-                audioClip[index].addLineListener(new LineListener() // 음원종료시의 동작
-                {
-                    @Override
-                    public void update(LineEvent event)
-                    {
-                        if(event.getType() == LineEvent.Type.STOP)  // clip.stop()이 호출되거나 재생이 끝났을떄
-                        {
-                            if(!stop_flag)
-                            {
-                                try
-                                {
-                                    soundStream.close(); // 오디오스트림 종료
-                                    loadAudio(index+1); // 다음 오디오파일 재생
-                                }
-                                catch (IOException err)
-                                {
-                                    err.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                });
+                audioClip[index].addLineListener(new MyLineListener(soundStream, index)); // LineEvent 처리
 
                 audioClip[index].open(soundStream); //재생할 오디오스트림 열기
                 audioClip[index].start();   //재생 시작
