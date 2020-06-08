@@ -6,7 +6,7 @@ import javax.swing.*;
 public class test extends JFrame
 {
 	JButton buttons[] = new JButton[9];
-	int alternate = 0;//if this number is a even, then put a X. If it's odd, then put an O
+	int alternate = 1;//if this number is a even, then put a X. If it's odd, then put an O
 
 	JPanel nineRoom = new JPanel();
 
@@ -52,15 +52,30 @@ public class test extends JFrame
 	private class buttonListener implements ActionListener
 	{
 
+
 		public void actionPerformed(ActionEvent e)
 		{
 
 			JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
-			//buttonClicked.
-			if(buttonClicked.getText().equals("O") || buttonClicked.getText().equals("X"))
+
+
+			if(alternate%2 == 1)
 			{
-				JOptionPane.showMessageDialog(nineRoom, "이미 둔 곳입니다.");
-				return;
+				buttonClicked.setText("O");
+
+				JPanel myPanel = new JPanel()
+				{
+					public void paintComponent(Graphics g)
+					{
+						super.paintComponent(g);
+						g.setColor(Color.BLACK);
+						//g.drawLine(0,0,120,100);
+						g.drawOval(0,0,100,100);
+					}
+				};
+				buttonClicked.add(myPanel);
+				buttonClicked.setEnabled(false);
+
 			}
 
 			if(alternate%2 == 0)
@@ -75,29 +90,14 @@ public class test extends JFrame
 						g.setColor(Color.BLACK);
 						g.drawLine(0,0,120,100);
 						g.drawLine(0,80,90,0);
-						g.fillOval(23,10,50,50);
 
 					}
 				};
 				buttonClicked.add(myPanel);
+				buttonClicked.setEnabled(false);
 
 			}
-			else
-			{
-				buttonClicked.setText("O");
-				JPanel myPanel = new JPanel()
-				{
-					public void paintComponet(Graphics g)
-					{
-						super.paintComponent(g);
-						g.setColor(Color.BLACK);
-						g.fillOval(buttonClicked.getX()/2,buttonClicked.getY()/2,50,50);
-					}
-				};
 
-				buttonClicked.add(myPanel);
-
-			}
 
 			if(checkForWin() == true)
 			{
@@ -109,7 +109,7 @@ public class test extends JFrame
 
 		}
 
-		class MyPanel
+	//	class MyPanel
 
 		public boolean checkForWin()
 		{

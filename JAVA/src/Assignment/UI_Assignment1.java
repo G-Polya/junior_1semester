@@ -193,18 +193,31 @@ public class UI_Assignment1 extends JFrame
                         {
                             super.paintComponent(g);
                             g.setColor(Color.BLACK);
-                            g.fillOval(tempButton.getX(),tempButton.getY(),1000,1000);
+                            g.drawLine(0,0,120,100);
+                            g.drawLine(0,80,90,0);
+                       //     g.fillOval(tempButton.getX(),tempButton.getY(),1000,1000);
                         }
                     };
                     tempButton.add(myPanel);
-                    repaint();
+                   // repaint();
                     dispCurrentPlayer.setText("Player " + 2);
                 }
                 else
                 {
                     tempButton.setText("X");
-                 //   tempButton.add(myPanel);
-                    repaint();
+                    JPanel myPanel = new JPanel()
+                    {
+                        public void paintComponet(Graphics g)
+                        {
+                            super.paintComponent(g);
+                            g.setColor(Color.BLACK);
+                            g.drawLine(0,0,120,100);
+                            g.drawLine(0,80,90,0);
+                            //     g.fillOval(tempButton.getX(),tempButton.getY(),1000,1000);
+                        }
+                    };
+                    tempButton.add(myPanel);
+
                     dispCurrentPlayer.setText("Player " + 1);
                 }
                 ttt.changeTurn();
