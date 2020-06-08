@@ -10,7 +10,7 @@ import javax.sound.sampled.*;
 public class Chapter14_Assignment_2 extends JFrame
 {
     private int playing = 0;
-    private int count = 0;
+    private int count = 0;      // 연주된 음원들의 개수
     private boolean stop_flag = false;
 
     private Clip[] audioClip = new Clip[4]; // 재생을 위한 클립객체
@@ -93,6 +93,45 @@ public class Chapter14_Assignment_2 extends JFrame
 
     }
 
+
+
+    public void loadAudio(int index)
+    {
+        if(index == count)  // index와  count가 같다 >> 끝까지 연주했다.
+        {
+            count = 0;  // 설정초기화
+
+            for(int i = 0; i< playing_audio.length;i++)
+            {
+                playing_audio[i] ="";
+                audioClip[i].close();
+            }
+        }
+        else
+        {
+            try
+            {
+                File audios = new File(playing_audio[index]);   //오디오파일 경로명
+
+                final AudioInputStream soundStream = AudioSystem.getAudioInputStream(audios); // 오디오 파일로부터
+
+                audioClip[index] = AudioSystem.getClip();   // 비어있는 오디오클립만들기
+
+                playing = index;
+
+                audioClip[index].addLineListener(new MyLineListener(soundStream, index)); // LineEvent 처리
+
+                audioClip[index].open(soundStream); //재생할 오디오스트림 열기
+                audioClip[index].start();   //재생 시작
+
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+    }
     class MyLineListener implements LineListener
     {
         AudioInputStream soundStream;
@@ -122,45 +161,6 @@ public class Chapter14_Assignment_2 extends JFrame
                 }
             }
         }
-    }
-
-    public void loadAudio(int index)
-    {
-        if(index == count)  // index와  count가 같다 >> 끝까지 연주했다.
-        {
-            count = 0;  // 설정초기화
-            int i = 0;
-            while(i< playing_audio.length)
-            {
-                playing_audio[i] = "";
-                audioClip[i].close();
-                i++;
-            }
-        }
-        else
-        {
-            try
-            {
-                File audios = new File(playing_audio[index]);   //오디오파일 경로명
-
-                final AudioInputStream soundStream = AudioSystem.getAudioInputStream(audios); // 오디오 파일로부터
-
-                audioClip[index] = AudioSystem.getClip();   // 비어있는 오디오클립만들기
-
-                playing = index;
-
-                audioClip[index].addLineListener(new MyLineListener(soundStream, index)); // LineEvent 처리
-
-                audioClip[index].open(soundStream); //재생할 오디오스트림 열기
-                audioClip[index].start();   //재생 시작
-
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
     }
 
 
