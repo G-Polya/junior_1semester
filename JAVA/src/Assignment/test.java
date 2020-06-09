@@ -1,167 +1,131 @@
-package Assignment;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.*;
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class test extends JFrame
-{
-	JButton buttons[] = new JButton[9];
-	int player = 1;     //홀수면 (player 1에겐 ) O, 짝수면 (player 2에겐 ) X
-
-	JPanel nineRoom = new JPanel(); // 버튼이 생성될 패널
-
-	public test()
-	{
-		super("TIc Tac Toe");
-		setSize(400,300);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		drawWindow();
-		setVisible(true);
-	}
-
-	public void drawWindow()
-	{
-		nineRoom.setLayout(new GridLayout(3,3));
-
-		for(int i = 0; i <= 8; i++)
-		{
-			buttons[i] = new JButton();
-			buttons[i].setText("");
-			buttons[i].addActionListener(new buttonListener());
-
-			nineRoom.add(buttons[i]); // 버튼들을 패널에 추가
-		}
-
-		add(nineRoom, BorderLayout.CENTER);
-
-	}
+import javax.swing.JFrame;
 
 
-	public void resetButtons()
-	{
-		for(int i = 0; i <= 8; i++)
-		{
-			buttons[i].setText("");
-		}
-	}
+public class test extends JFrame {
+
+    public static JFrame frame;
+    public double rad_num = (double)(Math.PI/ -6);
+    public int clk_size = 400;
+    public int center_x = 200;
+    public int center_y = 200;
+
+    Timer time = new Timer();
+    TimeZone timeZone = TimeZone.getDefault();
+
+    Calendar cal;
+
+    int h, min, sec;
+
+    Image double_buffer = null;
+    Graphics buff = null;
+
+    public test()
+    {
+        super("아날로그 시계");
+        frame = new JFrame();
+        setSize(400,400);
+        Container c = getContentPane();
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+        c.setBackground(Color.white);
+
+        time.schedule(new TickTimerTask(), 0, 1000); //1초마다 다시 페인트.
+        double_buffer = createImage(400,400);
+        buff = double_buffer.getGraphics();
+    }
+
+    class TickTimerTask extends TimerTask
+    {
+        @Override
+        public void run()
+        {
+            // TODO Auto-generated method stub
+            cal = (Calendar) Calendar.getInstance(timeZone);
+            repaint();
+        }
+    }
+    @Override
+    public void paint(Graphics g) {
+        // TODO Auto-generated method stub
+        // 실제 add된 컴포넌트가 paint되는 부분
+        // 여기선 이중 버퍼링 용으로 buff 먼저
+        super.paint(buff);
+
+        write_num_main(buff);
 
 
-	// 버튼이 클릭되면, 그 클릭은 ActionEvent를 발생. 이 이벤트는 ActionListener에 의해 처리된다
-	private class buttonListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e)
-		{
+        // 시간 가져오기
+        h = cal.get(Calendar.HOUR);
+        min = cal.get(Calendar.MINUTE);
+        sec = cal.get(Calendar.SECOND);
 
-			JButton buttonClicked = (JButton)e.getSource(); // 클릭된 버튼 가져오기
+        draw_lines(buff,h,min,sec);
 
-			if(player %2 == 0)  // player 2의 차례
-			{
-				buttonClicked.setText("X");     // X 텍스트로 flag를 준다
+        g.drawImage(double_buffer,0,0,this);
+    }
 
-				// 그림그리기
-				JPanel myPanel = new JPanel()
-				{
-					public void paintComponent(Graphics g)
-					{
-						super.paintComponent(g);
-						g.setColor(Color.BLACK);
-						g.drawLine(0,0,120,100);
-						g.drawLine(0,80,90,0);
+    // 숫자 출력
+    private void write_num_main(Graphics g)
+    {
+        // TODO Auto-generated method stub
 
-					}
-				};
-				buttonClicked.add(myPanel);
-				buttonClicked.setEnabled(false);    // 다시 못누르게 비활성화
+        write_num_sub(g, rad_num*12, 12);
 
-			}
-			else    // player 1의 경우
-			{
-				buttonClicked.setText("O"); // O 텍스트로 flag를 준다
+        for(int i = 1 ; i  < 12; i++)
+        {
+            write_num_sub(g, rad_num*i, i);
+        }
+    }
 
-				JPanel myPanel = new JPanel()
-				{
-					public void paintComponent(Graphics g)
-					{
-						super.paintComponent(g);
-						g.setColor(Color.BLACK);
-						//g.drawLine(0,0,120,100);
-						g.drawOval(10,0,75,75);
-					}
-				};
-				buttonClicked.add(myPanel);
-				buttonClicked.setEnabled(false); // 다시 못누르게 비활성화
+    // 숫자 출력 기능
+    private void write_num_sub(Graphics g, double angle, int hour)
+    {
+        // TODO Auto-generated method stub
+        double sin = (double)Math.sin(angle);
+        double cosin = (double)Math.cos(angle);
 
-			}
+        int num_x = (int)((clk_size/2-15-25) * (-sin));
+        int num_y = (int)((clk_size/2-15-25) * (-cosin));
+
+        g.setFont(new Font("TimesRoman", Font.BOLD, 15));
+        g.drawString(Integer.toString(hour),  num_x + center_x - 5, num_y + center_y + 5);
+    }
 
 
-			if(player %2 == 0)
-			{
-				if(checkForWin() == true)
-				{
-					JOptionPane.showConfirmDialog(null, "Game Over. Player 1 wins");
-					resetButtons();
-				}
-			}
-			else
-			{
-				if(checkForWin() == true)
-				{
-					JOptionPane.showConfirmDialog(null, "Game Over. Player 2 wins");
-					resetButtons();
-				}
-			}
+    private void draw_lines(Graphics g, double hour, double minute, double second)
+    {
+        // TODO Auto-generated method stub
+        double sec_pos = (second*6)*(Math.PI)/180;
+        double min_pos = ((minute + (second / 60)) * 6) * (Math.PI) / 180;
+        double h_pos = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
+
+        g.setColor(Color.RED);
+        g.drawLine(center_x, center_y, center_x + (int) (140 * Math.cos(sec_pos - (Math.PI / 2))),
+                center_y + (int) (140 * Math.sin(sec_pos - (Math.PI / 2))));
+
+        g.setColor(Color.BLACK);
+        g.drawLine(center_x, center_y, center_x + (int) (120 * Math.cos(min_pos - (Math.PI / 2))),
+                center_y + (int) (120 * Math.sin(min_pos - (Math.PI / 2))));
+
+        g.drawLine(center_x, center_y, center_x + (int) (80 * Math.cos(h_pos - (Math.PI / 2))),
+                center_y + (int) (80 * Math.sin(h_pos - (Math.PI / 2))));
+
+        g.drawOval(center_x - 5, center_y - 5 , 10, 10);
+        g.drawOval(center_x - 170, center_y - 170 , 340, 340);
+    }
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        new test();
+    }
 
 
-			player++;
-
-		}
-
-
-		public boolean checkForWin()        // 누가 승리했는지 체크
-		{
-
-			//수평 체크
-			if( checkAdjacent(0,1) && checkAdjacent(1,2) )
-				return true;
-			else if( checkAdjacent(3,4) && checkAdjacent(4,5) )
-				return true;
-			else if ( checkAdjacent(6,7) && checkAdjacent(7,8))
-				return true;
-
-				//수직체크
-			else if ( checkAdjacent(0,3) && checkAdjacent(3,6))
-				return true;
-			else if ( checkAdjacent(1,4) && checkAdjacent(4,7))
-				return true;
-			else if ( checkAdjacent(2,5) && checkAdjacent(5,8))
-				return true;
-
-				//대각선체크
-			else if ( checkAdjacent(0,4) && checkAdjacent(4,8))
-				return true;
-			else if ( checkAdjacent(2,4) && checkAdjacent(4,6))
-				return true;
-			else
-				return false;
-
-
-		}
-
-		// 인접한 버튼이 같은 표식인지 확인
-		public boolean checkAdjacent(int a, int b)
-		{
-			if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("") )
-				return true;
-			else
-				return false;
-		}
-
-	}
-
-	public static void main(String[] args)
-	{
-		new UI_Assignment1_TicTacToe();
-	}
 }
