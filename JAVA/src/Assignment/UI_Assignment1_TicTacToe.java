@@ -130,7 +130,7 @@ public class UI_Assignment1_TicTacToe extends JFrame
             else if ( checkAdjacent(6,7) && checkAdjacent(7,8))
                 return true;
 
-            //수직체크
+                //수직체크
             else if ( checkAdjacent(0,3) && checkAdjacent(3,6))
                 return true;
             else if ( checkAdjacent(1,4) && checkAdjacent(4,7))
@@ -138,7 +138,7 @@ public class UI_Assignment1_TicTacToe extends JFrame
             else if ( checkAdjacent(2,5) && checkAdjacent(5,8))
                 return true;
 
-            //대각선체크
+                //대각선체크
             else if ( checkAdjacent(0,4) && checkAdjacent(4,8))
                 return true;
             else if ( checkAdjacent(2,4) && checkAdjacent(4,6))

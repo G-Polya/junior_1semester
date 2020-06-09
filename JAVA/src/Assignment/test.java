@@ -1,3 +1,4 @@
+package Assignment;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,9 +7,9 @@ import javax.swing.*;
 public class test extends JFrame
 {
 	JButton buttons[] = new JButton[9];
-	int alternate = 1;//if this number is a even, then put a X. If it's odd, then put an O
+	int player = 1;     //홀수면 (player 1에겐 ) O, 짝수면 (player 2에겐 ) X
 
-	JPanel nineRoom = new JPanel();
+	JPanel nineRoom = new JPanel(); // 버튼이 생성될 패널
 
 	public test()
 	{
@@ -30,8 +31,7 @@ public class test extends JFrame
 			buttons[i].setText("");
 			buttons[i].addActionListener(new buttonListener());
 
-			nineRoom.add(buttons[i]); //adds this button to JPanel (note: no need for JPanel.add(...)
-			//because this whole class is a JPanel already
+			nineRoom.add(buttons[i]); // 버튼들을 패널에 추가
 		}
 
 		add(nineRoom, BorderLayout.CENTER);
@@ -48,45 +48,37 @@ public class test extends JFrame
 	}
 
 
-	// when a button is clicked, it generates an ActionEvent. Thus, each button needs an ActionListener. When it is clicked, it goes to this listener class that I have created and goes to the actionPerformed method. There (and in this class), we decide what we want to do.
+	// 버튼이 클릭되면, 그 클릭은 ActionEvent를 발생. 이 이벤트는 ActionListener에 의해 처리된다
 	private class buttonListener implements ActionListener
 	{
-
-
 		public void actionPerformed(ActionEvent e)
 		{
 
-			JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
+			JButton buttonClicked = (JButton)e.getSource(); // 클릭된 버튼 가져오기
 
-
-
-			if(alternate%2 == 0)
+			if(player %2 == 0)  // player 2의 차례
 			{
-				buttonClicked.setText("X");
+				buttonClicked.setText("X");     // X 텍스트로 flag를 준다
 
+				// 그림그리기
 				JPanel myPanel = new JPanel()
 				{
-					public void paintComponet(Graphics g)
+					public void paintComponent(Graphics g)
 					{
 						super.paintComponent(g);
 						g.setColor(Color.BLACK);
 						g.drawLine(0,0,120,100);
 						g.drawLine(0,80,90,0);
-<<<<<<< HEAD
 
-=======
->>>>>>> test
 					}
 				};
-
 				buttonClicked.add(myPanel);
-				buttonClicked.setEnabled(false);
+				buttonClicked.setEnabled(false);    // 다시 못누르게 비활성화
 
 			}
-			else
+			else    // player 1의 경우
 			{
-				buttonClicked.setText("O");
-<<<<<<< HEAD
+				buttonClicked.setText("O"); // O 텍스트로 flag를 준다
 
 				JPanel myPanel = new JPanel()
 				{
@@ -99,56 +91,46 @@ public class test extends JFrame
 					}
 				};
 				buttonClicked.add(myPanel);
-				buttonClicked.setEnabled(false);
-=======
-//				JPanel myPanel = new JPanel()
-//				{
-//					public void paintComponet(Graphics g)
-//					{
-//						super.paintComponent(g);
-//						g.setColor(Color.BLACK);
-//					//	g.fillOval(buttonClicked.getX()/2,buttonClicked.getY()/2,50,50);
-//					}
-//				};
-//
-//				buttonClicked.add(myPanel);
->>>>>>> test
+				buttonClicked.setEnabled(false); // 다시 못누르게 비활성화
 
 			}
 
 
-
-			if(checkForWin() == true)
+			if(player %2 == 0)
 			{
-				JOptionPane.showConfirmDialog(null, "Game Over.");
-				resetButtons();
+				if(checkForWin() == true)
+				{
+					JOptionPane.showConfirmDialog(null, "Game Over. Player 1 wins");
+					resetButtons();
+				}
+			}
+			else
+			{
+				if(checkForWin() == true)
+				{
+					JOptionPane.showConfirmDialog(null, "Game Over. Player 2 wins");
+					resetButtons();
+				}
 			}
 
-			alternate++;
+
+			player++;
 
 		}
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> test
 
-		public boolean checkForWin()
+		public boolean checkForWin()        // 누가 승리했는지 체크
 		{
-			/**   Reference: the button array is arranged like this as the board
-			 *      0 | 1 | 2
-			 *      3 | 4 | 5
-			 *      6 | 7 | 8
-			 */
-			//horizontal win check
-			if( checkAdjacent(0,1) && checkAdjacent(1,2) ) //no need to put " == true" because the default check is for true
+
+			//수평 체크
+			if( checkAdjacent(0,1) && checkAdjacent(1,2) )
 				return true;
 			else if( checkAdjacent(3,4) && checkAdjacent(4,5) )
 				return true;
 			else if ( checkAdjacent(6,7) && checkAdjacent(7,8))
 				return true;
 
-				//vertical win check
+				//수직체크
 			else if ( checkAdjacent(0,3) && checkAdjacent(3,6))
 				return true;
 			else if ( checkAdjacent(1,4) && checkAdjacent(4,7))
@@ -156,7 +138,7 @@ public class test extends JFrame
 			else if ( checkAdjacent(2,5) && checkAdjacent(5,8))
 				return true;
 
-				//diagonal win check
+				//대각선체크
 			else if ( checkAdjacent(0,4) && checkAdjacent(4,8))
 				return true;
 			else if ( checkAdjacent(2,4) && checkAdjacent(4,6))
@@ -167,6 +149,7 @@ public class test extends JFrame
 
 		}
 
+		// 인접한 버튼이 같은 표식인지 확인
 		public boolean checkAdjacent(int a, int b)
 		{
 			if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("") )
@@ -179,11 +162,6 @@ public class test extends JFrame
 
 	public static void main(String[] args)
 	{
-		new test();
-//		JFrame window = new JFrame("Tic-Tac-Toe");
-//		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		window.getContentPane().add(new test());
-//		window.setBounds(300,200,300,300);
-//		window.setVisible(true);
+		new UI_Assignment1_TicTacToe();
 	}
 }
