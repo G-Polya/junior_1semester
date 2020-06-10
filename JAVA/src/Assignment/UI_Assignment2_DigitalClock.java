@@ -59,7 +59,7 @@ class ClockUpdate
     }
 }
 
-final class Constants
+final class Digit
 {
 
     static final String APP_TITLE = "Digitaluhr";
@@ -160,7 +160,7 @@ class UI extends JFrame
     {
         this.setName("UI_Frame");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle(Constants.APP_TITLE);
+        setTitle(Digit.APP_TITLE);
         setSize(880, 320);
         setLocation(800, 600);
         setResizable(false);
@@ -201,8 +201,8 @@ class UI extends JFrame
     {
         for (int i = 0; i < 7; i++)
         {
-            segment[0].getPanelSeg(i).setVisible((Constants.CLOCKBIN[Constants.getNthDigit(hour, 10, 2)][i] == true) ? true : false);
-            segment[1].getPanelSeg(i).setVisible((Constants.CLOCKBIN[Constants.getNthDigit(hour, 10, 1)][i] == true) ? true : false);
+            segment[0].getPanelSeg(i).setVisible((Digit.CLOCKBIN[Digit.getNthDigit(hour, 10, 2)][i] == true) ? true : false);
+            segment[1].getPanelSeg(i).setVisible((Digit.CLOCKBIN[Digit.getNthDigit(hour, 10, 1)][i] == true) ? true : false);
         }
     }
 
@@ -211,8 +211,8 @@ class UI extends JFrame
     {
         for (int i = 0; i < 7; i++)
         {
-            segment[2].getPanelSeg(i).setVisible((Constants.CLOCKBIN[Constants.getNthDigit(minute, 10, 2)][i] == true) ? true : false);
-            segment[3].getPanelSeg(i).setVisible((Constants.CLOCKBIN[Constants.getNthDigit(minute, 10, 1)][i] == true) ? true : false);
+            segment[2].getPanelSeg(i).setVisible((Digit.CLOCKBIN[Digit.getNthDigit(minute, 10, 2)][i] == true) ? true : false);
+            segment[3].getPanelSeg(i).setVisible((Digit.CLOCKBIN[Digit.getNthDigit(minute, 10, 1)][i] == true) ? true : false);
         }
     }
 
@@ -221,8 +221,8 @@ class UI extends JFrame
     {
         for (int i = 0; i < 7; i++)
         {
-            segment[4].getPanelSeg(i).setVisible((Constants.CLOCKBIN[Constants.getNthDigit(second, 10, 2)][i] == true) ? true : false);
-            segment[5].getPanelSeg(i).setVisible((Constants.CLOCKBIN[Constants.getNthDigit(second, 10, 1)][i] == true) ? true : false);
+            segment[4].getPanelSeg(i).setVisible((Digit.CLOCKBIN[Digit.getNthDigit(second, 10, 2)][i] == true) ? true : false);
+            segment[5].getPanelSeg(i).setVisible((Digit.CLOCKBIN[Digit.getNthDigit(second, 10, 1)][i] == true) ? true : false);
         }
     }
 

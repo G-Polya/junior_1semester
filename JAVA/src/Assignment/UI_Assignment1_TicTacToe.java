@@ -29,7 +29,7 @@ public class UI_Assignment1_TicTacToe extends JFrame
         {
             buttons[i] = new JButton();
             buttons[i].setText("");
-            buttons[i].addActionListener(new buttonListener());
+            buttons[i].addActionListener(new ButtonClicked());
 
             nineRoom.add(buttons[i]); // 버튼들을 패널에 추가
         }
@@ -49,7 +49,7 @@ public class UI_Assignment1_TicTacToe extends JFrame
 
 
     // 버튼이 클릭되면, 그 클릭은 ActionEvent를 발생. 이 이벤트는 ActionListener에 의해 처리된다
-    private class buttonListener implements ActionListener
+    private class ButtonClicked implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {

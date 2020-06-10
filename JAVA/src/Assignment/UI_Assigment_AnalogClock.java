@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+
 import java.util.TimeZone;
 import javax.swing.*;
 
@@ -19,7 +19,7 @@ public class UI_Assigment_AnalogClock extends JPanel
         repaint();
     };
 
-    Timer clockTimer = new Timer(100, repaintListener);     // javax.swing.Timer // https://sjh836.tistory.com/36
+    javax.swing.Timer clockTimer = new javax.swing.Timer(100, repaintListener);     // javax.swing.Timer // https://sjh836.tistory.com/36
 
     public UI_Assigment_AnalogClock()
     {
@@ -35,9 +35,6 @@ public class UI_Assigment_AnalogClock extends JPanel
         g.setColor(Color.WHITE);
         g.fillOval(50, 50, 200, 200);
 
-        double second = cal.get(Calendar.SECOND);
-        double minute = cal.get(Calendar.MINUTE);
-        double hours = cal.get(Calendar.HOUR);
 
         // 눈금 표식
         for (int i = 0; i < 60; i++)
@@ -64,6 +61,10 @@ public class UI_Assigment_AnalogClock extends JPanel
             g.drawLine(x, y, x1, y1);
         }
 
+        double hours = cal.get(Calendar.HOUR);
+        double minute = cal.get(Calendar.MINUTE);
+        double second = cal.get(Calendar.SECOND);
+
 
         drawHands(g,hours,minute,second);
 
@@ -84,9 +85,9 @@ public class UI_Assigment_AnalogClock extends JPanel
 
         g.setColor(Color.BLACK);
         g.drawLine(150, 150, 150 + (int) (50 * Math.cos(rHours - (Math.PI / 2))), 150 + (int) (50 * Math.sin(rHours - (Math.PI / 2))));         //시침 검정색
-        g.drawLine(150, 150, 150 + (int) (70 * Math.cos(rMinute - (Math.PI / 2))), 150 + (int) (70 * Math.sin((rMinute - (Math.PI / 2)))));     // 분침 검정색
+        g.drawLine(150, 150, 150 + (int) (70 * Math.cos(rMinute - (Math.PI / 2))), 150 + (int) (80 * Math.sin((rMinute - (Math.PI / 2)))));     // 분침 검정색
         g.setColor(Color.RED);
-        g.drawLine(150, 150, 150 + (int) (100 * Math.cos(rSecond - (Math.PI / 2))), 150 + (int) (100 * Math.sin(rSecond - (Math.PI / 2))));     // 초침은 빨간색
+        g.drawLine(150, 150, 150 + (int) (100 * Math.cos(rSecond - (Math.PI / 2))), 150 + (int) (90 * Math.sin(rSecond - (Math.PI / 2))));     // 초침은 빨간색
 
     }
 
