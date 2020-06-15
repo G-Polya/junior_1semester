@@ -24,7 +24,6 @@ class ThreadA extends Thread
             }
             else
             {
-
                 // flag가 false가 되면 다른 스레드에게 실행 양보
                 Thread.yield();
             }
@@ -60,10 +59,10 @@ class ThreadB extends Thread{
         {
             if(flag)
             {
-                System.out.println("ThreadA is working..");
+                System.out.println("ThreadB is working..");
             }
             else
-                {
+            {
                 // flag가 false가 되면 다른 스레드에게 실행 양보
                 Thread.yield();
             }
@@ -104,7 +103,7 @@ public class java0601_1
 
         // only ThreadB start
         System.out.println("Only ThreadB start");
-        threadA.setFlag(false);
+        threadA.setFlag(false);     //threadA는 실행을 양보하고 실행대기 상태로 전환됨
 
         try
         {
@@ -115,5 +114,23 @@ public class java0601_1
             e.printStackTrace();
         }
 
+        System.out.println("Only ThreadA start");
+        threadA.setFlag(true);  // threadA를 다시 실행시킴
+        threadB.setFlag(false); //threadB는 실행을 양보하고 실행대기 상태로 전환됨
+
+        try
+        {
+            Thread.sleep(RUNNING_TIME);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        System.out.println("ThreadA and ThreadB are end");
+        threadA.setStop(true);
+        threadB.setStop(true);
+
+        System.out.println("main() is end");
     }
 }
